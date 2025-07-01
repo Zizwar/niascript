@@ -1,0 +1,481 @@
+{
+  "interactions": [
+    {
+      "id": "1751387032815",
+      "timestamp": "2025-07-01T16:23:52.815Z",
+      "query": "Bitcoin price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "bitcoin",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "BTCUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "BTC price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "Error: Cannot read properties of undefined (reading 'price')"
+    },
+    {
+      "id": "1751387032821",
+      "timestamp": "2025-07-01T16:23:52.821Z",
+      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "amount": "$1000",
+          "operation": "investment_calculation"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "calculate",
+            "operation": "compound_interest",
+            "params": {
+              "principal": "1000",
+              "rate": "8",
+              "time": "5",
+              "compound_frequency": "12"
+            },
+            "assign_to": "final_amount"
+          },
+          {
+            "action": "format_response",
+            "template": "Investment of $1000 at 8% annually for 5 years = $${final_amount}",
+            "return": true
+          }
+        ]
+      },
+      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85"
+    },
+    {
+      "id": "1751387033214",
+      "timestamp": "2025-07-01T16:23:53.214Z",
+      "query": "Ethereum price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "ethereum",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "ETHUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "ETH price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "Error: Cannot read properties of undefined (reading 'price')"
+    },
+    {
+      "id": "1751387033599",
+      "timestamp": "2025-07-01T16:23:53.599Z",
+      "query": "Get me the current BTC price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "btc",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "BTCUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "BTC price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "Error: Cannot read properties of undefined (reading 'price')"
+    },
+    {
+      "id": "1751387073777",
+      "timestamp": "2025-07-01T16:24:33.777Z",
+      "query": "Bitcoin price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "bitcoin",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "BTCUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "BTC price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "BTC price: $106132.49 USD"
+    },
+    {
+      "id": "1751387073780",
+      "timestamp": "2025-07-01T16:24:33.780Z",
+      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "amount": "$1000",
+          "operation": "investment_calculation"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "calculate",
+            "operation": "compound_interest",
+            "params": {
+              "principal": "1000",
+              "rate": "8",
+              "time": "5",
+              "compound_frequency": "12"
+            },
+            "assign_to": "final_amount"
+          },
+          {
+            "action": "format_response",
+            "template": "Investment of $1000 at 8% annually for 5 years = $${final_amount}",
+            "return": true
+          }
+        ]
+      },
+      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85"
+    },
+    {
+      "id": "1751387074014",
+      "timestamp": "2025-07-01T16:24:34.014Z",
+      "query": "Ethereum price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "ethereum",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "ETHUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "ETH price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "ETH price: $2427.48 USD"
+    },
+    {
+      "id": "1751387074246",
+      "timestamp": "2025-07-01T16:24:34.246Z",
+      "query": "Get me the current BTC price",
+      "intent": {
+        "type": "financial",
+        "entities": {
+          "asset": "btc",
+          "operation": "get_price"
+        },
+        "confidence": 0.8,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "api_call",
+            "provider": "binance",
+            "endpoint": "ticker/price",
+            "params": {
+              "symbol": "BTCUSDT"
+            },
+            "transform": "parseFloat(response.price)",
+            "assign_to": "price_data"
+          },
+          {
+            "action": "format_response",
+            "template": "BTC price: $${price_data} USD",
+            "return": true
+          }
+        ],
+        "fallbacks": [
+          {
+            "provider": "coinGecko",
+            "confidence": 0.85
+          },
+          {
+            "provider": "coinMarketCap",
+            "confidence": 0.75
+          }
+        ]
+      },
+      "result": "BTC price: $106132.49 USD"
+    }
+  ],
+  "userPreferences": {},
+  "learnedPatterns": {
+    "financial": {
+      "commonPhrases": {
+        "bitcoin": 2,
+        "price": 6,
+        "invest": 2,
+        "$1000": 2,
+        "annual": 2,
+        "return,": 2,
+        "what": 2,
+        "will": 2,
+        "have": 2,
+        "after": 2,
+        "years?": 2,
+        "ethereum": 2,
+        "current": 2
+      },
+      "entities": {
+        "asset": {
+          "bitcoin": 2,
+          "ethereum": 2,
+          "btc": 2
+        },
+        "operation": {
+          "get_price": 6,
+          "investment_calculation": 2
+        },
+        "amount": {
+          "$1000": 2
+        }
+      },
+      "successfulQueries": [
+        {
+          "query": "Bitcoin price",
+          "entities": {
+            "asset": "bitcoin",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:23:52.815Z"
+        },
+        {
+          "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
+          "entities": {
+            "amount": "$1000",
+            "operation": "investment_calculation"
+          },
+          "timestamp": "2025-07-01T16:23:52.821Z"
+        },
+        {
+          "query": "Ethereum price",
+          "entities": {
+            "asset": "ethereum",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:23:53.214Z"
+        },
+        {
+          "query": "Get me the current BTC price",
+          "entities": {
+            "asset": "btc",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:23:53.599Z"
+        },
+        {
+          "query": "Bitcoin price",
+          "entities": {
+            "asset": "bitcoin",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:24:33.777Z"
+        },
+        {
+          "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
+          "entities": {
+            "amount": "$1000",
+            "operation": "investment_calculation"
+          },
+          "timestamp": "2025-07-01T16:24:33.780Z"
+        },
+        {
+          "query": "Ethereum price",
+          "entities": {
+            "asset": "ethereum",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:24:34.014Z"
+        },
+        {
+          "query": "Get me the current BTC price",
+          "entities": {
+            "asset": "btc",
+            "operation": "get_price"
+          },
+          "timestamp": "2025-07-01T16:24:34.246Z"
+        }
+      ]
+    }
+  },
+  "cachedResults": {
+    "bitcoin_price": {
+      "result": "BTC price: $106132.49 USD",
+      "timestamp": 1751387073777,
+      "ttl": 300000,
+      "query": "Bitcoin price"
+    },
+    "if_i_invest_1000_at_8_annual_return_what_will_i_have_after_5_years": {
+      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85",
+      "timestamp": 1751387073780,
+      "ttl": 300000,
+      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?"
+    },
+    "ethereum_price": {
+      "result": "ETH price: $2427.48 USD",
+      "timestamp": 1751387074014,
+      "ttl": 300000,
+      "query": "Ethereum price"
+    },
+    "get_me_the_current_btc_price": {
+      "result": "BTC price: $106132.49 USD",
+      "timestamp": 1751387074246,
+      "ttl": 300000,
+      "query": "Get me the current BTC price"
+    }
+  },
+  "facts": []
+}
