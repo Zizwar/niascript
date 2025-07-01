@@ -2,89 +2,89 @@
 
 **Intent-based programming language for the AI era**
 
-NiaScript هي مكتبة JavaScript قوية ومرنة تمكن المطورين من بناء تطبيقات ذكية باستخدام معالجة اللغة الطبيعية والذكاء الاصطناعي. تتيح للمستخدمين التفاعل مع التطبيقات باللغة الطبيعية وتحويل النوايا إلى إجراءات قابلة للتنفيذ.
+NiaScript is a powerful JavaScript library that enables developers to build intelligent applications using natural language processing and AI. It allows users to interact with applications using natural language and transforms intents into executable actions.
 
-## ✨ الميزات الرئيسية
+## ✨ Key Features
 
-- **معالجة النوايا الذكية**: تحليل وفهم الاستعلامات بالغة الطبيعية
-- **محرك الوصفات**: تحويل النوايا إلى خطوات قابلة للتنفيذ
-- **إدارة مقدمي الخدمة**: نظام ذكي لاختيار أفضل مصادر البيانات
-- **التنفيذ الآمن**: حماية شاملة ضد العمليات الخطيرة
-- **نظام الذاكرة**: تعلم من التفاعلات السابقة
-- **معالجة الأخطاء المتقدمة**: استرداد ذكي من الأخطاء
+- **Intelligent Intent Processing**: Analyze and understand natural language queries
+- **Recipe Engine**: Transform intents into executable steps
+- **Provider Management**: Smart system for selecting optimal data sources
+- **Secure Execution**: Comprehensive protection against dangerous operations
+- **Memory System**: Learn from previous interactions
+- **Advanced Error Handling**: Smart recovery from failures
 
-## 📦 التثبيت
+## 📦 Installation
 
 ```bash
 npm install niascript
 ```
 
-## 🚀 البدء السريع
+## 🚀 Quick Start
 
-### الاستخدام الأساسي
+### Basic Usage
 
 ```javascript
 import { nia } from 'niascript';
 
-// استعلام بسيط لأسعار العملات المشفرة
+// Simple cryptocurrency price query
 const btcPrice = await nia`Bitcoin price`;
 console.log(btcPrice); // "BTC price: $45,000 USD"
 
-// استعلام للاستثمار
+// Investment calculation
 const investment = await nia`If I invest $1000 at 8% annual return, what will I have after 5 years?`;
 console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1469.33"
 ```
 
-### الاستخدام المتقدم
+### Advanced Usage
 
 ```javascript
 import { NiaScript } from 'niascript';
 
 const nia = new NiaScript();
 
-// معالجة استعلام معقد
+// Process complex query
 const query = "Compare Bitcoin and Ethereum performance over the last 30 days";
 const result = await nia.processIntent(query);
 console.log(result);
 ```
 
-## 📖 دليل الاستخدام
+## 📖 Usage Guide
 
-### 1. واجهة Template Literal
+### 1. Template Literal Interface
 
-الطريقة الأسهل والأكثر طبيعية للاستخدام:
+The easiest and most natural way to use NiaScript:
 
 ```javascript
-// أسعار العملات المشفرة
+// Cryptocurrency prices
 const ethPrice = await nia`Ethereum price`;
 
-// استعلامات الأسهم
+// Stock queries
 const stockPrice = await nia`AAPL stock price`;
 
-// حسابات الاستثمار
+// Investment calculations
 const compoundInterest = await nia`What is $5000 invested at 6% for 10 years?`;
 ```
 
-### 2. الطرق المباشرة
+### 2. Direct Methods
 
 ```javascript
-// طرح سؤال مباشر
+// Ask a direct question
 const answer = await nia.ask("What's the current Bitcoin price?");
 
-// طلب توضيح
+// Request clarification
 const choice = await nia.clarify("Apple could refer to:", ["stock", "fruit", "company"]);
 
-// حفظ معلومة في الذاكرة
+// Save information to memory
 await nia.remember("User prefers cryptocurrency over stocks");
 
-// نسيان معلومة
+// Forget information
 await nia.forget("old investment preferences");
 ```
 
-### 3. تسجيل مقدمي خدمة مخصصين
+### 3. Register Custom Providers
 
 ```javascript
-// تسجيل مقدم خدمة جديد
+// Register a new provider
 nia.registerProvider('financial', 'alpha_vantage', {
   name: 'Alpha Vantage API',
   baseURL: 'https://www.alphavantage.co/query',
@@ -94,7 +94,7 @@ nia.registerProvider('financial', 'alpha_vantage', {
   reliability: 0.95
 });
 
-// معالجة الأخطاء المخصصة
+// Custom error handling
 nia.onError(async (error, context) => {
   if (error.type === 'API_FAILURE') {
     console.log('Using fallback provider...');
@@ -104,31 +104,31 @@ nia.onError(async (error, context) => {
 });
 ```
 
-## 📚 الـ API Reference
+## 📚 API Reference
 
-### الفئة الرئيسية: NiaScript
+### Main Class: NiaScript
 
-#### المنطق الأساسي
+#### Core Logic
 
-- `processIntent(query, values)`: معالجة استعلام بالغة الطبيعية
-- `ask(query, options)`: طرح سؤال مباشر
-- `clarify(question, choices)`: طلب توضيح من المستخدم
+- `processIntent(query, values)`: Process natural language query
+- `ask(query, options)`: Ask a direct question
+- `clarify(question, choices)`: Request clarification from user
 
-#### إدارة الذاكرة
+#### Memory Management
 
-- `remember(fact)`: حفظ معلومة في الذاكرة
-- `forget(pattern)`: حذف معلومات من الذاكرة
+- `remember(fact)`: Save information to memory
+- `forget(pattern)`: Remove information from memory
 
-#### إدارة مقدمي الخدمة
+#### Provider Management
 
-- `registerProvider(category, name, config)`: تسجيل مقدم خدمة جديد
-- `onError(handler)`: تسجيل معالج أخطاء مخصص
+- `registerProvider(category, name, config)`: Register new provider
+- `onError(handler)`: Register custom error handler
 
-### مكونات النظام
+### System Components
 
 #### IntentParser
 
-محلل النوايا الذي يحول النص الطبيعي إلى نوايا مفهومة:
+Intent parser that converts natural text into understandable intents:
 
 ```javascript
 import { IntentParser } from 'niascript/core/intent-parser.js';
@@ -148,7 +148,7 @@ console.log(intent);
 
 #### RecipeEngine
 
-محرك الوصفات الذي يحول النوايا إلى خطوات قابلة للتنفيذ:
+Recipe engine that transforms intents into executable steps:
 
 ```javascript
 import { RecipeEngine } from 'niascript/core/recipe-engine.js';
@@ -173,14 +173,14 @@ console.log(recipe);
 
 #### ProviderManager
 
-مدير مقدمي الخدمة للحصول على البيانات من مصادر مختلفة:
+Provider manager for getting data from various sources:
 
 ```javascript
 import { ProviderManager } from 'niascript/providers/provider-manager.js';
 
 const manager = new ProviderManager();
 
-// تسجيل مقدم خدمة
+// Register provider
 manager.registerProvider('binance', {
   name: 'Binance API',
   baseURL: 'https://api.binance.com/api/v3',
@@ -188,13 +188,13 @@ manager.registerProvider('binance', {
   reliability: 0.99
 });
 
-// اختيار أفضل مقدم خدمة
+// Select best provider
 const bestProvider = await manager.selectBestProvider('crypto');
 ```
 
-## 🔧 أمثلة متقدمة
+## 🔧 Advanced Examples
 
-### 1. بناء تطبيق تداول ذكي
+### 1. Building an Intelligent Trading App
 
 ```javascript
 import { nia, NiaScript } from 'niascript';
@@ -206,7 +206,7 @@ class TradingBot {
   }
   
   setupTradingProviders() {
-    // تسجيل مقدمي خدمة التداول
+    // Register trading providers
     this.nia.registerProvider('trading', 'binance_trading', {
       name: 'Binance Trading API',
       baseURL: 'https://api.binance.com/api/v3',
@@ -216,23 +216,23 @@ class TradingBot {
   }
   
   async analyzeMarket(query) {
-    // تحليل السوق باستخدام اللغة الطبيعية
+    // Analyze market using natural language
     return await this.nia.processIntent(query);
   }
   
   async executeTrade(command) {
-    // تنفيذ أوامر التداول
+    // Execute trading commands
     return await this.nia.ask(command);
   }
 }
 
-// الاستخدام
+// Usage
 const bot = new TradingBot();
 const analysis = await bot.analyzeMarket("What's the trend for Bitcoin in the last week?");
 console.log(analysis);
 ```
 
-### 2. نظام استشارات مالية
+### 2. Financial Advisory System
 
 ```javascript
 class FinancialAdvisor {
@@ -242,10 +242,10 @@ class FinancialAdvisor {
   }
   
   async getPortfolioAdvice(userQuery) {
-    // معالجة استعلامات المحفظة الاستثمارية
+    // Process portfolio queries
     const advice = await this.client.ask(userQuery);
     
-    // حفظ التفضيلات
+    // Save preferences
     await this.client.remember(`User interested in: ${userQuery}`);
     
     return advice;
@@ -259,62 +259,30 @@ class FinancialAdvisor {
   }
 }
 
-// الاستخدام
+// Usage
 const advisor = new FinancialAdvisor();
 const advice = await advisor.getPortfolioAdvice(
   "Should I invest in tech stocks or cryptocurrency?"
 );
 ```
 
-### 3. تطبيق تحليل السوق
+## ⚙️ Configuration
 
-```javascript
-class MarketAnalyzer {
-  constructor() {
-    this.analyzer = new NiaScript();
-    this.setupAnalysisProviders();
-  }
-  
-  setupAnalysisProviders() {
-    // إعداد مقدمي خدمة التحليل
-    this.analyzer.registerProvider('analysis', 'technical_analysis', {
-      name: 'Technical Analysis Service',
-      baseURL: 'https://api.technicalanalysis.com',
-      features: ['RSI', 'MACD', 'Bollinger Bands']
-    });
-  }
-  
-  async getTechnicalAnalysis(symbol) {
-    return await this.analyzer.ask(
-      `Provide technical analysis for ${symbol} including RSI and MACD`
-    );
-  }
-  
-  async getMarketSentiment(query) {
-    return await this.analyzer.processIntent(
-      `What's the market sentiment for ${query}?`
-    );
-  }
-}
-```
-
-## ⚙️ الإعدادات والتكوين
-
-### متغيرات البيئة
+### Environment Variables
 
 ```bash
-# مفاتيح API
+# API Keys
 OPENAI_API_KEY=your_openai_key_here
 BINANCE_API_KEY=your_binance_key_here
 ALPHA_VANTAGE_KEY=your_alphavantage_key_here
 
-# إعدادات النظام
+# System Settings
 NIA_LOG_LEVEL=info
 NIA_MEMORY_SIZE=1000
 NIA_CACHE_TTL=300
 ```
 
-### ملف الإعدادات
+### Configuration File
 
 ```javascript
 // nia.config.js
@@ -334,22 +302,22 @@ export default {
 };
 ```
 
-## 🧪 الاختبار
+## 🧪 Testing
 
-### تشغيل الاختبارات
+### Running Tests
 
 ```bash
-# تشغيل جميع الاختبارات
+# Run all tests
 npm test
 
-# تشغيل اختبار معين
+# Run specific test
 npm test -- --testNamePattern="IntentParser"
 
-# تشغيل مع التغطية
+# Run with coverage
 npm test -- --coverage
 ```
 
-### كتابة اختبارات مخصصة
+### Writing Custom Tests
 
 ```javascript
 import { nia, NiaScript } from 'niascript';
@@ -374,29 +342,29 @@ describe('Custom NiaScript Tests', () => {
 });
 ```
 
-## 🛠️ النشر والإنتاج
+## 🛠️ Production Deployment
 
-### البناء للإنتاج
+### Building for Production
 
 ```bash
-# بناء المشروع
+# Build project
 npm run build
 
-# إنشاء التوثيق
+# Generate documentation
 npm run docs
 ```
 
-### مراقبة الأداء
+### Performance Monitoring
 
 ```javascript
-// إعداد مراقبة الأداء
+// Setup performance monitoring
 nia.onError((error, context) => {
   console.error('NiaScript Error:', error);
-  // إرسال للخدمة المراقبة
+  // Send to monitoring service
   monitoring.reportError(error, context);
 });
 
-// تتبع الاستخدام
+// Track usage
 nia.onSuccess((result, query) => {
   analytics.trackUsage({
     query,
@@ -406,35 +374,35 @@ nia.onSuccess((result, query) => {
 });
 ```
 
-## 🤝 المساهمة
+## 🤝 Contributing
 
-نرحب بالمساهمات! يرجى اتباع الخطوات التالية:
+We welcome contributions! Please follow these steps:
 
-1. فرق المستودع (Fork)
-2. أنشئ فرع للميزة (`git checkout -b feature/amazing-feature`)
-3. اكتب الاختبارات للكود الجديد
-4. تأكد من نجاح جميع الاختبارات (`npm test`)
-5. ارفع التغييرات (`git commit -m 'Add amazing feature'`)
-6. ادفع للفرع (`git push origin feature/amazing-feature`)
-7. افتح Pull Request
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Write tests for new code
+4. Ensure all tests pass (`npm test`)
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
-## 📄 الترخيص
+## 📄 License
 
-هذا المشروع مرخص تحت رخصة MIT - انظر ملف [LICENSE](LICENSE) للتفاصيل.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 المطور
+## 👨‍💻 Author
 
 **Brahim BIDI**
 
 - GitHub: [@brahimbidi](https://github.com/brahimbidi)
 - Email: brahim.bidi@example.com
 
-## 🙏 شكر وتقدير
+## 🙏 Acknowledgments
 
-- شكر خاص لجميع المساهمين في المشروع
-- مكتبات JavaScript المستخدمة: axios, chalk, inquirer, openai
-- مجتمع Node.js للدعم والإلهام
+- Special thanks to all project contributors
+- JavaScript libraries used: axios, chalk, inquirer, openai
+- Node.js community for support and inspiration
 
 ---
 
-**NiaScript - برمجة بالنوايا للعصر الذكي** 🚀
+**NiaScript - Intent-based programming for the intelligent era** 🚀
