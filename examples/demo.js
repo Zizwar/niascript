@@ -20,8 +20,8 @@ async function runDemo() {
     
     // Test 3: Different crypto query
     console.log('💰 Test 3: Different Crypto Query');
-    console.log('Query: "Ethereum price"');
-    const ethPrice = await nia`Ethereum price`;
+    console.log('Query: "Doge price"');
+    const ethPrice = await nia`doge price`;
     console.log('Result:', ethPrice);
     console.log('');
     
@@ -29,13 +29,15 @@ async function runDemo() {
     console.log('📈 Test 4: Price with Context');
     console.log('Query: "Get me the current BTC price"');
     const btcPriceFormatted = await nia`Get me the current BTC price`;
-    console.log('Result:', btcPriceFormatted);
-    console.log('');
+    console.log('Result:', btcPriceFormatted)
+;
+const dd = await nia`also doge`;
+    console.log("##### doge",dd);
     
-    console.log('✅ Demo completed successfully!');
+    console.log('✄1�7 Demo completed successfully!');
     
   } catch (error) {
-    console.error('❌ Demo failed:', error.message);
+    console.error('❄1�7 Demo failed:', error.message);
     console.error('Stack trace:', error.stack);
   }
 }
@@ -63,10 +65,10 @@ async function testComponents() {
     console.log('Recipe:', JSON.stringify(recipe, null, 2));
     console.log('');
     
-    console.log('✅ Component tests completed!');
+    console.log('✄1�7 Component tests completed!');
     
   } catch (error) {
-    console.error('❌ Component test failed:', error.message);
+    console.error('❄1�7 Component test failed:', error.message);
   }
 }
 

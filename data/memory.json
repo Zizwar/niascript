@@ -1,480 +1,387 @@
 {
   "interactions": [
     {
-      "id": "1751387032815",
-      "timestamp": "2025-07-01T16:23:52.815Z",
-      "query": "Bitcoin price",
+      "id": "1751509397242",
+      "timestamp": "2025-07-03T02:23:17.242Z",
+      "query": "احسب 15 + 25 * 2",
       "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "bitcoin",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
+        "type": "unknown",
+        "entities": {},
+        "confidence": 0,
         "needsClarification": false,
         "clarificationOptions": null
       },
       "recipe": {
-        "confidence": 0.95,
+        "confidence": 0.3,
         "steps": [
           {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "BTCUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
+            "action": "error",
+            "message": "Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+            "suggest_clarification": true
+          }
+        ],
+        "fallbacks": []
+      },
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}"
+    },
+    {
+      "id": "1751509397258",
+      "timestamp": "2025-07-03T02:23:17.258Z",
+      "query": "ترجم للانجليزية: أهلاً بالعالم",
+      "intent": {
+        "type": "unknown",
+        "entities": {},
+        "confidence": 0,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.3,
+        "steps": [
+          {
+            "action": "error",
+            "message": "Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+            "suggest_clarification": true
+          }
+        ],
+        "fallbacks": []
+      },
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}"
+    },
+    {
+      "id": "1751509397267",
+      "timestamp": "2025-07-03T02:23:17.267Z",
+      "query": "ارسل لبريدي test النص: مرحبا من NiaScript",
+      "intent": {
+        "type": "unknown",
+        "entities": {},
+        "confidence": 0,
+        "needsClarification": false,
+        "clarificationOptions": null
+      },
+      "recipe": {
+        "confidence": 0.3,
+        "steps": [
+          {
+            "action": "error",
+            "message": "Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+            "suggest_clarification": true
+          }
+        ],
+        "fallbacks": []
+      },
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}"
+    },
+    {
+      "id": "1751509397274",
+      "timestamp": "2025-07-03T02:23:17.274Z",
+      "query": "read file package.json",
+      "plugin": "mcp_filesystem_read_file",
+      "recipe": {
+        "confidence": 0.85,
+        "steps": [
+          {
+            "action": "call_mcp_tool",
+            "client": "filesystem",
+            "tool": "read_file",
+            "params": "${extracted_params}",
+            "assign_to": "mcp_result"
+          },
+          {
+            "action": "format_mcp_response",
+            "client": "filesystem",
+            "tool": "read_file",
+            "result": "${mcp_result}",
+            "assign_to": "formatted_result"
           },
           {
             "action": "format_response",
-            "template": "BTC price: $${price_data} USD",
+            "template": "${formatted_result}",
+            "return": true
+          }
+        ]
+      },
+      "result": "📄 محتوى الملف:\nMock file content for: undefined\n\nالحجم: 1024 بايت\nآخر تعديل: 2025-07-03T02:23:17.273Z",
+      "confidence": 0.9
+    },
+    {
+      "id": "1751509397798",
+      "timestamp": "2025-07-03T02:23:17.798Z",
+      "query": "ترجم للانجليزية: السلام عليكم",
+      "plugin": "translation",
+      "recipe": {
+        "confidence": 0.95,
+        "steps": [
+          {
+            "action": "detect_language",
+            "text": "${text}",
+            "assign_to": "source_lang"
+          },
+          {
+            "action": "determine_target_language",
+            "query": "${query}",
+            "source_lang": "${source_lang}",
+            "assign_to": "target_lang"
+          },
+          {
+            "action": "api_call",
+            "provider": "google_translate",
+            "endpoint": "translate",
+            "params": {
+              "q": "${text}",
+              "target": "${target_lang}",
+              "source": "${source_lang}",
+              "format": "text"
+            },
+            "assign_to": "translation_result"
+          },
+          {
+            "action": "format_response",
+            "template": "الترجمة: ${translation_result.translatedText}",
             "return": true
           }
         ],
         "fallbacks": [
           {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
+            "provider": "libre_translate",
+            "confidence": 0.8,
+            "steps": [
+              {
+                "action": "libre_translate_call",
+                "text": "${text}",
+                "source": "${source_lang}",
+                "target": "${target_lang}",
+                "assign_to": "libre_result"
+              },
+              {
+                "action": "format_response",
+                "template": "الترجمة: ${libre_result.translatedText}",
+                "return": true
+              }
+            ]
           }
         ]
       },
-      "result": "Error: Cannot read properties of undefined (reading 'price')"
+      "result": "الترجمة: ${translation_result.translatedText}",
+      "confidence": 0.9
     },
     {
-      "id": "1751387032821",
-      "timestamp": "2025-07-01T16:23:52.821Z",
-      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
+      "id": "1751509397799",
+      "timestamp": "2025-07-03T02:23:17.799Z",
+      "query": "ارسل ايميل لبريدي admin موضوع: تقرير يومي النص: تم إنجاز المهام",
       "intent": {
-        "type": "financial",
-        "entities": {
-          "amount": "$1000",
-          "operation": "investment_calculation"
-        },
-        "confidence": 0.8,
+        "type": "unknown",
+        "entities": {},
+        "confidence": 0,
         "needsClarification": false,
         "clarificationOptions": null
       },
       "recipe": {
-        "confidence": 0.95,
+        "confidence": 0.3,
         "steps": [
           {
-            "action": "calculate",
-            "operation": "compound_interest",
-            "params": {
-              "principal": "1000",
-              "rate": "8",
-              "time": "5",
-              "compound_frequency": "12"
-            },
-            "assign_to": "final_amount"
-          },
-          {
-            "action": "format_response",
-            "template": "Investment of $1000 at 8% annually for 5 years = $${final_amount}",
-            "return": true
-          }
-        ]
-      },
-      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85"
-    },
-    {
-      "id": "1751387033214",
-      "timestamp": "2025-07-01T16:23:53.214Z",
-      "query": "Ethereum price",
-      "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "ethereum",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
-        "needsClarification": false,
-        "clarificationOptions": null
-      },
-      "recipe": {
-        "confidence": 0.95,
-        "steps": [
-          {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "ETHUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
-          },
-          {
-            "action": "format_response",
-            "template": "ETH price: $${price_data} USD",
-            "return": true
+            "action": "error",
+            "message": "Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+            "suggest_clarification": true
           }
         ],
-        "fallbacks": [
-          {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
-          }
-        ]
+        "fallbacks": []
       },
-      "result": "Error: Cannot read properties of undefined (reading 'price')"
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}"
     },
     {
-      "id": "1751387033599",
-      "timestamp": "2025-07-01T16:23:53.599Z",
-      "query": "Get me the current BTC price",
+      "id": "1751509397802",
+      "timestamp": "2025-07-03T02:23:17.802Z",
+      "query": "weather in Riyadh today",
       "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "btc",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
+        "type": "unknown",
+        "entities": {},
+        "confidence": 0,
         "needsClarification": false,
         "clarificationOptions": null
       },
       "recipe": {
-        "confidence": 0.95,
+        "confidence": 0.3,
         "steps": [
           {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "BTCUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
-          },
-          {
-            "action": "format_response",
-            "template": "BTC price: $${price_data} USD",
-            "return": true
+            "action": "error",
+            "message": "Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+            "suggest_clarification": true
           }
         ],
-        "fallbacks": [
-          {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
-          }
-        ]
+        "fallbacks": []
       },
-      "result": "Error: Cannot read properties of undefined (reading 'price')"
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}"
     },
     {
-      "id": "1751387073777",
-      "timestamp": "2025-07-01T16:24:33.777Z",
-      "query": "Bitcoin price",
-      "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "bitcoin",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
-        "needsClarification": false,
-        "clarificationOptions": null
-      },
+      "id": "1751509397803",
+      "timestamp": "2025-07-03T02:23:17.803Z",
+      "query": "list directory /tmp",
+      "plugin": "mcp_filesystem_list_directory",
       "recipe": {
-        "confidence": 0.95,
+        "confidence": 0.85,
         "steps": [
           {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "BTCUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
+            "action": "call_mcp_tool",
+            "client": "filesystem",
+            "tool": "list_directory",
+            "params": "${extracted_params}",
+            "assign_to": "mcp_result"
+          },
+          {
+            "action": "format_mcp_response",
+            "client": "filesystem",
+            "tool": "list_directory",
+            "result": "${mcp_result}",
+            "assign_to": "formatted_result"
           },
           {
             "action": "format_response",
-            "template": "BTC price: $${price_data} USD",
-            "return": true
-          }
-        ],
-        "fallbacks": [
-          {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
-          }
-        ]
-      },
-      "result": "BTC price: $106132.49 USD"
-    },
-    {
-      "id": "1751387073780",
-      "timestamp": "2025-07-01T16:24:33.780Z",
-      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
-      "intent": {
-        "type": "financial",
-        "entities": {
-          "amount": "$1000",
-          "operation": "investment_calculation"
-        },
-        "confidence": 0.8,
-        "needsClarification": false,
-        "clarificationOptions": null
-      },
-      "recipe": {
-        "confidence": 0.95,
-        "steps": [
-          {
-            "action": "calculate",
-            "operation": "compound_interest",
-            "params": {
-              "principal": "1000",
-              "rate": "8",
-              "time": "5",
-              "compound_frequency": "12"
-            },
-            "assign_to": "final_amount"
-          },
-          {
-            "action": "format_response",
-            "template": "Investment of $1000 at 8% annually for 5 years = $${final_amount}",
+            "template": "${formatted_result}",
             "return": true
           }
         ]
       },
-      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85"
+      "result": "📂 محتويات المجلد (3 عنصر):\n📄 file1.txt (1024 بايت)\n📄 file2.js (2048 بايت)\n📁 subfolder (0 بايت)",
+      "confidence": 0.9
     },
     {
-      "id": "1751387074014",
-      "timestamp": "2025-07-01T16:24:34.014Z",
-      "query": "Ethereum price",
-      "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "ethereum",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
-        "needsClarification": false,
-        "clarificationOptions": null
-      },
+      "id": "1751509397804",
+      "timestamp": "2025-07-03T02:23:17.804Z",
+      "query": "search web for artificial intelligence news",
+      "plugin": "mcp_web_search_search_web",
       "recipe": {
-        "confidence": 0.95,
+        "confidence": 0.85,
         "steps": [
           {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "ETHUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
+            "action": "call_mcp_tool",
+            "client": "web_search",
+            "tool": "search_web",
+            "params": "${extracted_params}",
+            "assign_to": "mcp_result"
+          },
+          {
+            "action": "format_mcp_response",
+            "client": "web_search",
+            "tool": "search_web",
+            "result": "${mcp_result}",
+            "assign_to": "formatted_result"
           },
           {
             "action": "format_response",
-            "template": "ETH price: $${price_data} USD",
+            "template": "${formatted_result}",
             "return": true
-          }
-        ],
-        "fallbacks": [
-          {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
           }
         ]
       },
-      "result": "ETH price: $2427.48 USD"
-    },
-    {
-      "id": "1751387074246",
-      "timestamp": "2025-07-01T16:24:34.246Z",
-      "query": "Get me the current BTC price",
-      "intent": {
-        "type": "financial",
-        "entities": {
-          "asset": "btc",
-          "operation": "get_price"
-        },
-        "confidence": 0.8,
-        "needsClarification": false,
-        "clarificationOptions": null
-      },
-      "recipe": {
-        "confidence": 0.95,
-        "steps": [
-          {
-            "action": "api_call",
-            "provider": "binance",
-            "endpoint": "ticker/price",
-            "params": {
-              "symbol": "BTCUSDT"
-            },
-            "transform": "parseFloat(response.price)",
-            "assign_to": "price_data"
-          },
-          {
-            "action": "format_response",
-            "template": "BTC price: $${price_data} USD",
-            "return": true
-          }
-        ],
-        "fallbacks": [
-          {
-            "provider": "coinGecko",
-            "confidence": 0.85
-          },
-          {
-            "provider": "coinMarketCap",
-            "confidence": 0.75
-          }
-        ]
-      },
-      "result": "BTC price: $106132.49 USD"
+      "result": "🔍 نتائج البحث (2 نتيجة):\n\n1. Search result for: undefined\n   https://example.com/result1\n   This is a mock search result...\n\n2. Another result for: undefined\n   https://example.com/result2\n   This is another mock search result...",
+      "confidence": 0.9
     }
   ],
   "userPreferences": {},
   "learnedPatterns": {
-    "financial": {
+    "unknown": {
       "commonPhrases": {
-        "bitcoin": 2,
-        "price": 6,
-        "invest": 2,
-        "$1000": 2,
-        "annual": 2,
-        "return,": 2,
-        "what": 2,
-        "will": 2,
-        "have": 2,
-        "after": 2,
-        "years?": 2,
-        "ethereum": 2,
-        "current": 2
+        "احسب": 1,
+        "ترجم": 1,
+        "للانجليزية:": 1,
+        "أهلاً": 1,
+        "بالعالم": 1,
+        "ارسل": 2,
+        "لبريدي": 2,
+        "test": 1,
+        "النص:": 2,
+        "مرحبا": 1,
+        "niascript": 1,
+        "ايميل": 1,
+        "admin": 1,
+        "موضوع:": 1,
+        "تقرير": 1,
+        "يومي": 1,
+        "إنجاز": 1,
+        "المهام": 1,
+        "weather": 1,
+        "riyadh": 1,
+        "today": 1
       },
-      "entities": {
-        "asset": {
-          "bitcoin": 2,
-          "ethereum": 2,
-          "btc": 2
-        },
-        "operation": {
-          "get_price": 6,
-          "investment_calculation": 2
-        },
-        "amount": {
-          "$1000": 2
-        }
-      },
+      "entities": {},
       "successfulQueries": [
         {
-          "query": "Bitcoin price",
-          "entities": {
-            "asset": "bitcoin",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:23:52.815Z"
+          "query": "احسب 15 + 25 * 2",
+          "entities": {},
+          "timestamp": "2025-07-03T02:23:17.242Z"
         },
         {
-          "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
-          "entities": {
-            "amount": "$1000",
-            "operation": "investment_calculation"
-          },
-          "timestamp": "2025-07-01T16:23:52.821Z"
+          "query": "ترجم للانجليزية: أهلاً بالعالم",
+          "entities": {},
+          "timestamp": "2025-07-03T02:23:17.259Z"
         },
         {
-          "query": "Ethereum price",
-          "entities": {
-            "asset": "ethereum",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:23:53.214Z"
+          "query": "ارسل لبريدي test النص: مرحبا من NiaScript",
+          "entities": {},
+          "timestamp": "2025-07-03T02:23:17.267Z"
         },
         {
-          "query": "Get me the current BTC price",
-          "entities": {
-            "asset": "btc",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:23:53.599Z"
+          "query": "ارسل ايميل لبريدي admin موضوع: تقرير يومي النص: تم إنجاز المهام",
+          "entities": {},
+          "timestamp": "2025-07-03T02:23:17.799Z"
         },
         {
-          "query": "Bitcoin price",
-          "entities": {
-            "asset": "bitcoin",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:24:33.777Z"
-        },
-        {
-          "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?",
-          "entities": {
-            "amount": "$1000",
-            "operation": "investment_calculation"
-          },
-          "timestamp": "2025-07-01T16:24:33.780Z"
-        },
-        {
-          "query": "Ethereum price",
-          "entities": {
-            "asset": "ethereum",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:24:34.014Z"
-        },
-        {
-          "query": "Get me the current BTC price",
-          "entities": {
-            "asset": "btc",
-            "operation": "get_price"
-          },
-          "timestamp": "2025-07-01T16:24:34.246Z"
+          "query": "weather in Riyadh today",
+          "entities": {},
+          "timestamp": "2025-07-03T02:23:17.802Z"
         }
       ]
     }
   },
   "cachedResults": {
-    "bitcoin_price": {
-      "result": "BTC price: $106132.49 USD",
-      "timestamp": 1751387073777,
+    "_15__25__2": {
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+      "timestamp": 1751509397242,
       "ttl": 300000,
-      "query": "Bitcoin price"
+      "query": "احسب 15 + 25 * 2"
     },
-    "if_i_invest_1000_at_8_annual_return_what_will_i_have_after_5_years": {
-      "result": "Investment of $1000 at 8% annually for 5 years = $1489.85",
-      "timestamp": 1751387073780,
+    "___": {
+      "result": "الترجمة: ${translation_result.translatedText}",
+      "timestamp": 1751509397798,
       "ttl": 300000,
-      "query": "If I invest $1000 at 8% annual return, what will I have after 5 years?"
+      "query": "ترجم للانجليزية: السلام عليكم"
     },
-    "ethereum_price": {
-      "result": "ETH price: $2427.48 USD",
-      "timestamp": 1751387074014,
+    "__test____niascript": {
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+      "timestamp": 1751509397267,
       "ttl": 300000,
-      "query": "Ethereum price"
+      "query": "ارسل لبريدي test النص: مرحبا من NiaScript"
     },
-    "get_me_the_current_btc_price": {
-      "result": "BTC price: $106132.49 USD",
-      "timestamp": 1751387074246,
+    "read_file_packagejson": {
+      "result": "📄 محتوى الملف:\nMock file content for: undefined\n\nالحجم: 1024 بايت\nآخر تعديل: 2025-07-03T02:23:17.273Z",
+      "timestamp": 1751509397274,
       "ttl": 300000,
-      "query": "Get me the current BTC price"
+      "query": "read file package.json"
+    },
+    "___admin_______": {
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+      "timestamp": 1751509397800,
+      "ttl": 300000,
+      "query": "ارسل ايميل لبريدي admin موضوع: تقرير يومي النص: تم إنجاز المهام"
+    },
+    "weather_in_riyadh_today": {
+      "result": "Error: Unable to understand intent: {\"type\":\"unknown\",\"entities\":{},\"confidence\":0,\"needsClarification\":false,\"clarificationOptions\":null}",
+      "timestamp": 1751509397802,
+      "ttl": 300000,
+      "query": "weather in Riyadh today"
+    },
+    "list_directory_tmp": {
+      "result": "📂 محتويات المجلد (3 عنصر):\n📄 file1.txt (1024 بايت)\n📄 file2.js (2048 بايت)\n📁 subfolder (0 بايت)",
+      "timestamp": 1751509397803,
+      "ttl": 300000,
+      "query": "list directory /tmp"
+    },
+    "search_web_for_artificial_intelligence_news": {
+      "result": "🔍 نتائج البحث (2 نتيجة):\n\n1. Search result for: undefined\n   https://example.com/result1\n   This is a mock search result...\n\n2. Another result for: undefined\n   https://example.com/result2\n   This is another mock search result...",
+      "timestamp": 1751509397804,
+      "ttl": 300000,
+      "query": "search web for artificial intelligence news"
     }
   },
   "facts": []

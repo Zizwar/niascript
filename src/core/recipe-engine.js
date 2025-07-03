@@ -1,5 +1,6 @@
 export class RecipeEngine {
   constructor() {
+    this.pluginTemplates = new Map();
     this.templates = {
       financial: {
         get_crypto_price: {
@@ -125,7 +126,12 @@ export class RecipeEngine {
   }
 
   async generateRecipe(intent) {
-    const { type, entities } = intent;
+    const { type, entities, plugin } = intent;
+    
+    // If this is a plugin intent, use plugin templates
+    if (type === 'plugin' && plugin) {
+      return this.createPluginRecipe(intent, this.pluginTemplates.get(plugin));
+    }
     
     if (type === 'financial') {
       return this.generateFinancialRecipe(entities);
@@ -326,5 +332,222 @@ export class RecipeEngine {
     optimized.steps = combinedSteps;
     
     return optimized;
+  }
+
+  // Plugin template management
+  addPluginTemplates(pluginName, templates) {
+    this.pluginTemplates.set(pluginName, templates);
+  }
+
+  removePluginTemplates(pluginName) {
+    this.pluginTemplates.delete(pluginName);
+  }
+
+  getPluginTemplates(pluginName) {
+    return this.pluginTemplates.get(pluginName);
+  }
+
+  listPluginTemplates() {
+    return Array.from(this.pluginTemplates.keys());
+  }
+
+  createPluginRecipe(intent, templates) {
+    if (!templates) {
+      return this.generateFallbackRecipe(intent);
+    }
+
+    // Find the best matching template
+    const templateName = this.selectBestTemplate(intent, templates);
+    const template = templates[templateName];
+
+    if (!template) {
+      return this.generateFallbackRecipe(intent);
+    }
+
+    // Clone and customize the template
+    const recipe = JSON.parse(JSON.stringify(template));
+    
+    // Add plugin-specific context
+    if (intent.entities) {
+      recipe.context = intent.entities;
+    }
+
+    return recipe;
+  }
+
+  selectBestTemplate(intent, templates) {
+    const templateNames = Object.keys(templates);
+    
+    if (templateNames.length === 1) {
+      return templateNames[0];
+    }
+
+    // Find template with highest confidence
+    let bestTemplate = templateNames[0];
+    let bestConfidence = templates[bestTemplate].confidence || 0;
+
+    for (const templateName of templateNames) {
+      const template = templates[templateName];
+      const confidence = template.confidence || 0;
+      
+      if (confidence > bestConfidence) {
+        bestConfidence = confidence;
+        bestTemplate = templateName;
+      }
+    }
+
+    return bestTemplate;
+  }
+
+  // Enhanced recipe creation with plugin support
+  createRecipeFromTemplateWithPlugin(templatePath, variables, pluginName) {
+    let template;
+    
+    // Check if it's a plugin template
+    if (pluginName && this.pluginTemplates.has(pluginName)) {
+      const pluginTemplates = this.pluginTemplates.get(pluginName);
+      template = pluginTemplates[templatePath];
+    } else {
+      // Use standard templates
+      const pathParts = templatePath.split('.');
+      template = this.templates;
+      
+      for (const part of pathParts) {
+        template = template[part];
+        if (!template) {
+          throw new Error(`Template not found: ${templatePath}`);
+        }
+      }
+    }
+
+    if (!template) {
+      throw new Error(`Plugin template not found: ${templatePath} in ${pluginName}`);
+    }
+    
+    return this.substituteVariables(JSON.parse(JSON.stringify(template)), variables);
+  }
+
+  // Recipe merging for complex operations
+  mergeRecipes(...recipes) {
+    const mergedRecipe = {
+      confidence: Math.min(...recipes.map(r => r.confidence || 0.5)),
+      steps: [],
+      fallbacks: []
+    };
+
+    // Combine all steps
+    recipes.forEach(recipe => {
+      if (recipe.steps) {
+        mergedRecipe.steps.push(...recipe.steps);
+      }
+      if (recipe.fallbacks) {
+        mergedRecipe.fallbacks.push(...recipe.fallbacks);
+      }
+    });
+
+    return mergedRecipe;
+  }
+
+  // Recipe validation for plugins
+  validatePluginRecipe(recipe, pluginName) {
+    const errors = [];
+    
+    // Basic validation
+    const basicValidation = this.validateRecipe(recipe);
+    if (!basicValidation.isValid) {
+      errors.push(...basicValidation.errors);
+    }
+
+    // Plugin-specific validation
+    if (recipe.steps) {
+      for (const step of recipe.steps) {
+        // Check if custom actions are properly defined
+        if (step.action && this.isCustomAction(step.action, pluginName)) {
+          const pluginTemplates = this.pluginTemplates.get(pluginName);
+          if (!pluginTemplates || !this.hasCustomAction(step.action, pluginTemplates)) {
+            errors.push(`Custom action ${step.action} not found in plugin ${pluginName}`);
+          }
+        }
+      }
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  }
+
+  isCustomAction(action, pluginName) {
+    // Check if this action is a custom plugin action
+    const standardActions = [
+      'api_call', 'parallel_api_calls', 'batch_api_calls',
+      'calculate', 'format_response', 'transform', 'error', 'conditional'
+    ];
+    
+    return !standardActions.includes(action);
+  }
+
+  hasCustomAction(action, pluginTemplates) {
+    // Check if any template in the plugin defines this custom action
+    for (const template of Object.values(pluginTemplates)) {
+      if (template.customActions && template.customActions[action]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Recipe analytics
+  getRecipeStats() {
+    const stats = {
+      standardTemplates: Object.keys(this.templates).length,
+      pluginTemplates: this.pluginTemplates.size,
+      totalTemplates: 0
+    };
+
+    // Count all plugin templates
+    for (const [pluginName, templates] of this.pluginTemplates) {
+      stats.totalTemplates += Object.keys(templates).length;
+    }
+
+    stats.totalTemplates += stats.standardTemplates;
+
+    return stats;
+  }
+
+  // Recipe debugging
+  debugRecipe(recipe) {
+    const debug = {
+      confidence: recipe.confidence,
+      stepsCount: recipe.steps ? recipe.steps.length : 0,
+      fallbacksCount: recipe.fallbacks ? recipe.fallbacks.length : 0,
+      actions: [],
+      providers: new Set(),
+      variables: new Set()
+    };
+
+    if (recipe.steps) {
+      recipe.steps.forEach((step, index) => {
+        debug.actions.push({ index, action: step.action });
+        
+        if (step.provider) {
+          debug.providers.add(step.provider);
+        }
+
+        // Extract variables used in this step
+        const stepStr = JSON.stringify(step);
+        const variables = stepStr.match(/\$\{(\w+(?:\.\w+)*)\}/g);
+        if (variables) {
+          variables.forEach(variable => {
+            debug.variables.add(variable);
+          });
+        }
+      });
+    }
+
+    debug.providers = Array.from(debug.providers);
+    debug.variables = Array.from(debug.variables);
+
+    return debug;
   }
 }

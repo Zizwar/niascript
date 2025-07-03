@@ -6,6 +6,7 @@ export class SafeExecutor {
     this.errorHandler = errorHandler;
     this.context = new Map();
     this.executionHistory = [];
+    this.pluginManager = null;
     this.safeOperations = {
       'api_call': this.executeApiCall.bind(this),
       'parallel_api_calls': this.executeParallelApiCalls.bind(this),
@@ -13,7 +14,21 @@ export class SafeExecutor {
       'calculate': this.executeCalculation.bind(this),
       'format_response': this.executeFormatResponse.bind(this),
       'transform': this.executeTransform.bind(this),
-      'error': this.executeError.bind(this)
+      'error': this.executeError.bind(this),
+      'conditional': this.executeConditional.bind(this),
+      'detect_language': this.executeCustomAction.bind(this),
+      'determine_target_language': this.executeCustomAction.bind(this),
+      'libre_translate_call': this.executeCustomAction.bind(this),
+      'extract_text_from_query': this.executeCustomAction.bind(this),
+      'extract_email_parts': this.executeCustomAction.bind(this),
+      'validate_email_address': this.executeCustomAction.bind(this),
+      'send_smtp_email': this.executeCustomAction.bind(this),
+      'send_via_sendgrid': this.executeCustomAction.bind(this),
+      'fetch_recent_emails': this.executeCustomAction.bind(this),
+      'format_email_list': this.executeCustomAction.bind(this),
+      'generate_email_content': this.executeCustomAction.bind(this),
+      'parse_email_query': this.executeCustomAction.bind(this),
+      'get_email_templates': this.executeCustomAction.bind(this)
     };
   }
 
@@ -91,17 +106,34 @@ export class SafeExecutor {
   async executeStep(step) {
     const { action } = step;
     
-    if (!this.safeOperations[action]) {
-      throw new Error(`Unsafe or unknown operation: ${action}`);
+    // Check if it's a built-in safe operation
+    if (this.safeOperations[action]) {
+      const result = await this.safeOperations[action](step);
+      
+      if (step.assign_to) {
+        this.context.set(step.assign_to, result);
+      }
+      
+      return result;
     }
     
-    const result = await this.safeOperations[action](step);
-    
-    if (step.assign_to) {
-      this.context.set(step.assign_to, result);
+    // Check if it's a custom plugin action
+    if (this.pluginManager) {
+      try {
+        const result = await this.executeCustomAction(step);
+        
+        if (step.assign_to) {
+          this.context.set(step.assign_to, result);
+        }
+        
+        return result;
+      } catch (error) {
+        // If custom action fails, check if it's an unknown operation
+        throw new Error(`Unsafe or unknown operation: ${action}`);
+      }
     }
     
-    return result;
+    throw new Error(`Unsafe or unknown operation: ${action}`);
   }
 
   async executeApiCall(step) {
@@ -397,5 +429,126 @@ export class SafeExecutor {
 
   getExecutionHistory() {
     return this.executionHistory;
+  }
+
+  // Plugin manager integration
+  setPluginManager(pluginManager) {
+    this.pluginManager = pluginManager;
+  }
+
+  // Execute custom plugin actions
+  async executeCustomAction(step) {
+    const { action } = step;
+    
+    if (!this.pluginManager) {
+      throw new Error('Plugin manager not available for custom actions');
+    }
+    
+    // Try to find the action in installed plugins
+    for (const [actionName, actionFunction] of this.pluginManager.customActions) {
+      if (actionName.endsWith(`.${action}`) || actionName === action) {
+        const params = this.resolveParams(step);
+        return await actionFunction(params);
+      }
+    }
+    
+    throw new Error(`Custom action not found: ${action}`);
+  }
+
+  // Execute conditional logic
+  async executeConditional(step) {
+    const { condition, if_true, if_false } = step;
+    
+    // Resolve the condition
+    const resolvedCondition = this.resolveBooleanCondition(condition);
+    
+    const stepsToExecute = resolvedCondition ? if_true : if_false;
+    
+    if (!stepsToExecute || !Array.isArray(stepsToExecute)) {
+      return null;
+    }
+    
+    let lastResult = null;
+    for (const conditionalStep of stepsToExecute) {
+      lastResult = await this.executeStep(conditionalStep);
+      
+      if (conditionalStep.return) {
+        return lastResult;
+      }
+    }
+    
+    return lastResult;
+  }
+
+  // Resolve boolean conditions
+  resolveBooleanCondition(condition) {
+    if (typeof condition === 'boolean') {
+      return condition;
+    }
+    
+    if (typeof condition === 'string') {
+      // Handle template variables
+      if (condition.startsWith('${') && condition.endsWith('}')) {
+        const contextKey = condition.slice(2, -1);
+        const value = this.context.get(contextKey);
+        return Boolean(value);
+      }
+      
+      // Handle simple boolean string values
+      if (condition.toLowerCase() === 'true') return true;
+      if (condition.toLowerCase() === 'false') return false;
+    }
+    
+    return Boolean(condition);
+  }
+
+  // Enhanced parameter resolution for plugins
+  resolveParams(step) {
+    const params = {};
+    
+    // Add all step properties except action and assign_to
+    Object.entries(step).forEach(([key, value]) => {
+      if (key !== 'action' && key !== 'assign_to') {
+        params[key] = this.resolveValue(value);
+      }
+    });
+    
+    return params;
+  }
+
+  resolveValue(value) {
+    if (typeof value === 'string' && value.startsWith('${') && value.endsWith('}')) {
+      const contextKey = value.slice(2, -1);
+      return this.context.get(contextKey) || value;
+    }
+    
+    if (Array.isArray(value)) {
+      return value.map(item => this.resolveValue(item));
+    }
+    
+    if (value && typeof value === 'object') {
+      const resolved = {};
+      Object.entries(value).forEach(([key, val]) => {
+        resolved[key] = this.resolveValue(val);
+      });
+      return resolved;
+    }
+    
+    return value;
+  }
+
+  // Add custom safe operations dynamically
+  addSafeOperation(name, handler) {
+    this.safeOperations[name] = handler.bind(this);
+  }
+
+  // Remove safe operation
+  removeSafeOperation(name) {
+    delete this.safeOperations[name];
+  }
+
+  // Get list of available operations
+  getAvailableOperations() {
+    return Object.keys(this.safeOperations);
   }
 }

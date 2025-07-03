@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node examples/demo.js",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "dev": "nodemon examples/demo.js",
     "build": "rollup -c",
     "docs": "jsdoc -d docs src/"
