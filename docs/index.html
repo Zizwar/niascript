@@ -145,7 +145,7 @@
                     </span>
                 </h1>
                 <p class="text-xl md:text-2xl text-light-secondary mb-8 max-w-3xl mx-auto">
-                    Intent-based programming language for the AI era. Transform natural language into executable code.
+                    Smart plugin-powered platform for the AI era. Transform natural language into unlimited possibilities with intelligent plugins.
                 </p>
             </div>
             
@@ -153,14 +153,21 @@
                 <div class="code-toolbar">
                     <pre><code class="language-javascript">import { nia } from 'niascript';
 
-// Simple cryptocurrency price query
-const btcPrice = await nia`Bitcoin price`;
-console.log(btcPrice); // "BTC price: $45,000 USD"
+// Multi-language translation
+const translated = await nia`ترجم للانجليزية: أهلاً بالعالم`;
+console.log(translated); // "Translation: Hello world"
 
-// Investment calculation
-const investment = await nia`If I invest $1000 at 8% annual return, 
-what will I have after 5 years?`;
-console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1469.33"</code></pre>
+// Smart email sending
+const emailResult = await nia`ارسل لبريدي admin النص: تقرير اليوم جاهز`;
+console.log(emailResult); // "✅ Email sent to admin@example.com"
+
+// File operations via MCP
+const fileContent = await nia`read file package.json`;
+console.log(fileContent); // "📄 File content: {...}"
+
+// Web search capabilities
+const searchResults = await nia`search web for latest AI news`;
+console.log(searchResults); // "🔍 Search results: ..."</code></pre>
                     <button class="copy-button" onclick="copyCode(this)">
                         <i class="fas fa-copy"></i>
                     </button>
@@ -184,30 +191,60 @@ console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1
     <section id="features" class="py-20 bg-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Powerful Features</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">🔌 Smart Plugin System</h2>
                 <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    Built for developers who want to create intelligent applications with minimal complexity
+                    Revolutionary plugin architecture that transforms NiaScript into an unlimited AI-powered platform
                 </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
                     <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-brain"></i>
+                        <i class="fas fa-plug"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Intelligent Intent Processing</h3>
+                    <h3 class="text-xl font-semibold text-white mb-3">Smart Plugin Manager</h3>
                     <p class="text-light-secondary">
-                        Advanced NLP capabilities to understand and process natural language queries with high accuracy.
+                        Revolutionary plugin architecture with automatic installation, validation, and secure execution of unlimited extensions.
                     </p>
                 </div>
                 
                 <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
                     <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-cogs"></i>
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Recipe Engine</h3>
+                    <h3 class="text-xl font-semibold text-white mb-3">AI Plugin Generator</h3>
                     <p class="text-light-secondary">
-                        Transform intents into executable steps with our powerful recipe generation system.
+                        Create plugins automatically from natural language descriptions using advanced AI generation templates.
+                    </p>
+                </div>
+                
+                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Translation Plugin</h3>
+                    <p class="text-light-secondary">
+                        Built-in bidirectional Arabic-English translation with smart language detection and cultural context.
+                    </p>
+                </div>
+                
+                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Email Integration</h3>
+                    <p class="text-light-secondary">
+                        Advanced email plugin with SMTP/SendGrid support, smart templates, and intelligent content extraction.
+                    </p>
+                </div>
+                
+                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">MCP Bridge</h3>
+                    <p class="text-light-secondary">
+                        Full Model Context Protocol integration with 10+ tools for file operations, web search, and weather data.
                     </p>
                 </div>
                 
@@ -215,39 +252,9 @@ console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1
                     <div class="text-accent text-3xl mb-4">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Secure Execution</h3>
+                    <h3 class="text-xl font-semibold text-white mb-3">Secure Architecture</h3>
                     <p class="text-light-secondary">
-                        Comprehensive protection against dangerous operations with built-in security measures.
-                    </p>
-                </div>
-                
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Provider Management</h3>
-                    <p class="text-light-secondary">
-                        Smart system for selecting optimal data sources based on reliability and performance.
-                    </p>
-                </div>
-                
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-memory"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Memory System</h3>
-                    <p class="text-light-secondary">
-                        Learn from previous interactions to provide better responses and personalized experiences.
-                    </p>
-                </div>
-                
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Error Handling</h3>
-                    <p class="text-light-secondary">
-                        Advanced error recovery system with smart fallback mechanisms and detailed logging.
+                        Enterprise-grade security with sandboxed execution, plugin validation, and zero eval() usage.
                     </p>
                 </div>
             </div>
@@ -258,122 +265,105 @@ console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1
     <section id="examples" class="py-20 bg-dark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Real-World Examples</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">🚀 Plugin-Powered Examples</h2>
                 <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    See how NiaScript transforms complex operations into simple, natural language commands
+                    See how NiaScript's smart plugin system enables unlimited capabilities through natural language
                 </p>
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Financial Analysis -->
+                <!-- Translation Plugin -->
                 <div class="bg-dark-secondary rounded-xl p-6">
                     <div class="flex items-center mb-4">
-                        <i class="fas fa-chart-line text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">Financial Analysis</h3>
+                        <i class="fas fa-language text-accent text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold text-white">🌍 Translation Plugin</h3>
                     </div>
                     <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Cryptocurrency price tracking
-const btcPrice = await nia`Bitcoin price`;
-const ethComparison = await nia`Compare Bitcoin and Ethereum performance`;
+                        <pre><code class="language-javascript">// Bidirectional Arabic-English translation
+const translated = await nia`ترجم للانجليزية: أهلاً بالعالم`;
+console.log(translated); // "Translation: Hello world"
 
-// Investment calculations
-const compound = await nia`$5000 invested at 6% for 10 years`;
-const portfolio = await nia`Analyze my portfolio risk`;
+const arabicText = await nia`translate to Arabic: How are you?`;
+console.log(arabicText); // "الترجمة: كيف حالك؟"
 
-// Stock market queries
-const stockPrice = await nia`AAPL stock price`;
-const marketTrend = await nia`Tech stocks trend this week`;</code></pre>
+// Auto language detection
+const autoTranslate = await nia`ترجم: مرحبا صديقي`;
+// Automatically detects Arabic and translates to English</code></pre>
                         <button class="copy-button" onclick="copyCode(this)">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
                 </div>
                 
-                <!-- Trading Bot -->
+                <!-- Email Plugin -->
+                <div class="bg-dark-secondary rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-envelope text-accent text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold text-white">📧 Email Integration</h3>
+                    </div>
+                    <div class="code-toolbar">
+                        <pre><code class="language-javascript">// Smart email sending
+const emailResult = await nia`ارسل لبريدي admin النص: تقرير اليوم جاهز`;
+console.log(emailResult); // "✅ Email sent to admin@example.com"
+
+// English email with subject
+const businessEmail = await nia`send email to client@company.com 
+subject: Project Update text: The project is on track`;
+
+// Email with templates
+const meetingEmail = await nia`ارسل دعوة اجتماع لبريدي team 
+موضوع: اجتماع فريق التطوير`;</code></pre>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- MCP Integration -->
+                <div class="bg-dark-secondary rounded-xl p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-link text-accent text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold text-white">🔗 MCP Integration</h3>
+                    </div>
+                    <div class="code-toolbar">
+                        <pre><code class="language-javascript">// File operations
+const fileContent = await nia`read file package.json`;
+const dirList = await nia`list directory /home/user`;
+await nia`write file test.txt content: Hello World`;
+
+// Web search
+const searchResults = await nia`search web for latest AI news`;
+const pageContent = await nia`get page content from https://example.com`;
+
+// Weather information  
+const weather = await nia`weather in London today`;
+const forecast = await nia`get forecast for New York`;</code></pre>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI Plugin Generator -->
                 <div class="bg-dark-secondary rounded-xl p-6">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-robot text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">Trading Bot</h3>
+                        <h3 class="text-xl font-semibold text-white">🤖 AI Plugin Generator</h3>
                     </div>
                     <div class="code-toolbar">
-                        <pre><code class="language-javascript">class TradingBot {
-  constructor() {
-    this.nia = new NiaScript();
-  }
-  
-  async analyzeMarket(query) {
-    return await this.nia.processIntent(query);
-  }
-  
-  async executeTrade(command) {
-    return await this.nia.ask(command);
-  }
-}
+                        <pre><code class="language-javascript">// Generate plugin from description
+import { AIPluginGenerator } from 'niascript/core';
 
-const bot = new TradingBot();
-const analysis = await bot.analyzeMarket(
-  "What's the trend for Bitcoin in the last week?"
-);</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Custom Providers -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-plug text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">Custom Providers</h3>
-                    </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Register custom provider
-nia.registerProvider('financial', 'alpha_vantage', {
-  name: 'Alpha Vantage API',
-  baseURL: 'https://www.alphavantage.co/query',
-  apiKey: process.env.ALPHA_VANTAGE_KEY,
-  rateLimits: { requests: 5, window: 60000 },
-  cost: 0,
-  reliability: 0.95
-});
-
-// Custom error handling
-nia.onError(async (error, context) => {
-  if (error.type === 'API_FAILURE') {
-    return await context.tryFallback();
-  }
-  throw error;
-});</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Memory Management -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-brain text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">Memory Management</h3>
-                    </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Save user preferences
-await nia.remember("User prefers cryptocurrency over stocks");
-await nia.remember("Risk tolerance: moderate");
-
-// Ask questions with context
-const advice = await nia.ask(
-  "What should I invest in next?"
+const generator = new AIPluginGenerator(null, nia.pluginManager);
+const weatherPlugin = await generator.generatePlugin(
+  "الحصول على معلومات الطقس لأي مدينة"
 );
 
-// Clear specific memories
-await nia.forget("old investment preferences");
+// Install the generated plugin
+await nia.installPlugin(weatherPlugin);
 
-// Get clarification
-const choice = await nia.clarify(
-  "Apple could refer to:", 
-  ["stock", "fruit", "company"]
-);</code></pre>
+// Use the new plugin
+const weather = await nia`طقس الرياض اليوم`;</code></pre>
                         <button class="copy-button" onclick="copyCode(this)">
                             <i class="fas fa-copy"></i>
                         </button>
@@ -387,53 +377,61 @@ const choice = await nia.clarify(
     <section id="api" class="py-20 bg-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">API Reference</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">🔧 Plugin System API</h2>
                 <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    Complete reference for all NiaScript methods and capabilities
+                    Complete reference for NiaScript's revolutionary plugin architecture and smart capabilities
                 </p>
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Core Methods -->
+                <!-- Plugin Management -->
                 <div class="bg-dark/50 rounded-xl p-6">
                     <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-code text-primary mr-3"></i>
-                        Core Methods
+                        <i class="fas fa-plug text-primary mr-3"></i>
+                        Plugin Management
                     </h3>
                     <div class="space-y-4">
                         <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">processIntent(query, values)</h4>
-                            <p class="text-light-secondary text-sm">Process natural language query into executable actions</p>
+                            <h4 class="text-lg font-medium text-white">installPlugin(plugin)</h4>
+                            <p class="text-light-secondary text-sm">Install and validate a new plugin in the system</p>
                         </div>
                         <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">ask(query, options)</h4>
-                            <p class="text-light-secondary text-sm">Ask a direct question and get intelligent response</p>
+                            <h4 class="text-lg font-medium text-white">uninstallPlugin(name)</h4>
+                            <p class="text-light-secondary text-sm">Remove a plugin from the system</p>
                         </div>
                         <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">clarify(question, choices)</h4>
-                            <p class="text-light-secondary text-sm">Request clarification when intent is ambiguous</p>
+                            <h4 class="text-lg font-medium text-white">listPlugins()</h4>
+                            <p class="text-light-secondary text-sm">Get list of all installed plugins</p>
+                        </div>
+                        <div class="border-l-4 border-primary pl-4">
+                            <h4 class="text-lg font-medium text-white">generatePlugin(description)</h4>
+                            <p class="text-light-secondary text-sm">Generate plugin automatically from description</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Memory & Providers -->
+                <!-- Smart Processing -->
                 <div class="bg-dark/50 rounded-xl p-6">
                     <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-database text-accent mr-3"></i>
-                        Memory & Providers
+                        <i class="fas fa-brain text-accent mr-3"></i>
+                        Smart Processing
                     </h3>
                     <div class="space-y-4">
                         <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">remember(fact)</h4>
-                            <p class="text-light-secondary text-sm">Save information to long-term memory</p>
+                            <h4 class="text-lg font-medium text-white">processIntent(query, values)</h4>
+                            <p class="text-light-secondary text-sm">Process natural language with plugin intelligence</p>
                         </div>
                         <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">forget(pattern)</h4>
-                            <p class="text-light-secondary text-sm">Remove specific information from memory</p>
+                            <h4 class="text-lg font-medium text-white">extractEntities(text)</h4>
+                            <p class="text-light-secondary text-sm">Extract entities for translation, email, etc.</p>
                         </div>
                         <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">registerProvider(category, name, config)</h4>
-                            <p class="text-light-secondary text-sm">Register new data provider for external APIs</p>
+                            <h4 class="text-lg font-medium text-white">findMatchingPlugin(query)</h4>
+                            <p class="text-light-secondary text-sm">Find best plugin match for user query</p>
+                        </div>
+                        <div class="border-l-4 border-accent pl-4">
+                            <h4 class="text-lg font-medium text-white">executeMCPTools(operation)</h4>
+                            <p class="text-light-secondary text-sm">Execute Model Context Protocol operations</p>
                         </div>
                     </div>
                 </div>
@@ -477,19 +475,26 @@ npm install -g niascript</code></pre>
                 <div class="bg-dark-secondary rounded-xl p-8 mb-8">
                     <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
                         <i class="fas fa-rocket text-secondary mr-3"></i>
-                        Basic Setup
+                        Plugin-Powered Setup
                     </h3>
                     <div class="code-toolbar">
                         <pre><code class="language-javascript">import { nia, NiaScript } from 'niascript';
 
-// Simple usage with template literals
-const price = await nia`Bitcoin price`;
-console.log(price);
+// Simple plugin usage with template literals
+const translated = await nia`ترجم للانجليزية: مرحبا`;
+console.log(translated); // "Translation: Hello"
 
-// Advanced usage with full instance
+// Email sending
+const emailResult = await nia`ارسل لبريدي admin النص: تقرير جاهز`;
+console.log(emailResult); // "✅ Email sent to admin@example.com"
+
+// File operations via MCP
+const fileContent = await nia`read file package.json`;
+console.log(fileContent); // "📄 File content: {...}"
+
+// Advanced plugin management
 const niaInstance = new NiaScript();
-const result = await niaInstance.processIntent("What's the weather like?");
-console.log(result);</code></pre>
+console.log(`Installed plugins: ${niaInstance.listPlugins().length}`);</code></pre>
                         <button class="copy-button" onclick="copyCode(this)">
                             <i class="fas fa-copy"></i>
                         </button>
@@ -500,18 +505,31 @@ console.log(result);</code></pre>
                 <div class="bg-dark-secondary rounded-xl p-8">
                     <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
                         <i class="fas fa-cog text-accent mr-3"></i>
-                        Environment Configuration
+                        Plugin Environment Configuration
                     </h3>
                     <div class="code-toolbar">
-                        <pre><code class="language-bash"># Required API keys
+                        <pre><code class="language-bash"># Core AI API (Required)
 OPENAI_API_KEY=your_openai_key_here
-BINANCE_API_KEY=your_binance_key_here
-ALPHA_VANTAGE_KEY=your_alphavantage_key_here
 
-# Optional settings
+# Translation Plugin
+LIBRETRANSLATE_API_URL=https://libretranslate.com/
+GOOGLE_TRANSLATE_API_KEY=your_google_translate_key_here
+
+# Email Plugin
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SENDGRID_API_KEY=your_sendgrid_key_here
+
+# MCP Bridge
+WEATHER_API_KEY=your_weather_key_here
+SEARCH_API_KEY=your_search_key_here
+
+# Plugin System Settings
+NIA_PLUGIN_PATH=./plugins/
 NIA_LOG_LEVEL=info
-NIA_MEMORY_SIZE=1000
-NIA_CACHE_TTL=300</code></pre>
+NIA_MEMORY_SIZE=1000</code></pre>
                         <button class="copy-button" onclick="copyCode(this)">
                             <i class="fas fa-copy"></i>
                         </button>
