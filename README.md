@@ -1,3 +1,140 @@
+
+
+# 🎯 NiaScript CLI
+
+## Installation
+
+```bash
+npm install -g niascript
+```
+
+## Usage
+
+### Quick Start
+```bash
+# Ask any question directly
+nia ask "What is artificial intelligence?"
+
+# Process financial queries
+nia process "Bitcoin price"
+
+# Interactive mode
+nia interactive
+```
+
+### Advanced Usage
+```bash
+# Run tests
+nia test quick
+nia test performance
+nia test full
+
+# View statistics
+nia stats
+nia stats --detailed
+
+# Configuration
+nia config --show
+nia config --log-level debug
+nia config --enable-ai
+```
+
+### Interactive Mode
+```bash
+nia interactive
+
+nia> Bitcoin price
+✅ Bitcoin price: $105,230 USD
+   ⏱️  1,245ms
+
+nia> What is blockchain?
+✅ Blockchain is a distributed ledger technology...
+   ⏱️  2,150ms
+
+nia> stats
+📊 Session Statistics:
+   Requests: 2
+   Total Cost: $0.003456
+   Avg Time: 1,697ms
+
+nia> exit
+👋 Goodbye!
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| \`ask <question>\` | Direct AI question |
+| \`process <input>\` | Intent-based processing |
+| \`interactive\` | Interactive mode |
+| \`test [type]\` | Run system tests |
+| \`stats\` | Show usage statistics |
+| `config` | Manage configuration |
+| `help-examples` | Show usage examples |
+
+## Examples
+
+### Financial Queries
+```bash
+nia process "Bitcoin price"
+nia process "سعر الذهب اليوم"
+nia process "$10000 at 7% for 15 years"
+nia process "Compare ETH and ADA performance"
+```
+
+### General Questions
+```bash
+nia ask "How does machine learning work?"
+nia ask "What are the best programming practices?"
+nia ask "كيف أتعلم البرمجة بسرعة؟"
+nia ask "Explain quantum computing simply"
+```
+
+### System Management
+```bash
+nia test quick           # Quick functionality test
+nia stats --detailed     # Detailed usage analytics
+nia config --show        # Current configuration
+nia interactive --mode ask  # Ask-only interactive mode
+```
+
+## Configuration
+
+Set environment variables in `.env\:
+
+```bash
+OPENAI_API_KEY=your_openai_key_here
+NIA_LOG_LEVEL=info
+NIA_ENABLE_GENERAL_AI=true
+NIA_MAX_DAILY_COST=5.00
+```
+
+## Tips
+
+💡 Use `nia ask` for direct AI questions  
+💡 Use `nia process` for intent-based processing  
+💡 Use `nia interactive` for conversational mode  
+💡 Run `nia stats` regularly to monitor costs  
+💡 Use `--verbose` flag for detailed logging  
+
+## Cost Monitoring
+
+NiaScript automatically tracks OpenAI usage:
+
+
+```bash
+nia stats
+📊 Total Cost: $0.0234
+📈 Total Requests: 15
+⏱️  Average Response: 1,250ms
+
+💰 Cost Breakdown:
+   Last Hour: $0.0123
+   Per Request: $0.0016
+```
+
+
 # 🤖 NiaScript
 
 **Intent-based programming language for the AI era**
