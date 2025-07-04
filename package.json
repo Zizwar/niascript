@@ -1,4 +1,6 @@
 {
+ "version": "1.3.0",
+ "description": "Intent-based programming language for the AI era",
   "bin": {
     "nia": "./bin/nia-cli.js"
   },
