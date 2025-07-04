@@ -300,7 +300,7 @@ program
     } catch (error) {
       console.error(chalk.red('❌ Email error: ') + error.message);
     }
-  });
+  })
   .description('Manage configuration')
   .option('-s, --show', 'Show current configuration')
   .option('--log-level <level>', 'Set log level (debug|info|warn|error)')
