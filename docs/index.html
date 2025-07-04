@@ -1,260 +1,344 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiaScript - Intent-based Programming for the AI Era</title>
-    <meta name="description" content="Transform natural language into executable code with NiaScript. A powerful JavaScript library for building AI-powered applications with intent processing.">
+    <title id="page-title">NiaScript - لغة البرمجة بالنوايا</title>
+    <meta name="description" id="page-description" content="لغة برمجة ثورية تعتمد على فهم النوايا باستخدام الذكاء الاصطناعي">
     
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    <!-- Prism.js for code highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    
-    <!-- Custom configuration for Tailwind -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6',
-                        accent: '#06b6d4',
-                        dark: '#0f172a',
-                        'dark-secondary': '#1e293b',
-                        'dark-tertiary': '#334155',
-                        light: '#f8fafc',
-                        'light-secondary': '#e2e8f0'
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
-                        'mono': ['JetBrains Mono', 'Fira Code', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
     
     <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .code-block {
+            direction: ltr;
+            text-align: left;
         }
-        ::-webkit-scrollbar-track {
-            background: #334155;
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 4px;
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8b5cf6;
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        /* Smooth animations */
-        .fade-in {
-            animation: fadeIn 0.6s ease-in-out;
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        pre code {
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .nav-dot {
+            transition: all 0.3s ease;
+        }
+        .nav-dot.active {
+            background-color: #667eea;
+            transform: scale(1.2);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        /* Custom gradient background */
-        .hero-gradient {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         
-        /* Code block styling */
-        pre[class*="language-"] {
-            margin: 0;
-            border-radius: 8px;
-            background: #0f172a !important;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        .code-toolbar {
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+        
+        pre {
             position: relative;
+            overflow-x: auto;
         }
         
-        .copy-button {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #6366f1;
-            color: white;
-            border: none;
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        pre::-webkit-scrollbar-track {
+            background: #333;
+        }
+        
+        pre::-webkit-scrollbar-thumb {
+            background: #666;
             border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 12px;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s;
         }
         
-        .code-toolbar:hover .copy-button {
-            opacity: 1;
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #888;
         }
     </style>
 </head>
+<body class="bg-gray-50 text-gray-800" x-data="{ 
+    currentSection: 'hero',
+    showMobileMenu: false,
+    examples: {
+        current: 0,
+        list: [
+            {
+                title: 'استعلام مالي بسيط',
+                code: `// الحصول على سعر البيتكوين
+const price = await nia\`سعر البيتكوين\`;
+console.log(price); // "Bitcoin price: $45,230 USD"`
+            },
+            {
+                title: 'مثال مركب: السعر × الطقس',
+                code: `// مثال متقدم: دمج الخدمات
+const analysis = await nia\`
+‎احسب عدد البيتكوين التي يمكن شراؤها بـ 50000 دولار
+‎واخبرني عن طقس الدار البيضاء
+‎وأرسل النتيجة لأحمد
+\`;`
+            },
+            {
+                title: 'حسابات مالية معقدة',
+                code: `// استثمار مع تحليل المشاعر
+const result = await nia\`
+‎استثمر 10000 دولار بمعدل 8% لمدة 5 سنوات
+‎واحلل مشاعر السوق للعملات الرقمية
+‎واقترح استراتيجية استثمار
+\`;`
+            },
+            {
+                title: 'أتمتة البريد الإلكتروني',
+                code: `// إرسال تقارير تلقائية
+await nia\`
+‎اجمع أسعار أفضل 5 عملات رقمية
+‎واحسب أداءها الأسبوعي
+‎وأرسل تقرير مفصل للمدير
+\`;`
+            },
+            {
+                title: 'معالجة البيانات التنبؤية',
+                code: `// تحليل وتنبؤ
+const prediction = await nia\`
+‎احلل اتجاه البيتكوين آخر 30 يوم
+‎واستخدم نموذج ML للتنبؤ بالسعر
+‎وارسل تنبيه إذا كان الاتجاه صاعد
+\`;`
+            }
+        ]
+    },
+    currentExample: 0
+}" x-init="hljs.highlightAll()">
 
-<body class="bg-dark text-light font-sans">
+    <!-- Progress Bar -->
+    <div id="scroll-progress"></div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-dark/90 backdrop-blur-sm border-b border-dark-tertiary z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-3">
-                    <i class="fas fa-robot text-2xl text-primary"></i>
-                    <span class="text-xl font-bold text-white">NiaScript</span>
+    <nav class="fixed top-0 w-full z-50 glass-effect border-b border-white/20" x-show="true">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <h1 class="text-2xl font-bold text-gradient" id="nav-title">NiaScript</h1>
+                    <span class="text-sm text-gray-600" id="nav-subtitle">لغة البرمجة بالنوايا</span>
                 </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#features" class="text-light-secondary hover:text-primary transition-colors">Features</a>
-                    <a href="#examples" class="text-light-secondary hover:text-primary transition-colors">Examples</a>
-                    <a href="#api" class="text-light-secondary hover:text-primary transition-colors">API</a>
-                    <a href="#docs" class="text-light-secondary hover:text-primary transition-colors">Documentation</a>
-                    <a href="#contact" class="text-light-secondary hover:text-primary transition-colors">Contact</a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6 space-x-reverse">
+                    <a href="#features" class="hover:text-purple-600 transition-colors" id="nav-features">الميزات</a>
+                    <a href="#examples" class="hover:text-purple-600 transition-colors" id="nav-examples">أمثلة</a>
+                    <a href="#syntax" class="hover:text-purple-600 transition-colors" id="nav-syntax">الصيغة</a>
+                    <a href="#roadmap" class="hover:text-purple-600 transition-colors" id="nav-roadmap">الخارطة</a>
+                    <a href="#installation" class="hover:text-purple-600 transition-colors" id="nav-installation">التثبيت</a>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="https://github.com/zizwar/niascript" class="text-light-secondary hover:text-primary transition-colors">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
-                    <a href="https://www.npmjs.com/package/niascript" class="bg-primary hover:bg-secondary px-4 py-2 rounded-lg text-white font-medium transition-colors">
-                        <i class="fab fa-npm mr-2"></i>Install
-                    </a>
+                
+                <!-- Mobile menu button -->
+                <button @click="showMobileMenu = !showMobileMenu" class="md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div x-show="showMobileMenu" class="md:hidden mt-4 pb-4 border-t border-white/20 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#features" class="hover:text-purple-600 transition-colors">الميزات</a>
+                    <a href="#examples" class="hover:text-purple-600 transition-colors">أمثلة</a>
+                    <a href="#syntax" class="hover:text-purple-600 transition-colors">الصيغة</a>
+                    <a href="#roadmap" class="hover:text-purple-600 transition-colors">الخارطة</a>
+                    <a href="#installation" class="hover:text-purple-600 transition-colors">التثبيت</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-gradient pt-20 pb-16 min-h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
-            <div class="mb-8">
-                <i class="fas fa-brain text-6xl text-primary mb-4"></i>
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
-                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                        NiaScript
-                    </span>
+    <section id="hero" class="min-h-screen gradient-bg flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6" id="hero-title">
+                    NiaScript
                 </h1>
-                <p class="text-xl md:text-2xl text-light-secondary mb-8 max-w-3xl mx-auto">
-                    Smart plugin-powered platform for the AI era. Transform natural language into unlimited possibilities with intelligent plugins.
+                <p class="text-xl md:text-2xl text-white/90 mb-8" id="hero-subtitle">
+‎                    لغة البرمجة الثورية التي تفهم نواياك
                 </p>
-            </div>
-            
-            <div class="bg-dark-secondary/50 backdrop-blur-sm rounded-xl p-6 max-w-4xl mx-auto mb-8">
-                <div class="code-toolbar">
-                    <pre><code class="language-javascript">import { nia } from 'niascript';
-
-// Multi-language translation
-const translated = await nia`ترجم للانجليزية: أهلاً بالعالم`;
-console.log(translated); // "Translation: Hello world"
-
-// Smart email sending
-const emailResult = await nia`ارسل لبريدي admin النص: تقرير اليوم جاهز`;
-console.log(emailResult); // "✅ Email sent to admin@example.com"
-
-// File operations via MCP
-const fileContent = await nia`read file package.json`;
-console.log(fileContent); // "📄 File content: {...}"
-
-// Web search capabilities
-const searchResults = await nia`search web for latest AI news`;
-console.log(searchResults); // "🔍 Search results: ..."</code></pre>
-                    <button class="copy-button" onclick="copyCode(this)">
-                        <i class="fas fa-copy"></i>
-                    </button>
+                <p class="text-lg text-white/80 mb-12 max-w-2xl mx-auto" id="hero-description">
+‎                    اكتب كودك بلغة طبيعية واتركه يتفهم قصدك، يحلل البيانات، يتخذ القرارات، ويتفاعل مع الخدمات المختلفة بذكاء اصطناعي متقدم
+                </p>
+                
+                <!-- Live Demo -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
+                    <h3 class="text-white font-semibold mb-4" id="demo-title">🚀 جرب الآن:</h3>
+                    <div class="code-block bg-gray-900 rounded-lg p-4 text-green-400 font-mono text-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="text-gray-500">$</span>
+                            <span class="ml-2" id="demo-command">nia "احسب استثمار 5000 دولار بمعدل 7% لمدة 10 سنوات"</span>
+                        </div>
+                        <div class="text-blue-300" id="demo-output">
+                            ✅ Investment of $5,000 at 7% annually for 10 years = $9,835.76<br>
+                            💰 Total profit: $4,835.76<br>
+                            📈 ROI: 96.7%
+                        </div>
+                    </div>
+                    <!-- Demo Buttons -->
+                    <div class="flex gap-2 mt-4 justify-center flex-wrap">
+                        <button onclick="runDemo('crypto')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors">
+‎                            💰 عملات رقمية
+                        </button>
+                        <button onclick="runDemo('investment')" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors">
+‎                            📈 استثمار
+                        </button>
+                        <button onclick="runDemo('composite')" class="bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700 transition-colors">
+‎                            🔗 مركب
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#installation" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors" id="cta-start">
+‎                        ابدأ الآن
+                    </a>
+                    <a href="#examples" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors" id="cta-examples">
+‎                        شاهد الأمثلة
+                    </a>
                 </div>
             </div>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#examples" class="bg-primary hover:bg-secondary px-8 py-3 rounded-lg text-white font-medium transition-colors inline-flex items-center">
-                    <i class="fas fa-play mr-2"></i>
-                    Get Started
-                </a>
-                <a href="https://github.com/zizwar/niascript" class="border border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg font-medium transition-colors inline-flex items-center">
-                    <i class="fab fa-github mr-2"></i>
-                    View on GitHub
-                </a>
-            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-dark-secondary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">🔌 Smart Plugin System</h2>
-                <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    Revolutionary plugin architecture that transforms NiaScript into an unlimited AI-powered platform
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="features-title">
+‎                    ميزات NiaScript
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="features-subtitle">
+‎                    تجربة برمجة جديدة تماماً تعتمد على فهم النوايا والذكاء الاصطناعي
                 </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-plug"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Smart Plugin Manager</h3>
-                    <p class="text-light-secondary">
-                        Revolutionary plugin architecture with automatic installation, validation, and secure execution of unlimited extensions.
+                <!-- Feature 1 -->
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">🧠</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature1-title">فهم ذكي للنوايا</h3>
+                    <p class="text-gray-600" id="feature1-desc">
+‎                        يفهم ما تقصده بالضبط مهما كانت طريقة التعبير، باللغة العربية أو الإنجليزية
                     </p>
                 </div>
                 
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">AI Plugin Generator</h3>
-                    <p class="text-light-secondary">
-                        Create plugins automatically from natural language descriptions using advanced AI generation templates.
+                <!-- Feature 2 -->
+                <div class="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">🔌</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature2-title">نظام إضافات ذكي</h3>
+                    <p class="text-gray-600" id="feature2-desc">
+‎                        يتوسع تلقائياً ليدعم خدمات جديدة، مع إمكانية الرجوع للذكاء العام عند الحاجة
                     </p>
                 </div>
                 
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Translation Plugin</h3>
-                    <p class="text-light-secondary">
-                        Built-in bidirectional Arabic-English translation with smart language detection and cultural context.
+                <!-- Feature 3 -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">⚡</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature3-title">أداء محسن</h3>
+                    <p class="text-gray-600" id="feature3-desc">
+‎                        يستخدم خدمات متخصصة للمهام الشائعة، ويلجأ للذكاء الاصطناعي للحالات المعقدة فقط
                     </p>
                 </div>
                 
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Email Integration</h3>
-                    <p class="text-light-secondary">
-                        Advanced email plugin with SMTP/SendGrid support, smart templates, and intelligent content extraction.
+                <!-- Feature 4 -->
+                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">💰</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature4-title">مراقبة التكلفة</h3>
+                    <p class="text-gray-600" id="feature4-desc">
+‎                        يتتبع استهلاك الذكاء الاصطناعي ويحسن الاستخدام تلقائياً لتوفير التكاليف
                     </p>
                 </div>
                 
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-link"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">MCP Bridge</h3>
-                    <p class="text-light-secondary">
-                        Full Model Context Protocol integration with 10+ tools for file operations, web search, and weather data.
+                <!-- Feature 5 -->
+                <div class="bg-gradient-to-br from-red-50 to-purple-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">🎯</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature5-title">دقة عالية</h3>
+                    <p class="text-gray-600" id="feature5-desc">
+‎                        يحلل السياق ويتعلم من التفاعلات السابقة لتقديم نتائج أكثر دقة مع الوقت
                     </p>
                 </div>
                 
-                <div class="bg-dark-tertiary/50 p-6 rounded-xl hover:bg-dark-tertiary transition-colors">
-                    <div class="text-accent text-3xl mb-4">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold text-white mb-3">Secure Architecture</h3>
-                    <p class="text-light-secondary">
-                        Enterprise-grade security with sandboxed execution, plugin validation, and zero eval() usage.
+                <!-- Feature 6 -->
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
+                    <div class="text-3xl mb-4">🔗</div>
+                    <h3 class="text-xl font-semibold mb-3" id="feature6-title">تكامل شامل</h3>
+                    <p class="text-gray-600" id="feature6-desc">
+‎                        يربط بين خدمات مختلفة في عملية واحدة: مالية، طقس، بريد، ترجمة وأكثر
                     </p>
                 </div>
             </div>
@@ -262,176 +346,229 @@ console.log(searchResults); // "🔍 Search results: ..."</code></pre>
     </section>
 
     <!-- Examples Section -->
-    <section id="examples" class="py-20 bg-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="examples" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">🚀 Plugin-Powered Examples</h2>
-                <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    See how NiaScript's smart plugin system enables unlimited capabilities through natural language
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="examples-title">
+‎                    أمثلة متقدمة
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="examples-subtitle">
+‎                    اكتشف قوة NiaScript من خلال هذه الأمثلة المتقدمة والمركبة
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Translation Plugin -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-language text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">🌍 Translation Plugin</h3>
-                    </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Bidirectional Arabic-English translation
-const translated = await nia`ترجم للانجليزية: أهلاً بالعالم`;
-console.log(translated); // "Translation: Hello world"
-
-const arabicText = await nia`translate to Arabic: How are you?`;
-console.log(arabicText); // "الترجمة: كيف حالك؟"
-
-// Auto language detection
-const autoTranslate = await nia`ترجم: مرحبا صديقي`;
-// Automatically detects Arabic and translates to English</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
+            <!-- Example Tabs -->
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-wrap justify-center mb-8 gap-2">
+                    <template x-for="(example, index) in examples.list" :key="index">
+                        <button 
+                            @click="currentExample = index"
+                            :class="currentExample === index ? 'bg-purple-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                            class="px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                            x-text="example.title">
                         </button>
-                    </div>
+                    </template>
                 </div>
                 
-                <!-- Email Plugin -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-envelope text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">📧 Email Integration</h3>
+                <!-- Example Content -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-800 px-6 py-4">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <div class="flex space-x-1 space-x-reverse">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="text-gray-300 text-sm" x-text="examples.list[currentExample].title"></span>
+                        </div>
                     </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Smart email sending
-const emailResult = await nia`ارسل لبريدي admin النص: تقرير اليوم جاهز`;
-console.log(emailResult); // "✅ Email sent to admin@example.com"
-
-// English email with subject
-const businessEmail = await nia`send email to client@company.com 
-subject: Project Update text: The project is on track`;
-
-// Email with templates
-const meetingEmail = await nia`ارسل دعوة اجتماع لبريدي team 
-موضوع: اجتماع فريق التطوير`;</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- MCP Integration -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-link text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">🔗 MCP Integration</h3>
-                    </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// File operations
-const fileContent = await nia`read file package.json`;
-const dirList = await nia`list directory /home/user`;
-await nia`write file test.txt content: Hello World`;
-
-// Web search
-const searchResults = await nia`search web for latest AI news`;
-const pageContent = await nia`get page content from https://example.com`;
-
-// Weather information  
-const weather = await nia`weather in London today`;
-const forecast = await nia`get forecast for New York`;</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- AI Plugin Generator -->
-                <div class="bg-dark-secondary rounded-xl p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-robot text-accent text-2xl mr-3"></i>
-                        <h3 class="text-xl font-semibold text-white">🤖 AI Plugin Generator</h3>
-                    </div>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">// Generate plugin from description
-import { AIPluginGenerator } from 'niascript/core';
-
-const generator = new AIPluginGenerator(null, nia.pluginManager);
-const weatherPlugin = await generator.generatePlugin(
-  "الحصول على معلومات الطقس لأي مدينة"
-);
-
-// Install the generated plugin
-await nia.installPlugin(weatherPlugin);
-
-// Use the new plugin
-const weather = await nia`طقس الرياض اليوم`;</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    <div class="p-6">
+                        <pre class="code-block"><code class="javascript" x-text="examples.list[currentExample].code"></code></pre>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- API Reference -->
-    <section id="api" class="py-20 bg-dark-secondary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">🔧 Plugin System API</h2>
-                <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    Complete reference for NiaScript's revolutionary plugin architecture and smart capabilities
-                </p>
-            </div>
+    <!-- Advanced Examples Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12" id="advanced-examples-title">
+‎                أمثلة متقدمة ومركبة
+            </h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Plugin Management -->
-                <div class="bg-dark/50 rounded-xl p-6">
-                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-plug text-primary mr-3"></i>
-                        Plugin Management
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Complex Example 1 -->
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4" id="complex-example1-title">
+‎                        🔄 تحليل مالي مع تنبيهات ذكية
                     </h3>
-                    <div class="space-y-4">
-                        <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">installPlugin(plugin)</h4>
-                            <p class="text-light-secondary text-sm">Install and validate a new plugin in the system</p>
-                        </div>
-                        <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">uninstallPlugin(name)</h4>
-                            <p class="text-light-secondary text-sm">Remove a plugin from the system</p>
-                        </div>
-                        <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">listPlugins()</h4>
-                            <p class="text-light-secondary text-sm">Get list of all installed plugins</p>
-                        </div>
-                        <div class="border-l-4 border-primary pl-4">
-                            <h4 class="text-lg font-medium text-white">generatePlugin(description)</h4>
-                            <p class="text-light-secondary text-sm">Generate plugin automatically from description</p>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// مثال مركب: تحليل + تنبيه + إرسال
+const result = await nia`
+‎احسب النسبة المئوية لتغير البيتكوين آخر 7 أيام
+‎إذا كان الارتفاع أكثر من 10% أرسل تنبيه لأحمد
+‎وإذا كان الانخفاض أكثر من 15% أرسل تقرير للمدير
+‎مع إضافة تحليل المشاعر للسوق من تويتر
+`;</code></pre>
+
+                    <!-- What Happens for Complex Example -->
+                    <div class="mt-4 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
+                        <button 
+                            @click="openAccordion = openAccordion === 'complex1' ? null : 'complex1'"
+                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
+                            <span class="font-medium text-blue-600">🔍 التنفيذ خطوة بخطوة</span>
+                            <svg :class="openAccordion === 'complex1' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="openAccordion === 'complex1'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
+                            <ol class="list-decimal list-inside space-y-1">
+                                <li><strong>API Call:</strong> جلب بيانات BTC آخر 7 أيام من Binance</li>
+                                <li><strong>Calculation:</strong> حساب نسبة التغيير ((السعر الحالي - السعر قبل 7 أيام) / السعر قبل 7 أيام * 100)</li>
+                                <li><strong>Condition Check:</strong> تقييم الشروط (> 10% أو < -15%)</li>
+                                <li><strong>Twitter API:</strong> جلب tweets حديثة عن Bitcoin</li>
+                                <li><strong>Sentiment Analysis:</strong> استخدام OpenAI لتحليل مشاعر التغريدات</li>
+                                <li><strong>Email Plugin:</strong> إرسال التنبيه أو التقرير للشخص المناسب</li>
+                                <li><strong>Cost Tracking:</strong> تسجيل تكلفة العملية ($0.003-0.008 تقديرياً)</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Smart Processing -->
-                <div class="bg-dark/50 rounded-xl p-6">
-                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-brain text-accent mr-3"></i>
-                        Smart Processing
+                <!-- Complex Example 2 -->
+                <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4" id="complex-example2-title">
+‎                        🌍 العمليات المركبة والمتغيرات
                     </h3>
-                    <div class="space-y-4">
-                        <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">processIntent(query, values)</h4>
-                            <p class="text-light-secondary text-sm">Process natural language with plugin intelligence</p>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// استخدام نتائج العمليات في حسابات أخرى
+const a = await nia`اجلب سعر عملتي في محفظة بايننس`;
+const b = await nia`حالة طقس الدار البيضاء اليوم`;
+
+const c = await nia`
+‎احسب هذا الرقم: ${a.BTC} مرفوع للقوة ${b.temperature}
+‎واضف رقم عشوائي بين 5000 و 690000
+‎مع ميل للأرقام الأعلى بنسبة 50%
+‎ثم اطرح ${a.BTC} من النتيجة
+`;</code></pre>
+
+                    <div class="mt-4 border border-gray-200 rounded-lg">
+                        <button 
+                            @click="openAccordion = openAccordion === 'complex2' ? null : 'complex2'"
+                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
+                            <span class="font-medium text-green-600">🧮 كيف تعمل العمليات المركبة؟</span>
+                            <svg :class="openAccordion === 'complex2' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="openAccordion === 'complex2'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
+                            <div class="space-y-2">
+                                <div><strong>🔗 تسلسل العمليات:</strong> كل متغير يعتمد على نتيجة العملية السابقة</div>
+                                <div><strong>📊 معالجة البيانات:</strong> تحويل النتائج لصيغ قابلة للحساب</div>
+                                <div><strong>🎲 العشوائية المرجحة:</strong> استخدام خوارزميات لتوليد أرقام عشوائية بتوزيع معين</div>
+                                <div><strong>🧮 العمليات الرياضية:</strong> تنفيذ حسابات معقدة مثل الأس والجذور</div>
+                                <div><strong>💾 إدارة الذاكرة:</strong> حفظ النتائج الوسطية للاستخدام اللاحق</div>
+                            </div>
                         </div>
-                        <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">extractEntities(text)</h4>
-                            <p class="text-light-secondary text-sm">Extract entities for translation, email, etc.</p>
+                    </div>
+                </div>
+                
+                <!-- Complex Example 3 -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4" id="complex-example3-title">
+‎                        🤖 خوارزميات تعلم آلي
+                    </h3>
+                    
+
+
+
+
+
+
+
+<pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// خوارزمية التنبؤ بأسعار العملات
+await nia`
+خوارزمية التنبؤ:
+
+1. اجمع أسعار آخر 365 يوم لـ BTC, ETH, ADA
+2. طبق تطبيع البيانات وأنشئ Features جديدة
+3. اختبر نماذج LSTM و Random Forest و XGBoost
+4. اختر النموذج الأفضل حسب RMSE
+5. تنبأ بأسعار الـ 7 أيام القادمة
+6. اقترح استراتيجية تداول مبنية على التنبؤات
+`;</code></pre>
+
+                    <div class="mt-4 border border-gray-200 rounded-lg">
+                        <button 
+                            @click="openAccordion = openAccordion === 'complex3' ? null : 'complex3'"
+                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
+                            <span class="font-medium text-purple-600">🧠 خوارزميات التعلم الآلي</span>
+                            <svg :class="openAccordion === 'complex3' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="openAccordion === 'complex3'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
+                            <div class="space-y-2">
+                                <div><strong>📊 Data Pipeline:</strong> معالجة البيانات الضخمة عبر pandas-like operations</div>
+                                <div><strong>🧮 Model Training:</strong> استدعاء TensorFlow أو PyTorch عبر APIs</div>
+                                <div><strong>🎯 Hyperparameter Tuning:</strong> تحسين المعاملات تلقائياً</div>
+                                <div><strong>📈 Model Evaluation:</strong> تقييم الأداء بمقاييس متعددة</div>
+                                <div><strong>🔮 Prediction:</strong> التنبؤ مع confidence intervals</div>
+                            </div>
                         </div>
-                        <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">findMatchingPlugin(query)</h4>
-                            <p class="text-light-secondary text-sm">Find best plugin match for user query</p>
-                        </div>
-                        <div class="border-l-4 border-accent pl-4">
-                            <h4 class="text-lg font-medium text-white">executeMCPTools(operation)</h4>
-                            <p class="text-light-secondary text-sm">Execute Model Context Protocol operations</p>
+                    </div>
+                </div>
+                
+                <!-- Complex Example 4 -->
+                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4" id="complex-example4-title">
+                        📊 أتمتة شاملة للأعمال
+                    </h3>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// أتمتة عمليات الأعمال
+await nia`
+كل يوم اثنين في الساعة 9 صباحاً:
+اجمع تقرير مبيعات الأسبوع السابق
+واحسب نسبة النمو مقارنة بنفس الفترة من العام السابق
+واستخرج أفضل 3 منتجات أداءً وأسوأ 3 منتجات
+واقترح خطة تسويق للمنتجات الضعيفة
+وأرسل التقرير لفريق الإدارة مع جدولة اجتماع
+`;</code></pre>
+
+                    <div class="mt-4 border border-gray-200 rounded-lg">
+                        <button 
+                            @click="openAccordion = openAccordion === 'complex4' ? null : 'complex4'"
+                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
+                            <span class="font-medium text-orange-600">🏢 نظام إدارة الأعمال</span>
+                            <svg :class="openAccordion === 'complex4' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="openAccordion === 'complex4'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <strong>📅 الجدولة:</strong>
+                                    <ul class="list-disc list-inside mt-1 text-xs">
+                                        <li>Cron job كل اثنين 9 ص</li>
+                                        <li>تكرار أسبوعي تلقائي</li>
+                                        <li>معالجة الإجازات</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong>📊 التحليل:</strong>
+                                    <ul class="list-disc list-inside mt-1 text-xs">
+                                        <li>ربط قاعدة البيانات</li>
+                                        <li>حسابات إحصائية</li>
+                                        <li>مقارنات سنوية</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong>🤖 الذكاء:</strong>
+                                    <ul class="list-disc list-inside mt-1 text-xs">
+                                        <li>اقتراح استراتيجيات</li>
+                                        <li>إنتاج تقارير احترافية</li>
+                                        <li>جدولة اجتماعات</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -439,190 +576,598 @@ const weather = await nia`طقس الرياض اليوم`;</code></pre>
         </div>
     </section>
 
-    <!-- Installation & Setup -->
-    <section id="docs" class="py-20 bg-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Syntax Section -->
+    <section id="syntax" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Quick Start</h2>
-                <p class="text-xl text-light-secondary max-w-3xl mx-auto">
-                    Get up and running with NiaScript in minutes
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="syntax-title">
+                    صيغة NiaScript
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="syntax-subtitle">
+                    بساطة اللغة الطبيعية مع قوة البرمجة المتقدمة
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Basic Syntax -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4" id="syntax-basic-title">الصيغة الأساسية</h3>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// Template Literal Syntax - الصيغة الأساسية
+import { nia } from 'niascript';
+
+// استعلام بسيط
+const result = await nia`سعر البيتكوين`;
+
+// استعلام مع متغيرات
+const amount = 1000;
+const years = 5;
+const calculation = await nia`استثمر ${amount} دولار لمدة ${years} سنوات`;
+
+// استعلام معقد
+const analysis = await nia`
+احلل أداء الأسهم التقنية
+واقترح أفضل 3 شركات للاستثمار
+مع تحليل المخاطر لكل منها
+`;</code></pre>
+                </div>
+                
+                <!-- Conditional Logic -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4" id="syntax-conditional-title">المنطق الشرطي</h3>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// NiaScript يفهم الشروط بشكل طبيعي
+await nia`
+احسب سعر البيتكوين
+إذا كان السعر أكثر من 50000 دولار:
+  أرسل تنبيه "السعر مرتفع" لأحمد
+وإلا:
+  أرسل رسالة "فرصة شراء" لسارة
+`;
+
+// أو بصيغة مختصرة
+await nia`
+راقب سعر الذهب
+وأرسل تنبيه إذا ارتفع أكثر من 5% اليوم
+`;
+
+// شروط متعددة
+await nia`
+إذا كان الطقس مشمس في الدار البيضاء:
+  اقترح نشاطات خارجية
+وإذا كان ممطر:
+  اقترح نشاطات داخلية
+وإلا:
+  اقترح خطة مرنة
+`;</code></pre>
+                </div>
+                
+                <!-- Loops and Automation -->
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4" id="syntax-loops-title">التكرار والأتمتة</h3>
+                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// تكرار تلقائي
+await nia`
+كل يوم في الساعة 8 صباحاً:
+  احسب أداء محفظتي
+  وأرسل تقرير يومي لي
+`;
+
+// تكرار مع شروط
+await nia`
+راقب سعر البيتكوين كل ساعة
+وإذا انخفض أكثر من 10%:
+  أرسل تنبيه فوري
+  واقترح استراتيجية شراء
+`;
+
+// معالجة قوائم
+await nia`
+لكل عملة في محفظتي:
+  احسب الأداء الأسبوعي
+  واحسب نسبة المخاطر
+  واقترح نسبة التخصيص المثلى
+`;</code></pre>
+
+                    <div class="mt-6 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
+                        <button 
+                            @click="openAccordion = openAccordion === 'automation' ? null : 'automation'"
+                            class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-medium text-purple-600">⚙️ كيف تعمل الأتمتة التكيفية؟</span>
+                            <svg :class="openAccordion === 'automation' ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="openAccordion === 'automation'" x-transition class="px-4 py-3 bg-gray-50 text-sm">
+                            <div class="space-y-4">
+                                <div class="bg-blue-100 p-3 rounded">
+                                    <strong>🔄 Interval Manager:</strong> ينشئ cron job كل دقيقة، يدير الـ intervals بذكاء، يوقف التنفيذ عند الأخطاء
+                                </div>
+                                <div class="bg-green-100 p-3 rounded">
+                                    <strong>🧠 Decision Engine:</strong> يقيم الشروط احتمالياً، يحسب المخاطر ديناميكياً، يتعلم من القرارات السابقة
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded">
+                                    <strong>📊 Risk Calculator:</strong> يحسب نسبة المخاطر الحالية، يقارن مع حدود المستخدم، يعدل حجم المراكز تلقائياً
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded">
+                                    <strong>📱 Alert System:</strong> يرسل تنبيهات فورية للبريد، يسجل في قاعدة البيانات، يصعد للمستويات الأعلى عند الطوارئ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Probabilistic Programming Preview -->
+    <section class="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="probabilistic-title">
+                    معاينة: البرمجة الاحتمالية
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="probabilistic-subtitle">
+                    مستقبل البرمجة بدون if/else - عتبات ومسارات ذكية
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-8">
+                <h3 class="text-2xl font-semibold mb-6" id="probabilistic-example-title">مثال: نظام التداول الاحتمالي</h3>
+                <pre class="code-block bg-gray-900 rounded-lg p-6"><code class="javascript">// بدلاً من if/else التقليدي
+if (bitcoinPrice > 50000) {
+  buy();
+} else {
+  sell();
+}
+
+// NiaScript 3.0 - البرمجة الاحتمالية
+await nia`
+راقب سعر البيتكوين مع العتبات التالية:
+
+[عتبة الشراء القوي] 85% ثقة عند السعر > 55000
+[عتبة الشراء المتوسط] 60% ثقة عند السعر > 48000  
+[عتبة الحياد] 40% ثقة عند السعر 45000-48000
+[عتبة البيع المتوسط] 65% ثقة عند السعر < 42000
+[عتبة البيع القوي] 90% ثقة عند السعر < 38000
+
+مع مراعاة العوامل الاحتمالية:
+- مؤشر الخوف والطمع (وزن: 30%)
+- أحجام التداول (وزن: 25%) 
+- الأخبار العالمية (وزن: 20%)
+- التحليل الفني (وزن: 25%)
+
+واتخذ قرار مرجح بناءً على:
+∑(العتبة × الثقة × الوزن) للعوامل المختلفة
+`;</code></pre>
+
+                <!-- Probabilistic What Happens -->
+                <div class="mt-6 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
+                    <button 
+                        @click="openAccordion = openAccordion === 'probabilistic' ? null : 'probabilistic'"
+                        class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-medium text-purple-600">🎲 كيف تعمل البرمجة الاحتمالية؟</span>
+                        <svg :class="openAccordion === 'probabilistic' ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="openAccordion === 'probabilistic'" x-transition class="px-4 py-3 bg-gray-50 text-sm">
+                        <div class="space-y-4">
+                            <div class="bg-purple-100 p-3 rounded">
+                                <strong>🧮 حساب الاحتماليات:</strong>
+                                <div class="text-xs mt-1">
+                                    Decision Score = (0.85 × 0.30 × fear_index) + (0.60 × 0.25 × volume_factor) + (0.20 × 0.20 × news_sentiment) + (0.25 × 0.25 × technical_analysis)
+                                </div>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded">
+                                <strong>🎯 تقييم العتبات:</strong> بدلاً من true/false، كل شرط له درجة ثقة من 0-1، ويتم ترجيح جميع العوامل لاتخاذ القرار الأمثل
+                            </div>
+                            <div class="bg-green-100 p-3 rounded">
+                                <strong>🔄 التعلم التكيفي:</strong> النظام يتعلم من نتائج القرارات السابقة ويعدل الأوزان والعتبات تلقائياً لتحسين الأداء
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded">
+                                <strong>📊 مسارات متعددة:</strong> يمكن تنفيذ عدة إجراءات بنسب مختلفة (مثلاً: 60% شراء + 40% انتظار) بناءً على الثقة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="roadmap-title">
+                    خارطة الطريق المستقبلية
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="roadmap-subtitle">
+                    نحو مستقبل البرمجة الاحتمالية والذكية
                 </p>
             </div>
             
             <div class="max-w-4xl mx-auto">
-                <!-- Installation -->
-                <div class="bg-dark-secondary rounded-xl p-8 mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-download text-primary mr-3"></i>
-                        Installation
-                    </h3>
-                    <div class="code-toolbar">
-                        <pre><code class="language-bash"># Install via npm
-npm install niascript
-
-# Install via yarn
-yarn add niascript
-
-# Install globally
-npm install -g niascript</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                <!-- Current Version -->
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-purple-200 h-full"></div>
+                    
+                    <!-- Version 2.0 - Current -->
+                    <div class="relative flex items-center mb-12">
+                        <div class="flex-1 text-right pr-8">
+                            <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">الإصدار الحالي</div>
+                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v2-title">NiaScript 2.0</h3>
+                            <ul class="text-gray-600 space-y-1" id="roadmap-v2-features">
+                                <li>• فهم النوايا بالذكاء الاصطناعي</li>
+                                <li>• نظام إضافات قابل للتوسيع</li>
+                                <li>• تتبع التكلفة والأداء</li>
+                                <li>• دعم العربية والإنجليزية</li>
+                                <li>• العمليات المركبة والمتغيرات</li>
+                            </ul>
+                        </div>
+                        <div class="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 pl-8"></div>
                     </div>
-                </div>
-                
-                <!-- Basic Setup -->
-                <div class="bg-dark-secondary rounded-xl p-8 mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-rocket text-secondary mr-3"></i>
-                        Plugin-Powered Setup
-                    </h3>
-                    <div class="code-toolbar">
-                        <pre><code class="language-javascript">import { nia, NiaScript } from 'niascript';
-
-// Simple plugin usage with template literals
-const translated = await nia`ترجم للانجليزية: مرحبا`;
-console.log(translated); // "Translation: Hello"
-
-// Email sending
-const emailResult = await nia`ارسل لبريدي admin النص: تقرير جاهز`;
-console.log(emailResult); // "✅ Email sent to admin@example.com"
-
-// File operations via MCP
-const fileContent = await nia`read file package.json`;
-console.log(fileContent); // "📄 File content: {...}"
-
-// Advanced plugin management
-const niaInstance = new NiaScript();
-console.log(`Installed plugins: ${niaInstance.listPlugins().length}`);</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    
+                    <!-- Version 3.0 - Probabilistic -->
+                    <div class="relative flex items-center mb-12">
+                        <div class="flex-1 pr-8"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 text-left pl-8">
+                            <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">قريباً</div>
+                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v3-title">NiaScript 3.0 - البرمجة الاحتمالية</h3>
+                            <ul class="text-gray-600 space-y-1" id="roadmap-v3-features">
+                                <li>• منطق احتمالي بدلاً من if/else التقليدي</li>
+                                <li>• مسارات متعددة مع درجات ثقة</li>
+                                <li>• اتخاذ قرارات مبنية على الاحتماليات</li>
+                                <li>• تعلم من النتائج وتحسين التوقعات</li>
+                                <li>• نظام عتبات ذكية متكيفة</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Environment Variables -->
-                <div class="bg-dark-secondary rounded-xl p-8">
-                    <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
-                        <i class="fas fa-cog text-accent mr-3"></i>
-                        Plugin Environment Configuration
-                    </h3>
-                    <div class="code-toolbar">
-                        <pre><code class="language-bash"># Core AI API (Required)
-OPENAI_API_KEY=your_openai_key_here
-
-# Translation Plugin
-LIBRETRANSLATE_API_URL=https://libretranslate.com/
-GOOGLE_TRANSLATE_API_KEY=your_google_translate_key_here
-
-# Email Plugin
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_app_password
-SENDGRID_API_KEY=your_sendgrid_key_here
-
-# MCP Bridge
-WEATHER_API_KEY=your_weather_key_here
-SEARCH_API_KEY=your_search_key_here
-
-# Plugin System Settings
-NIA_PLUGIN_PATH=./plugins/
-NIA_LOG_LEVEL=info
-NIA_MEMORY_SIZE=1000</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                    
+                    <!-- Version 4.0 - Autonomous -->
+                    <div class="relative flex items-center mb-12">
+                        <div class="flex-1 text-right pr-8">
+                            <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">مستقبلي</div>
+                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v4-title">NiaScript 4.0 - البرمجة المستقلة</h3>
+                            <ul class="text-gray-600 space-y-1" id="roadmap-v4-features">
+                                <li>• كتابة وتعديل الكود تلقائياً</li>
+                                <li>• أنظمة ذاتية التطوير والتحسين</li>
+                                <li>• ذكاء اصطناعي عام مدمج</li>
+                                <li>• تنفيذ مهام معقدة بدون تدخل</li>
+                                <li>• تكامل مع أنظمة المؤسسات</li>
+                            </ul>
+                        </div>
+                        <div class="w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 pl-8"></div>
+                    </div>
+                    
+                    <!-- Version 5.0 - Quantum -->
+                    <div class="relative flex items-center">
+                        <div class="flex-1 pr-8"></div>
+                        <div class="w-4 h-4 bg-gray-400 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 text-left pl-8">
+                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">رؤية طويلة المدى</div>
+                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v5-title">NiaScript 5.0 - الحوسبة الكمية</h3>
+                            <ul class="text-gray-600 space-y-1" id="roadmap-v5-features">
+                                <li>• معالجة متوازية لا محدودة</li>
+                                <li>• حسابات كمية معقدة</li>
+                                <li>• محاكاة سيناريوهات لا نهائية</li>
+                                <li>• ذكاء خارق للعادة</li>
+                                <li>• تشكيل المستقبل بالنوايا</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-dark-secondary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-bold text-white mb-4">Get in Touch</h2>
-            <p class="text-xl text-light-secondary mb-12 max-w-3xl mx-auto">
-                Have questions, suggestions, or want to contribute? We'd love to hear from you.
-            </p>
+    <!-- CPF Project Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="cpf-title">
+                    مشروع CPF - الإصدار الأول
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto" id="cpf-subtitle">
+                    إطار حاسوبي ثوري يدمج 17 مفهوماً معرفياً في نظام احتمالي فيكتوري حي لمحاكاة الإدراك المستمر
+                </p>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <div class="bg-dark/50 p-6 rounded-xl">
-                    <i class="fas fa-envelope text-3xl text-primary mb-4"></i>
-                    <h3 class="text-lg font-semibold text-white mb-2">Email</h3>
-                    <a href="mailto:info@niascipt.com" class="text-accent hover:text-primary transition-colors">
-                        info@niascipt.com
-                    </a>
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4" id="cpf-concept-title">المفهوم الأساسي</h3>
+                        <p class="text-gray-600 mb-6" id="cpf-description">
+                            CPF (Continuous Perception Framework) هو النموذج الأولي الذي مهد الطريق لـ NiaScript. يعتمد على مفاهيم الإدراك المستمر والمعالجة الاحتمالية للبيانات، مما يخلق نظاماً ذكياً قادراً على التكيف والتعلم من البيئة المحيطة.
+                        </p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 space-x-reverse">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-blue-600 font-semibold text-sm">17</span>
+                                </div>
+                                <span class="text-gray-700" id="cpf-concepts">مفهوم معرفي متكامل</span>
+                            </div>
+                            <div class="flex items-center space-x-3 space-x-reverse">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <span class="text-green-600 font-semibold text-sm">∞</span>
+                                </div>
+                                <span class="text-gray-700" id="cpf-continuous">إدراك مستمر وتكيفي</span>
+                            </div>
+                            <div class="flex items-center space-x-3 space-x-reverse">
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <span class="text-purple-600 font-semibold text-sm">Ψ</span>
+                                </div>
+                                <span class="text-gray-700" id="cpf-probabilistic">نظام احتمالي فيكتوري</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-8 rounded-xl mb-6">
+                            <h4 class="text-3xl font-bold mb-2">CPF</h4>
+                            <p class="text-blue-100" id="cpf-framework">Continuous Perception Framework</p>
+                            <div class="text-4xl mt-4">🧠</div>
+                        </div>
+                        
+                        <a href="https://zizwar.github.io/cpf" target="_blank" 
+                           class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <span id="cpf-explore">استكشف CPF</span>
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
                 
-                <div class="bg-dark/50 p-6 rounded-xl">
-                    <i class="fab fa-github text-3xl text-primary mb-4"></i>
-                    <h3 class="text-lg font-semibold text-white mb-2">GitHub</h3>
-                    <a href="https://github.com/zizwar/niascript" class="text-accent hover:text-primary transition-colors">
-                        github.com/zizwar/niascript
-                    </a>
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h4 class="text-lg font-semibold mb-4" id="cpf-evolution-title">التطور من CPF إلى NiaScript</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="bg-blue-100 p-4 rounded-lg mb-3">
+                                <div class="text-2xl mb-2">🔬</div>
+                                <h5 class="font-semibold" id="cpf-research">البحث النظري</h5>
+                            </div>
+                            <p class="text-sm text-gray-600" id="cpf-research-desc">دراسة المفاهيم المعرفية والنظم الاحتمالية</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-green-100 p-4 rounded-lg mb-3">
+                                <div class="text-2xl mb-2">⚙️</div>
+                                <h5 class="font-semibold" id="cpf-implementation">التطبيق العملي</h5>
+                            </div>
+                            <p class="text-sm text-gray-600" id="cpf-implementation-desc">تحويل النظريات إلى نظام قابل للتنفيذ</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-purple-100 p-4 rounded-lg mb-3">
+                                <div class="text-2xl mb-2">🚀</div>
+                                <h5 class="font-semibold" id="cpf-evolution">التطوير لـ NiaScript</h5>
+                            </div>
+                            <p class="text-sm text-gray-600" id="cpf-evolution-desc">لغة برمجة عملية للمطورين</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="installation-title">
+                    التثبيت والبدء
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="installation-subtitle">
+                    ابدأ رحلتك مع NiaScript في دقائق معدودة
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Installation Steps -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-purple-600">1</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" id="step1-title">تثبيت NiaScript</h3>
+                        <p class="text-gray-600" id="step1-desc">ثبت المكتبة عبر npm بأمر واحد بسيط</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-purple-600">2</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" id="step2-title">إعداد المفاتيح</h3>
+                        <p class="text-gray-600" id="step2-desc">أضف مفتاح OpenAI وابدأ الاستخدام</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-purple-600">3</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" id="step3-title">ابدأ البرمجة</h3>
+                        <p class="text-gray-600" id="step3-desc">اكتب أول استعلام وشاهد السحر يحدث</p>
+                    </div>
                 </div>
                 
-                <div class="bg-dark/50 p-6 rounded-xl">
-                    <i class="fas fa-globe text-3xl text-primary mb-4"></i>
-                    <h3 class="text-lg font-semibold text-white mb-2">Website</h3>
-                    <a href="https://niascript.com" class="text-accent hover:text-primary transition-colors">
-                        niascript.com
-                    </a>
+                <!-- Installation Code -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-800 px-6 py-4">
+                        <h3 class="text-white font-semibold" id="installation-code-title">كود التثبيت والإعداد</h3>
+                    </div>
+                    <div class="p-6">
+                        <pre class="code-block"><code class="bash"># 1. تثبيت NiaScript
+npm install -g niascript
+
+# أو للمشروع المحلي
+npm install niascript
+
+# 2. إنشاء ملف البيئة
+echo "OPENAI_API_KEY=your_openai_key_here" > .env
+
+# 3. اختبار التثبيت
+nia ask "مرحباً، هل تعمل بشكل صحيح؟"</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Quick Start Code -->
+                <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-800 px-6 py-4">
+                        <h3 class="text-white font-semibold" id="quickstart-title">البداية السريعة</h3>
+                    </div>
+                    <div class="p-6">
+                        <pre class="code-block"><code class="javascript">// index.js - أول برنامج NiaScript
+import { nia } from 'niascript';
+
+async function main() {
+  // استعلام بسيط
+  const greeting = await nia`مرحباً بي في عالم NiaScript`;
+  console.log(greeting);
+  
+  // استعلام مالي
+  const price = await nia`سعر البيتكوين الآن`;
+  console.log(price);
+  
+  // حساب استثماري
+  const investment = await nia`استثمر 1000 دولار بمعدل 7% لمدة 5 سنوات`;
+  console.log(investment);
+  
+  // عملية مركبة
+  const portfolioValue = await nia`احسب قيمة محفظتي`;
+  const marketAnalysis = await nia`حلل اتجاه السوق`;
+  
+  const decision = await nia`
+    بناءً على:
+    - قيمة المحفظة: ${portfolioValue}
+    - تحليل السوق: ${marketAnalysis}
+    
+    اقترح قرار استثماري ذكي
+  `;
+  
+  console.log('القرار الاستثماري:', decision);
+}
+
+main().catch(console.error);</code></pre>
+                    </div>
+                </div>
+                
+                <!-- CLI Usage -->
+                <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-800 px-6 py-4">
+                        <h3 class="text-white font-semibold" id="cli-usage-title">استخدام سطر الأوامر</h3>
+                    </div>
+                    <div class="p-6">
+                        <pre class="code-block"><code class="bash"># استعلامات مباشرة
+nia ask "ما هو الذكاء الاصطناعي؟"
+nia process "سعر الإيثيريوم"
+
+# عمليات البريد الإلكتروني
+nia email inbox
+nia email send --to ahmed --subject "اجتماع غداً"
+
+# الوضع التفاعلي
+nia interactive
+
+# إحصائيات الاستخدام
+nia stats --detailed
+
+# اختبار النظام
+nia test quick</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark border-t border-dark-tertiary py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <i class="fas fa-robot text-2xl text-primary"></i>
-                    <span class="text-xl font-bold text-white">NiaScript</span>
-                    <span class="text-light-secondary">v1.0.0</span>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-gradient" id="footer-title">NiaScript</h3>
+                    <p class="text-gray-300 mb-4" id="footer-description">
+                        لغة البرمجة بالنوايا - مستقبل التطوير بالذكاء الاصطناعي
+                    </p>
+                    <p class="text-gray-400 text-sm" id="footer-author">
+                        تطوير: إبراهيم بيدي
+                    </p>
                 </div>
                 
-                <div class="flex items-center space-x-6">
-                    <a href="https://github.com/zizwar/niascript" class="text-light-secondary hover:text-primary transition-colors">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
-                    <a href="https://www.npmjs.com/package/niascript" class="text-light-secondary hover:text-primary transition-colors">
-                        <i class="fab fa-npm text-xl"></i>
-                    </a>
+                <div>
+                    <h4 class="font-semibold mb-4" id="footer-links-title">روابط مفيدة</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#installation" class="hover:text-white transition-colors">التثبيت</a></li>
+                        <li><a href="#examples" class="hover:text-white transition-colors">الأمثلة</a></li>
+                        <li><a href="#syntax" class="hover:text-white transition-colors">الصيغة</a></li>
+                        <li><a href="#roadmap" class="hover:text-white transition-colors">الخارطة</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4" id="footer-resources-title">المصادر</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="https://github.com/zizwar/niascript" target="_blank" class="hover:text-white transition-colors flex items-center">
+                            GitHub
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a></li>
+                        <li><a href="https://zizwar.github.io/cpf" target="_blank" class="hover:text-white transition-colors flex items-center">
+                            مشروع CPF
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">npm Package</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">الوثائق</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4" id="footer-contact-title">اتصل بنا</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>📧 contact@niascript.com</li>
+                        <li>🐦 @niascript</li>
+                        <li>💬 Discord Community</li>
+                        <li>📱 Telegram Group</li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-dark-tertiary text-center text-light-secondary">
-                <p>&copy; 2025 NiaScript. Released under MIT License.</p>
-                <p class="mt-2">Built with ❤️ for the developer community</p>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p id="footer-copyright">
+                    © 2024 NiaScript. جميع الحقوق محفوظة.
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Prism.js for code highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    
+    <!-- Scroll to top button -->
+    <button 
+        @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+        x-show="window.pageYOffset > 300"
+        class="fixed bottom-8 right-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Floating Action Button -->
+    <div id="fab" class="fixed bottom-20 left-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors cursor-pointer z-50 hidden md:block"
+         onclick="runDemo('investment')" title="تجربة سريعة">
+        🚀
+    </div>
+
     <script>
-        // Copy code functionality
-        function copyCode(button) {
-            const codeBlock = button.parentElement.querySelector('code');
-            const text = codeBlock.textContent;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i>';
-                button.style.background = '#10b981';
-                
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.style.background = '#6366f1';
-                }, 2000);
-            });
-        }
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+        
+        // Re-highlight code when accordion opens
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[x-data] button')) {
+                setTimeout(() => hljs.highlightAll(), 100);
+            }
+        });
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -638,34 +1183,131 @@ NIA_MEMORY_SIZE=1000</code></pre>
             });
         });
         
-        // Mobile menu toggle (if needed)
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+        // Auto-cycle through examples every 8 seconds
+        setInterval(() => {
+            const exampleContainer = document.querySelector('[x-data]');
+            if (exampleContainer && exampleContainer.__x) {
+                const data = exampleContainer.__x.$data;
+                if (data.examples && data.examples.list) {
+                    data.currentExample = (data.currentExample + 1) % data.examples.list.length;
+                }
+            }
+        }, 8000);
+
+        // Demo functionality
+        function runDemo(demoType) {
+            const output = document.getElementById('demo-output');
+            const scenarios = {
+                'crypto': {
+                    command: 'nia "سعر البيتكوين الآن"',
+                    output: '✅ Bitcoin price: $67,834.52 USD\n💹 24h change: +3.2%\n📊 Market cap: $1.34T'
+                },
+                'investment': {
+                    command: 'nia "استثمر 10000 دولار بمعدل 7% لمدة 8 سنوات"',
+                    output: '✅ Investment of $10,000 at 7% annually for 8 years = $17,182.25\n💰 Total profit: $7,182.25\n📈 ROI: 71.8%'
+                },
+                'composite': {
+                    command: 'nia "احسب قيمة محفظتي وأرسل تقرير للمدير"',
+                    output: '✅ Portfolio value: $45,620.30 (+12.4% this month)\n📧 Report sent to manager@company.com\n📊 Performance summary included'
+                }
+            };
+            
+            const demo = scenarios[demoType] || scenarios['crypto'];
+            document.getElementById('demo-command').textContent = demo.command;
+            
+            // Simulate typing animation
+            output.innerHTML = '<span class="text-yellow-400">جاري المعالجة...</span>';
+            
+            setTimeout(() => {
+                output.innerHTML = demo.output;
+            }, 1200);
+        }
+
+        // Add copy code functionality
+        function addCopyButtons() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                const button = document.createElement('button');
+                button.className = 'absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-xs hover:bg-gray-600 transition-colors';
+                button.textContent = 'نسخ';
+                button.onclick = () => {
+                    navigator.clipboard.writeText(block.textContent);
+                    button.textContent = '✅ تم النسخ';
+                    setTimeout(() => button.textContent = 'نسخ', 2000);
+                };
+                
+                block.parentElement.style.position = 'relative';
+                block.parentElement.appendChild(button);
             });
         }
-        
-        // Add fade-in animation to elements when they come into view
+
+        // Add scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            const progressBar = document.getElementById('scroll-progress');
+            if (progressBar) {
+                progressBar.style.width = scrolled + '%';
+            }
+        });
+
+        // Show/hide FAB based on scroll position
+        window.addEventListener('scroll', () => {
+            const fab = document.getElementById('fab');
+            if (window.scrollY > 500) {
+                fab.style.display = 'block';
+            } else {
+                fab.style.display = 'none';
+            }
+        });
+
+        // Add intersection observer for animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    entry.target.classList.add('animate-fade-in');
                 }
             });
         }, observerOptions);
-        
-        // Observe all sections
+
+        // Observe all sections for animation
         document.querySelectorAll('section').forEach(section => {
             observer.observe(section);
         });
+
+        // Add mobile menu close on link click
+        document.querySelectorAll('[x-data] a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                const component = link.closest('[x-data]');
+                if (component && component.__x) {
+                    component.__x.$data.showMobileMenu = false;
+                }
+            });
+        });
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 NiaScript Documentation loaded successfully');
+            console.log('💡 Try the interactive demos in the hero section');
+            console.log('🔍 Use the floating action button for quick demos');
+            
+            // Initialize copy buttons after a delay
+            setTimeout(addCopyButtons, 1000);
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+D for demo
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                runDemo('crypto');
+            }
+        });
     </script>
 </body>
-</html>
