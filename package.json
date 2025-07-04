@@ -1,24 +1,32 @@
 {
-{
   "bin": {
     "nia": "./bin/nia-cli.js"
   },
+  "type": "module",
   "scripts": {
     "start": "node examples/enhanced-demo.js",
+    "start:env": "node -r dotenv/config examples/enhanced-demo.js",
     "cli": "node bin/nia-cli.js",
+    "cli:env": "node -r dotenv/config bin/nia-cli.js",
     "test": "node bin/nia-cli.js test",
+    "test:env": "node -r dotenv/config bin/nia-cli.js test",
     "interactive": "node bin/nia-cli.js interactive",
+    "interactive:env": "node -r dotenv/config bin/nia-cli.js interactive",
     "dev": "nodemon examples/enhanced-demo.js",
-        "rmail": "nodemon examples/email-demo.js",
+    "dev:env": "nodemon -r dotenv/config examples/enhanced-demo.js",
+    "email": "nodemon examples/email-demo.js",
+    "email:env": "nodemon -r dotenv/config examples/email-demo.js",
     "build": "rollup -c",
     "docs": "jsdoc -d docs src/",
     "stats": "node bin/nia-cli.js stats",
+    "stats:env": "node -r dotenv/config bin/nia-cli.js stats",
     "install-global": "npm install -g ."
   },
   "dependencies": {
-    "commander": "^11.0.0",
     "axios": "^1.6.0",
     "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "dotenv": "^17.0.1",
     "inquirer": "^9.2.0",
     "openai": "^4.0.0"
   },
@@ -30,7 +38,7 @@
   },
   "keywords": [
     "ai",
-    "nlp", 
+    "nlp",
     "intent",
     "programming",
     "plugins",

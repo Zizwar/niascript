@@ -38,18 +38,16 @@ export class Logger {
     
     if (this.levels[this.level] <= 1) {
       let output = chalk.green('✅') + chalk.gray(` [${sessionId.slice(-6)}]`);
-      
-‎      // إضافة التوقيت إذا كان مطلوباً
+          // إضافة التوقيت إذا كان مطلوباً
       if (this.showTiming) {
         output += chalk.yellow(` ${duration}ms`);
       }
       
-‎      // إضافة التكلفة إذا كانت متوفرة
+  // إضافة التكلفة إذا كانت متوفرة
       if (this.showCost && result.cost) {
         output += chalk.magenta(` $${result.cost.toFixed(4)}`);
       }
-      
-‎      // النتيجة المختصرة
+          // النتيجة المختصرة
       const resultPreview = typeof result.data === 'string' ? 
         result.data.substring(0, 60) + (result.data.length > 60 ? '...' : '') :
         `${result.success ? 'Success' : 'Failed'}`;
@@ -73,7 +71,7 @@ export class Logger {
       output += ` ${error.message}`;
       console.log(output);
       
-‎      // تفاصيل إضافية في حالة الخطأ الحرج
+   // تفاصيل إضافية في حالة الخطأ الحرج
       if (this.levels[this.level] <= 0 && error.stack) {
         console.log(chalk.gray('   └─ Stack:'), error.stack.split('\n')[1]?.trim());
       }
@@ -106,7 +104,7 @@ export class Logger {
     this.level = level;
   }
 
-‎  // دالة لطباعة إحصائيات دورية
+ // دالة لطباعة إحصائيات دورية
   printStats(stats) {
     if (this.levels[this.level] <= 1) {
       console.log('\n' + chalk.blue('📊 NiaScript Stats:'));
