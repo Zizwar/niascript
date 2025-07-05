@@ -120,6 +120,7 @@
 <body class="bg-gray-50 text-gray-800" x-data="{ 
     currentSection: 'hero',
     showMobileMenu: false,
+    openAccordion: null,
     examples: {
         current: 0,
         list: [
@@ -412,7 +413,7 @@ const result = await nia`
 `;</code></pre>
 
                     <!-- What Happens for Complex Example -->
-                    <div class="mt-4 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
+                    <div class="mt-4 border border-gray-200 rounded-lg">
                         <button 
                             @click="openAccordion = openAccordion === 'complex1' ? null : 'complex1'"
                             class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
@@ -1177,7 +1178,15 @@ nia test quick</code></pre>
         // Re-highlight code when accordion opens
         document.addEventListener('click', function(e) {
             if (e.target.closest('[x-data] button')) {
-                setTimeout(() => hljs.highlightAll(), 100);
+                setTimeout(() => {
+                    // Remove previous highlighting to avoid duplicates
+                    document.querySelectorAll('code[data-highlighted="yes"]').forEach(el => {
+                        el.removeAttribute('data-highlighted');
+                        el.className = el.className.replace(/hljs[\w\-\s]*/g, '').trim();
+                    });
+                    // Re-highlight all code blocks
+                    hljs.highlightAll();
+                }, 100);
             }
         });
         
@@ -1219,29 +1228,40 @@ nia test quick</code></pre>
                     const response = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
                     const data = await response.json();
                     
-                    const price = parseFloat(data.price).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                    });
-                    const change = parseFloat(data.priceChangePercent).toFixed(2);
-                    const volume = parseFloat(data.volume).toLocaleString();
-                    
-                    const command = 'nia "سعر البيتكوين الآن"';
-                    const realOutput = `✅ Bitcoin price: ${price}\n💹 24h change: ${change}%\n📊 24h volume: ${volume} BTC\n⚡ Live data from Binance API`;
-                    
-                    document.getElementById('demo-command').textContent = command;
-                    output.innerHTML = realOutput;
-                    return;
+                    if (data.price && !isNaN(parseFloat(data.price))) {
+                        const price = parseFloat(data.price).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                        });
+                        const change = parseFloat(data.priceChangePercent).toFixed(2);
+                        const volume = parseFloat(data.volume).toLocaleString();
+                        
+                        const command = 'nia "سعر البيتكوين الآن"';
+                        const realOutput = `✅ Bitcoin price: ${price}\n💹 24h change: ${change}%\n📊 24h volume: ${volume} BTC\n⚡ Live data from Binance API`;
+                        
+                        document.getElementById('demo-command').textContent = command;
+                        output.innerHTML = realOutput;
+                        return;
+                    } else {
+                        throw new Error('Invalid price data received');
+                    }
                 } catch (error) {
                     console.error('Error fetching Bitcoin price:', error);
-                    // Fallback to mock data
+                    // Use fallback price as specified
+                    const fallbackPrice = '$103,321.00';
+                    const command = 'nia "سعر البيتكوين الآن"';
+                    const fallbackOutput = `✅ Bitcoin price: ${fallbackPrice}\n💹 24h change: +2.1%\n📊 Market cap: $2.04T\n⚠️ Fallback data - API unavailable`;
+                    
+                    document.getElementById('demo-command').textContent = command;
+                    output.innerHTML = fallbackOutput;
+                    return;
                 }
             }
             
             const scenarios = {
                 'crypto': {
                     command: 'nia "سعر البيتكوين الآن"',
-                    output: '✅ Bitcoin price: $67,834.52 USD\n💹 24h change: +3.2%\n📊 Market cap: $1.34T\n⚠️ Mock data - API unavailable'
+                    output: '✅ Bitcoin price: $103,321.00 USD\n💹 24h change: +2.1%\n📊 Market cap: $2.04T\n⚠️ Fallback data - API unavailable'
                 },
                 'investment': {
                     command: 'nia "استثمر 10000 دولار بمعدل 7% لمدة 8 سنوات"',
@@ -1280,7 +1300,7 @@ nia test quick</code></pre>
                 // Fetch real crypto data
                 const btcResponse = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
                 const btcData = await btcResponse.json();
-                const btcPrice = parseFloat(btcData.price);
+                const btcPrice = btcData.price && !isNaN(parseFloat(btcData.price)) ? parseFloat(btcData.price) : 103321;
                 
                 await new Promise(resolve => setTimeout(resolve, 500));
                 outputDiv.innerHTML += '<div class="text-green-300">✅ BTC: $' + btcPrice.toFixed(2) + '</div>';
@@ -1351,7 +1371,7 @@ nia test quick</code></pre>
                 await new Promise(resolve => setTimeout(resolve, 700));
                 
                 // Generate predictions
-                const currentPrice = 67500 + Math.random() * 5000;
+                const currentPrice = 103321 + Math.random() * 5000;
                 const predictions = [];
                 for (let i = 1; i <= 7; i++) {
                     const change = (Math.random() - 0.5) * 0.1; // ±5% change
