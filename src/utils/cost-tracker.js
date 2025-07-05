@@ -66,7 +66,7 @@ export class CostTracker {
   }
 
   calculateOpenAICost(response) {
-‎    // تكلفة GPT-3.5-turbo: $0.002 per 1K tokens
+  // تكلفة GPT-3.5-turbo: $0.002 per 1K tokens
     const inputTokens = response.usage?.prompt_tokens || 0;
     const outputTokens = response.usage?.completion_tokens || 0;
     
@@ -123,13 +123,13 @@ export class CostTracker {
       .reduce((total, item) => total + (item.cost || 0), 0);
   }
 
-‎  // تنظيف البيانات القديمة (احتفظ بآخر 24 ساعة فقط)
+ // تنظيف البيانات القديمة (احتفظ بآخر 24 ساعة فقط)
   cleanup() {
     const dayAgo = Date.now() - (24 * 60 * 60 * 1000);
     this.costs = this.costs.filter(c => c.timestamp > dayAgo);
   }
 
-‎  // تصدير إحصائيات مفصلة
+// تصدير إحصائيات مفصلة
   exportStats() {
     return {
       summary: {

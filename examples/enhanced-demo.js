@@ -256,8 +256,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     await testVariousScenarios();
   })().catch(console.error);
 }
-
-export { demonstrateEnhancedFeatures, testVariousScenarios };
+//
+//export { demonstrateEnhancedFeatures, testVariousScenarios };
 
 // Configuration examples لملف منفصل
 const configExamples = {

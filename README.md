@@ -531,8 +531,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Brahim BIDI**
 
-- GitHub: [@brahimbidi](https://github.com/brahimbidi)
-- Email: brahim.bidi@example.com
+- GitHub: [@brahimbidi](https://github.com/zizwar)
+- Email: contact@niascript.com
 
 ## 🙏 Acknowledgments
 

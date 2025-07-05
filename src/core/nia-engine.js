@@ -392,4 +392,4 @@ nia.clearContext = () => {
   globalEngine.conversationContext = [];
 };
 
-export { NiaEngine };
+//export { NiaEngine };
