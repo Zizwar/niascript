@@ -4,102 +4,269 @@
   <meta charset="UTF-8">
   <title>شجرة العائلة</title>
   <style>
+    @media print {
+      body { margin: 0; }
+      .container { height: 297mm; width: 210mm; }
+    }
+    
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-    }
-    body {
-      background: url("https://www.niascript.com/arbre.png") center top no-repeat;
-      background-size: contain;
-      background-color: white;
+      height: 100vh;
       font-family: "Arial", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 12vh;
     }
+    
     .container {
-      width: 60%;
-      max-width: 60vw;
-      aspect-ratio: 1 / 1.2;
-      background: rgba(255, 255, 255, 0.85);
-      border: 3px solid #2e7d32;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(9, 1fr);
-      gap: 0.3em;
-      padding: 1em;
-      box-sizing: border-box;
-    }
-    .name {
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto;
+      position: relative;
+      background: white;
+      overflow: hidden;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 0.8em; /* تصغير الخط */
+      /*background-image: url("https://clipground.com/images/realistic-tree-clipart-4.jpg");*/
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 130% auto;
+      
+      opacity: 1;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("https://clipground.com/images/realistic-tree-clipart-4.jpg");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 135% auto;
+      opacity: 0.3;
+      z-index: 1;
+    }
+    
+    .side {
+      width: 35%;
+      height: 100%;
+      position: relative;
+      padding: 20px 5px;
+      box-sizing: border-box;
+      z-index: 2;
+    }
+    
+    .right-side {
+      margin-right: auto;
+    }
+    
+    .left-side {
+      margin-left: auto;
+    }
+    
+    .name {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid #2e7d32;
+      border-radius: 8px;
+      padding: 4px 6px;
+      font-size: 9px;
       font-weight: bold;
-      color: #000000; /* اللون الأسود */
+      color: #1a1a1a;
       text-align: center;
-      padding: 0.4em;
-      border: 1px solid #444; /* إطار رمادي داكن حول كل اسم */
-      border-radius: 6px;
-      background-color: #fff;
-      box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+      max-width: 70px;
+      word-wrap: break-word;
+      line-height: 1.2;
+      transition: transform 0.2s ease;
+      z-index: 3;
+    }
+    
+    .name:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    
+    /* توزيع الأسماء على الجانب الأيمن - مسافات أكبر وتوزيع للحواشي */
+    /* الصف الأول */
+    .right-side .name:nth-child(1) { top: 60px; right: 2px; }
+    .right-side .name:nth-child(2) { top: 65px; right: 80px; }
+    .right-side .name:nth-child(3) { top: 70px; right: 158px; }
+    
+    /* الصف الثاني */
+    .right-side .name:nth-child(4) { top: 150px; right: 8px; }
+    .right-side .name:nth-child(5) { top: 145px; right: 86px; }
+    .right-side .name:nth-child(6) { top: 155px; right: 164px; }
+    
+    /* الصف الثالث */
+    .right-side .name:nth-child(7) { top: 240px; right: 5px; }
+    .right-side .name:nth-child(8) { top: 235px; right: 83px; }
+    .right-side .name:nth-child(9) { top: 245px; right: 161px; }
+    
+    /* الصف الرابع */
+    .right-side .name:nth-child(10) { top: 330px; right: 10px; }
+    .right-side .name:nth-child(11) { top: 335px; right: 88px; }
+    .right-side .name:nth-child(12) { top: 325px; right: 166px; }
+    
+    /* الصف الخامس */
+    .right-side .name:nth-child(13) { top: 420px; right: 3px; }
+    .right-side .name:nth-child(14) { top: 415px; right: 81px; }
+    .right-side .name:nth-child(15) { top: 425px; right: 159px; }
+    
+    /* الصف السادس */
+    .right-side .name:nth-child(16) { top: 510px; right: 7px; }
+    .right-side .name:nth-child(17) { top: 515px; right: 85px; }
+    .right-side .name:nth-child(18) { top: 505px; right: 163px; }
+    
+    /* الصف السابع */
+    .right-side .name:nth-child(19) { top: 600px; right: 4px; }
+    .right-side .name:nth-child(20) { top: 605px; right: 82px; }
+    .right-side .name:nth-child(21) { top: 595px; right: 160px; }
+    
+    /* الصف الثامن */
+    .right-side .name:nth-child(22) { top: 690px; right: 9px; }
+    .right-side .name:nth-child(23) { top: 685px; right: 87px; }
+    .right-side .name:nth-child(24) { top: 695px; right: 165px; }
+    
+    /* توزيع الأسماء على الجانب الأيسر - مسافات أكبر وتوزيع للحواشي */
+    /* الصف الأول */
+    .left-side .name:nth-child(1) { top: 70px; left: 6px; }
+    .left-side .name:nth-child(2) { top: 65px; left: 84px; }
+    .left-side .name:nth-child(3) { top: 75px; left: 162px; }
+    
+    /* الصف الثاني */
+    .left-side .name:nth-child(4) { top: 160px; left: 3px; }
+    .left-side .name:nth-child(5) { top: 165px; left: 81px; }
+    .left-side .name:nth-child(6) { top: 155px; left: 159px; }
+    
+    /* الصف الثالث */
+    .left-side .name:nth-child(7) { top: 250px; left: 9px; }
+    .left-side .name:nth-child(8) { top: 245px; left: 87px; }
+    .left-side .name:nth-child(9) { top: 255px; left: 165px; }
+    
+    /* الصف الرابع */
+    .left-side .name:nth-child(10) { top: 340px; left: 5px; }
+    .left-side .name:nth-child(11) { top: 335px; left: 83px; }
+    .left-side .name:nth-child(12) { top: 345px; left: 161px; }
+    
+    /* الصف الخامس */
+    .left-side .name:nth-child(13) { top: 430px; left: 2px; }
+    .left-side .name:nth-child(14) { top: 435px; left: 80px; }
+    .left-side .name:nth-child(15) { top: 425px; left: 158px; }
+    
+    /* الصف السادس */
+    .left-side .name:nth-child(16) { top: 520px; left: 8px; }
+    .left-side .name:nth-child(17) { top: 515px; left: 86px; }
+    .left-side .name:nth-child(18) { top: 525px; left: 164px; }
+    
+    /* الصف السابع */
+    .left-side .name:nth-child(19) { top: 610px; left: 4px; }
+    .left-side .name:nth-child(20) { top: 605px; left: 82px; }
+    .left-side .name:nth-child(21) { top: 615px; left: 160px; }
+    
+    /* الصف الثامن */
+    .left-side .name:nth-child(22) { top: 700px; left: 7px; }
+    .left-side .name:nth-child(23) { top: 705px; left: 85px; }
+    .left-side .name:nth-child(24) { top: 695px; left: 163px; }
+    
+    /* الصف التاسع */
+    .left-side .name:nth-child(25) { top: 790px; left: 6px; }
+    .left-side .name:nth-child(26) { top: 785px; left: 84px; }
+    .left-side .name:nth-child(27) { top: 795px; left: 162px; }
+    
+    .title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #2e7d32;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid #2e7d32;
+      z-index: 20;
+    }
+    
+    @media screen and (max-width: 1000px) {
+      .container {
+        width: 100vw;
+        height: 141vw; /* نسبة A4 */
+        transform-origin: top left;
+      }
+      .name {
+        font-size: 9px;
+        padding: 4px 6px;
+        max-width: 140px;
+      }
+      .title {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="name">الفقيه السيد العربي بن عباس</div>
-    <div class="name">القائد السيد محمد برشيد</div>
-    <div class="name">القائد السيد احمد بن العربي</div>
-    <div class="name">السيد محمد بن العربي</div>
-    <div class="name">السيد قاسم بن العربي</div>
-    <div class="name">السيد الحاج أحماد بن العربي</div>
-    <div class="name">السيدة العلجة بنت الفقيه السيد العربي بن عباس</div>
-    <div class="name">القائد السيد عبد السلام برشيد</div>
-    <div class="name">الخليفة السيد الحاج محمد برشيد</div>
-    <div class="name">السيد الفاطمي برشيد</div>
-    <div class="name">السيدة صائلة بنت القائد محمد برشيد</div>
-    <div class="name">السيدة الزهراء بنت القائد محمد برشيد</div>
-    <div class="name">السيدة مالكة بنت القائد محمد برشيد</div>
-    <div class="name">السلطان المولى محمد بن عبد الرحمن بن هاشم</div>
-    <div class="name">الباشا السيد الحاج محمد برشيد</div>
-    <div class="name">السيدة فاطنة بنت القائد أحمد بن العربي</div>
-    <div class="name">السيدة شامة بنت القائد أحمد بن العربي</div>
-    <div class="name">السيدة أمنة بنت القائد أحمد بن العربي</div>
-    <div class="name">السيدة خدوج بنت القائد أحمد بن العربي</div>
-    <div class="name">الخليفة السيد محمد المدعو حمو الفحل</div>
-    <div class="name">السيدة الزهراء بنت محمد المدعوة ماما زهراء</div>
-    <div class="name">الخليفة السيد محمد بن قاسم</div>
-    <div class="name">العلامة السيد المكي بن الحاج أحماد بن العربي</div>
-    <div class="name">السيد الحاج علي بن إبراهيم العبوبي</div>
-    <div class="name">الشيخ دحان بن إدريس</div>
-    <div class="name">الشريف مولاي عبد الله الوزاني</div>
-    <div class="name">الشريف سيدي الحاج إدريس الوزاني</div>
-    <div class="name">الشيخ السيد محمد الحبيب بن الغندور</div>
-    <div class="name">السيد عبد الله المسعودي المدعو الجمل</div>
-    <div class="name">السيد بوعزة بن عمار</div>
-    <div class="name">السيد بوعزة بن الأحسن المدعو الريكط</div>
-    <div class="name">السيد بوعزة بالخياطي المدعو غلف</div>
-    <div class="name">السيد محمد بن عبد الرحمن الزموري</div>
-    <div class="name">السيد الحاج عبد الله بن جدية</div>
-    <div class="name">السيد محمد القرواني</div>
-    <div class="name">الشيخ امحمد الدقوني</div>
-    <div class="name">السيد العربي بن امسيك</div>
-    <div class="name">السيد الحاج علي بن عبد الله الهواري</div>
-    <div class="name">السيد الحاج إدريس الطالبي</div>
-    <div class="name">السيد القائد بن بوشعيب</div>
-    <div class="name">السيد التهامي بن الشافعي</div>
-    <div class="name">السيد الحاج محمد الأخيري</div>
-    <div class="name">القائد السيد العربي العمري</div>
-    <div class="name">السيد مصطفى بن الحاج عبد السلام فتيح</div>
-    <div class="name">السيد الحاج أحمد بومهدي</div>
-    <div class="name">السيد محمد بناصر</div>
-    <div class="name">السيد أحمد بن محمد براد</div>
-    <div class="name">السيد الحسين بن قانية</div>
-    <div class="name">الخليفة السيد الحاج احمد بن الشيخ الحسين عكاشة</div>
-    <div class="name">السيد عمبري محمد بن القرواني بن عبد الرحمن بن قاسم</div>
+    <div class="title">شجرة الأنساب</div>
+    
+    <!-- الجانب الأيمن -->
+    <div class="side right-side">
+      <div class="name">الفقيه السيد العربي بن عباس</div>
+      <div class="name">القائد السيد محمد برشيد</div>
+      <div class="name">القائد السيد احمد بن العربي بن عباس</div>
+      <div class="name">السيد محمد بن العربي</div>
+      <div class="name">السيد قاسم بن العربي</div>
+      <div class="name">السيد الحاج أحماد بن العربي</div>
+      <div class="name">السيدة العلجة بنت الفقيه السيد العربي بن عباس</div>
+      <div class="name">السيد عبد السلام بن القائد محمد برشيد</div>
+      <div class="name">الخليفة السيد الحاج محمد بن القائد محمد برشيد</div>
+      <div class="name">السيد الفاطمي بن القائد محمد برشيد</div>
+      <div class="name">السيدة صائلة بنت القائد محمد برشيد</div>
+      <div class="name">السيدة الزهراء بنت القائد محمد برشيد</div>
+      <div class="name">السيدة مالكة بنت القائد محمد برشيد</div>
+      <div class="name">السلطان المولى محمد بن عبد الرحمن بن هاشم</div>
+      <div class="name">السيد الحاج محمد بن عبد الرحمن الزموري</div>
+      <div class="name">السيدة فاطنة بنت القائد أحمد بن العربي</div>
+      <div class="name">السيدة شامة بنت القائد أحمد بن العربي</div>
+      <div class="name">السيدة أمنة بنت القائد أحمد بن العربي</div>
+      <div class="name">السيدة خدوج بنت القائد أحمد بن العربي</div>
+      <div class="name">الخليفة السيد محمد السكار بن الخليفة محمد المدعو حمو الفحل</div>
+      <div class="name">السيدة الزهراء بنت السيد محمد بن العربي المدعوة ماما زهراء</div>
+      <div class="name">الخليفة السيد محمد بن قاسم بن العربي بن عباس</div>
+      <div class="name">العلامة السيد المكي بن الحاج أحماد بن العربي</div>
+      <div class="name">السيد الحاج علي بن إبراهيم العبوبي</div>
+    </div>
+    
+    <!-- الجانب الأيسر -->
+    <div class="side left-side">
+      <div class="name">السيد الحاج بليوط بوشنتوف</div>
+      <div class="name">الشريف مولاي عبد الله الوزاني دار الظمانة الرباط</div>
+      <div class="name">الحاج إدريس بن الحاج الحسين حسني</div>
+      <div class="name">الشيخ السيد محمد الحبيب بن الحاج الغندور</div>
+      <div class="name">السيد عبد الله المسعودي المدعو الجمل</div>
+      <div class="name">السيد بوعزة بن عمار</div>
+      <div class="name">السيد أحمد بن محمد اشعيرة</div>
+      <div class="name">السيد بوعزة بالخياطي المدعو غلف</div>
+      <div class="name">السيد محمد بن عبد القادر الطنجي</div>
+      <div class="name">السيد الحاج عبد الله بن جدية</div>
+      <div class="name">السيد محمد بن الحاج أحمد القرواني</div>
+      <div class="name">السيد الحاج بوشعيب بن السي الطيب الرويسي</div>
+      <div class="name">السيد العربي بن عبد الكريم بن بوعزة بن المسيك</div>
+      <div class="name">السيد الحاج علي بن عبد الله أبو النعيم الهواري</div>
+      <div class="name">السيد الحاج إدريس بن الحاج التهامي الطالبي</div>
+      <div class="name">السيد التهامي بن الشافعي</div>
+      <div class="name">السيد الحاج محمد الأخيري</div>
+      <div class="name">القائد السيد العربي العمري</div>
+      <div class="name">السيد مصطفى بن الحاج عبد السلام فتيح</div>
+      <div class="name">السيد الحاج أحمد بن الحاج عبد السلام بومهدي</div>
+      <div class="name">السيد محمد بناصر</div>
+      <div class="name">السيد محمد بن الجيلالي بن إسماعيل براد</div>
+      <div class="name">السيد الحسين بن قانية</div>
+      <div class="name">الخليفة السيد الحاج احمد بن الشيخ الحسين بن أحمد بن قاسم عكاشة</div>
+      <div class="name">السيد عمبري محمد بن القرواني بن عبد الرحمن بن قاسم</div>
+      <div class="name">السيد الحاج عبد القادر بوعلام الدكالي</div>
+    </div>
   </div>
 </body>
 </html>
