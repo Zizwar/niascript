@@ -25,6 +25,7 @@
   "stats:env": "node -r dotenv/config bin/nia-cli.js stats",
   "install-global": "npm install -g .",
   "demo:simple": "node examples/simple-demo.js",
+  "demo:local": "node examples/demo-local.js",
   "demo:ai": "node examples/ai-demo.js",
   "demo:ai:env": "node -r dotenv/config examples/ai-demo.js",
   "test:ai": "node test/nia-ai.test.js"
