@@ -2,10 +2,6 @@
 import { nia, NiaAI } from '../src/core/nia-ai.js';
 import chalk from 'chalk';
 
-// تعيين API Key
-process.env.OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY ||
-  "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";
-
 console.log(chalk.cyan.bold('\n🚀 NiaAI - النظام الجديد المبسط\n'));
 console.log(chalk.gray('الاعتماد على AI بالكامل - لا plugins تقليدية\n'));
 
