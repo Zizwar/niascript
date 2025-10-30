@@ -1,6 +1,7 @@
 // src/core/nia-ai.js - النواة الجديدة المبسطة
 // الاعتماد الكامل على AI - لا plugins تقليدية
 
+import OpenAI from 'openai';
 import { Logger } from '../utils/smart-logger.js';
 
 /**
@@ -15,7 +16,17 @@ import { Logger } from '../utils/smart-logger.js';
 export class NiaAI {
   constructor(options = {}) {
     this.apiKey = options.apiKey || process.env.OPENROUTER_API_KEY;
-    this.baseURL = 'https://openrouter.ai/api/v1';
+
+    // استخدام مكتبة OpenAI مع OpenRouter baseURL
+    this.openai = new OpenAI({
+      apiKey: this.apiKey,
+      baseURL: 'https://openrouter.ai/api/v1',
+      defaultHeaders: {
+        'HTTP-Referer': 'https://niascript.dev',
+        'X-Title': 'NiaScript'
+      }
+    });
+
     this.logger = new Logger({
       level: options.logLevel || 'info',
       showCost: true,
@@ -212,60 +223,41 @@ export class NiaAI {
   }
 
   /**
-   * استدعاء OpenRouter API
+   * استدعاء OpenRouter API باستخدام مكتبة OpenAI
    */
   async callAI(model, messages, tools = null) {
-    // استخدام axios بدلاً من fetch للتوافق الأفضل
-    const axios = (await import('axios')).default;
-
-    const headers = {
-      'Authorization': `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://niascript.dev',
-      'X-Title': 'NiaScript'
-    };
-
-    const body = {
-      model: model,
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 1000
-    };
-
-    // إضافة tools إذا كانت متاحة
-    if (tools && tools.length > 0) {
-      body.tools = tools;
-      body.tool_choice = 'auto';
-    }
-
     try {
-      const response = await axios.post(`${this.baseURL}/chat/completions`, body, {
-        headers: headers,
-        timeout: 30000
-      });
+      const params = {
+        model: model,
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 1000
+      };
 
-      const data = response.data;
-      const choice = data.choices[0];
+      // إضافة tools إذا كانت متاحة
+      if (tools && tools.length > 0) {
+        params.tools = tools;
+        params.tool_choice = 'auto';
+      }
+
+      const response = await this.openai.chat.completions.create(params);
+
+      const choice = response.choices[0];
 
       return {
         content: choice.message.content,
         tool_calls: choice.message.tool_calls,
         reasoning: choice.message.reasoning,
-        usage: data.usage,
-        model: data.model
+        usage: response.usage,
+        model: response.model
       };
 
     } catch (error) {
-      if (error.response) {
-        // خطأ من API
-        const errorMsg = error.response.data?.error?.message || error.response.statusText;
-        throw new Error(`OpenRouter API Error: ${errorMsg}`);
-      } else if (error.request) {
-        // لم يتم تلقي استجابة
-        throw new Error('No response from OpenRouter API. Check your internet connection.');
+      // معالجة أخطاء OpenAI SDK
+      if (error.status) {
+        throw new Error(`OpenRouter API Error (${error.status}): ${error.message}`);
       } else {
-        // خطأ في الإعداد
-        throw new Error(`Request setup error: ${error.message}`);
+        throw new Error(`Request error: ${error.message}`);
       }
     }
   }
