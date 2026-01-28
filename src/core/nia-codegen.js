@@ -22,7 +22,7 @@ export class NiaCodeGen {
   constructor(config = {}) {
     this.apiKey = config.apiKey || process.env.OPENROUTER_API_KEY;
     this.baseURL = config.baseURL || 'https://openrouter.ai/api/v1';
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
 
     // قوالب الأنماط
     this.templates = {

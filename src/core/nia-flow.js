@@ -365,8 +365,8 @@ export class NiaFlow {
       micro: 'openai/gpt-4.1-mini',           // رخيص جداً
       fast: 'anthropic/claude-3-haiku',       // سريع ورخيص
       balanced: 'openai/gpt-4o-mini',         // متوازن
-      smart: 'deepseek/deepseek-chat',        // ذكي
-      codex: 'openai/gpt-4.1-codex-mini',     // للكود
+      smart: 'openai/gpt-5.1-codex-mini',     // ذكي
+      codex: 'openai/gpt-5.1-codex-mini',     // للكود (الأفضل)
       creative: 'anthropic/claude-3.5-sonnet' // إبداعي
     };
 

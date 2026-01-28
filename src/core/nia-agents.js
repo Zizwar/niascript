@@ -25,7 +25,7 @@ class BaseAgent {
     this.name = name;
     this.apiKey = config.apiKey || process.env.OPENROUTER_API_KEY;
     this.baseURL = config.baseURL || 'https://openrouter.ai/api/v1';
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
     this.systemPrompt = '';
     this.tools = [];
     this.memory = [];
@@ -120,7 +120,7 @@ class BaseAgent {
 export class PlannerAgent extends BaseAgent {
   constructor(config = {}) {
     super('Planner', config);
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
     this.setSystemPrompt(`أنت وكيل التخطيط في NiaScript.
 مهمتك: تحليل النوايا وتقسيمها إلى خطوات قابلة للتنفيذ.
 
@@ -176,7 +176,7 @@ export class PlannerAgent extends BaseAgent {
 export class BuilderAgent extends BaseAgent {
   constructor(config = {}) {
     super('Builder', config);
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
     this.setSystemPrompt(`أنت وكيل البناء في NiaScript.
 مهمتك: كتابة الكود وبناء الحلول.
 
@@ -335,7 +335,7 @@ export class ValidatorAgent extends BaseAgent {
 export class TestAgent extends BaseAgent {
   constructor(config = {}) {
     super('Tester', config);
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
     this.setSystemPrompt(`أنت وكيل الاختبار في NiaScript.
 مهمتك: كتابة وتنفيذ الاختبارات.
 
@@ -430,7 +430,7 @@ ${JSON.stringify(testCases, null, 2)}
 export class OrchestratorAgent extends BaseAgent {
   constructor(config = {}) {
     super('Orchestrator', config);
-    this.model = config.model || 'openai/gpt-4.1-mini';
+    this.model = config.model || 'openai/gpt-5.1-codex-mini';
 
     // إنشاء الوكلاء الفرعيين
     this.planner = new PlannerAgent(config);
