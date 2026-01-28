@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // wino/nia-create.js - مولد المشاريع من النوايا
 // اكتب نيتك، NiaScript يولد السكريبت الكامل!
-// الآن مع RunnerAgent - يشغّل ويختبر ويصلح!
+// RunnerAgent - يشغّل ويختبر ويصلح!
+// DependencyAgent - يكتشف ويثبت المكتبات تلقائياً!
 
 import 'dotenv/config';
 import { createAgentTeam, NiaFlow } from '../src/index.js';
@@ -218,10 +219,82 @@ async function generateProject(intent) {
 }
 
 // ========================================
-// 5. RunnerAgent - تشغيل واختبار وإصلاح
+// 5. DependencyAgent - تثبيت المكتبات تلقائياً
+// ========================================
+async function detectAndInstallDeps(filepath) {
+  const code = fs.readFileSync(filepath, 'utf-8');
+
+  // استخراج جميع الـ imports
+  const importMatches = code.matchAll(/import\s+.*?from\s+['"]([^'"./][^'"]*)['"]/g);
+  const requireMatches = code.matchAll(/require\s*\(\s*['"]([^'"./][^'"]*)['"]\s*\)/g);
+
+  const deps = new Set();
+
+  for (const match of importMatches) {
+    // استخراج اسم الحزمة (بدون المسار الفرعي)
+    const pkg = match[1].split('/')[0];
+    // استثناء الحزم المدمجة في Node.js
+    const builtins = ['fs', 'path', 'url', 'http', 'https', 'crypto', 'util', 'os', 'child_process', 'stream', 'events', 'buffer', 'process'];
+    if (!builtins.includes(pkg) && !pkg.startsWith('node:')) {
+      deps.add(pkg);
+    }
+  }
+
+  for (const match of requireMatches) {
+    const pkg = match[1].split('/')[0];
+    const builtins = ['fs', 'path', 'url', 'http', 'https', 'crypto', 'util', 'os', 'child_process', 'stream', 'events', 'buffer', 'process'];
+    if (!builtins.includes(pkg) && !pkg.startsWith('node:')) {
+      deps.add(pkg);
+    }
+  }
+
+  if (deps.size === 0) return { installed: [], skipped: [] };
+
+  console.log(`\n   📦 فحص المكتبات المطلوبة: ${[...deps].join(', ')}`);
+
+  const installed = [];
+  const skipped = [];
+  const { execSync } = await import('child_process');
+
+  for (const dep of deps) {
+    try {
+      // تحقق إذا كانت الحزمة مثبتة
+      execSync(`node -e "require.resolve('${dep}')"`, {
+        stdio: 'pipe',
+        cwd: path.dirname(filepath)
+      });
+      skipped.push(dep);
+    } catch {
+      // الحزمة غير مثبتة - ثبتها
+      console.log(`   📥 تثبيت ${dep}...`);
+      try {
+        execSync(`npm install ${dep} --save`, {
+          stdio: 'pipe',
+          cwd: path.resolve(path.dirname(filepath), '..')
+        });
+        installed.push(dep);
+        console.log(`   ✅ تم تثبيت ${dep}`);
+      } catch (e) {
+        console.log(`   ⚠️ فشل تثبيت ${dep}: ${e.message}`);
+      }
+    }
+  }
+
+  if (installed.length > 0) {
+    console.log(`   📦 تم تثبيت: ${installed.join(', ')}`);
+  }
+
+  return { installed, skipped };
+}
+
+// ========================================
+// 6. RunnerAgent - تشغيل واختبار وإصلاح
 // ========================================
 async function runAndTest(filepath, team, maxRetries = 2) {
   console.log('\n▶️  [5/5] RunnerAgent يشغّل ويختبر الكود...');
+
+  // أولاً: فحص وتثبيت المكتبات
+  await detectAndInstallDeps(filepath);
 
   for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
     console.log(`\n   🔄 المحاولة ${attempt}/${maxRetries + 1}...`);
@@ -337,13 +410,35 @@ async function tryFix(error, filepath, team) {
   // أنماط الأخطاء الشائعة والإصلاحات
   const errorPatterns = [
     {
-      pattern: /Cannot find module ['"](.+)['"]/,
+      // ESM module not found
+      pattern: /ERR_MODULE_NOT_FOUND.*?['"]([^'"]+)['"]/,
       fix: async (match) => {
-        const module = match[1];
+        const module = match[1].split('/')[0];
         console.log(`   📦 تثبيت المكتبة الناقصة: ${module}`);
         const { execSync } = await import('child_process');
         try {
-          execSync(`npm install ${module}`, { stdio: 'pipe' });
+          execSync(`npm install ${module} --save`, {
+            stdio: 'pipe',
+            cwd: path.resolve(path.dirname(filepath), '..')
+          });
+          console.log(`   ✅ تم تثبيت ${module}`);
+          return true;
+        } catch { return false; }
+      }
+    },
+    {
+      // CommonJS module not found
+      pattern: /Cannot find module ['"]([^'"]+)['"]/,
+      fix: async (match) => {
+        const module = match[1].split('/')[0];
+        console.log(`   📦 تثبيت المكتبة الناقصة: ${module}`);
+        const { execSync } = await import('child_process');
+        try {
+          execSync(`npm install ${module} --save`, {
+            stdio: 'pipe',
+            cwd: path.resolve(path.dirname(filepath), '..')
+          });
+          console.log(`   ✅ تم تثبيت ${module}`);
           return true;
         } catch { return false; }
       }
