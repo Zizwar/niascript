@@ -1,13 +1,35 @@
-// src/index.js - NiaScript 3.0 Main Export
-// النظام الشامل للبرمجة بالنوايا!
+/**
+ * NiaScript - البرمجة بالنوايا
+ * Intent-Based Programming
+ *
+ * @example
+ * import { nia, Nia } from 'niascript';
+ *
+ * // الطريقة البسيطة - Tagged Template Literals
+ * const result = await nia`سعر البيتكوين`;
+ * const news = await nia`أخبار اليوم`.json();
+ *
+ * // الطريقة المتقدمة
+ * const n = new Nia({ apiKey: '...', model: '...' });
+ * const result = await n.run('سعر البيتكوين');
+ *
+ * // توليد سكريبتات
+ * const script = await nia.generate('سكريبت لجلب الأخبار');
+ */
 
 // ========================================
-// النواة الرئيسية - NiaFlow
+// النواة الجديدة الموحدة
 // ========================================
-export { NiaFlow, flow, SmartCache, LocalEngine, NiaIntent } from './core/nia-flow.js';
+export {
+  Nia,
+  NiaResult,
+  NiaCache,
+  nia,
+  LOCAL_PROCESSORS
+} from './core/nia.js';
 
 // ========================================
-// نظام الوكلاء المتخصصين - جديد!
+// نظام الوكلاء المتخصصين
 // ========================================
 export {
   NiaAgentTeam,
@@ -20,21 +42,23 @@ export {
 } from './core/nia-agents.js';
 
 // ========================================
-// المحرك المحلي الموسع - جديد!
-// ========================================
-export { LocalEngineExtended } from './core/nia-local-extended.js';
-
-// ========================================
-// نظام توليد الكود - جديد!
+// توليد الكود
 // ========================================
 export { NiaCodeGen, codegen } from './core/nia-codegen.js';
 
 // ========================================
-// النواة القديمة - للتوافقية
+// المحرك المحلي الموسع (اختياري)
 // ========================================
-export { NiaAI, nia } from './core/nia-ai.js';
+export { LocalEngineExtended } from './core/nia-local-extended.js';
 
 // ========================================
-// Default export - NiaFlow
+// التوافقية مع الإصدارات السابقة
+// @deprecated - استخدم nia أو Nia بدلاً من ذلك
 // ========================================
-export { flow as default } from './core/nia-flow.js';
+export { NiaFlow, flow, SmartCache, LocalEngine, NiaIntent } from './core/nia-flow.js';
+export { NiaAI } from './core/nia-ai.js';
+
+// ========================================
+// Default export
+// ========================================
+export { nia as default } from './core/nia.js';

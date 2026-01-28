@@ -89,4 +89,17 @@ logs
 
 # Temporary files
 tmp/
-temp/.env
+temp/
+
+# NiaScript Output
+nia-output/
+wino/generated/
+wino/gen-*.js
+wino/gen-*.log
+wino/crypto-*.js
+wino/crypto-*.log
+wino/*.final.log
+wino/exp-*.log
+*.results.json
+hacker-news-*.json
+investment-*.json
