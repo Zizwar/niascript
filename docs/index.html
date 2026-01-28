@@ -1,1482 +1,471 @@
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">NiaScript - لغة البرمجة بالنوايا</title>
-    <meta name="description" id="page-description" content="لغة برمجة ثورية تعتمد على فهم النوايا باستخدام الذكاء الاصطناعي">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Alpine.js -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-    
-    <style>
-        .code-block {
-            direction: ltr;
-            text-align: left;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .text-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        pre code {
-            border-radius: 8px;
-            padding: 1rem;
-        }
-        
-        .nav-dot {
-            transition: all 0.3s ease;
-        }
-        .nav-dot.active {
-            background-color: #667eea;
-            transform: scale(1.2);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NiaScript - البرمجة بالنوايا</title>
+  <meta name="description" content="NiaScript - اكتب ما تريد، لا كيف تريد. مكتبة JavaScript للبرمجة باللغة الطبيعية.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #10b981;
+      --bg: #0f172a;
+      --bg-light: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --code-bg: #1e293b;
+    }
 
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            z-index: 9999;
-            transition: width 0.3s ease;
-        }
-        
-        pre {
-            position: relative;
-            overflow-x: auto;
-        }
-        
-        pre::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        pre::-webkit-scrollbar-track {
-            background: #333;
-        }
-        
-        pre::-webkit-scrollbar-thumb {
-            background: #666;
-            border-radius: 4px;
-        }
-        
-        pre::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-    </style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, var(--bg) 0%, #1a1a2e 100%);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .tagline {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .hero-code {
+      background: var(--code-bg);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: left;
+      direction: ltr;
+      max-width: 700px;
+      width: 100%;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-code pre {
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+
+    .hero-code .comment { color: #6b7280; }
+    .hero-code .keyword { color: #c084fc; }
+    .hero-code .string { color: #34d399; }
+    .hero-code .function { color: #60a5fa; }
+    .hero-code .variable { color: #f472b6; }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Features */
+    .features {
+      padding: 100px 0;
+      background: var(--bg-light);
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+    }
+
+    /* Examples */
+    .examples {
+      padding: 100px 0;
+    }
+
+    .examples h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+    }
+
+    .example-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 10px 24px;
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .example-content {
+      background: var(--code-bg);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid var(--border);
+      direction: ltr;
+      text-align: left;
+    }
+
+    .example-content pre {
+      overflow-x: auto;
+      font-size: 0.95rem;
+    }
+
+    /* Install */
+    .install {
+      padding: 100px 0;
+      background: var(--bg-light);
+      text-align: center;
+    }
+
+    .install h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+    }
+
+    .install-code {
+      display: inline-block;
+      background: var(--bg);
+      padding: 20px 40px;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      border: 1px solid var(--border);
+      direction: ltr;
+    }
+
+    .install-code span {
+      color: var(--secondary);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero .tagline {
+        font-size: 1.2rem;
+      }
+
+      .hero-code {
+        padding: 20px;
+      }
+
+      .hero-code pre {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800" x-data="{ 
-    currentSection: 'hero',
-    showMobileMenu: false,
-    openAccordion: null,
-    examples: {
-        current: 0,
-        list: [
-            {
-                title: 'استعلام مالي بسيط',
-                code: `// الحصول على سعر البيتكوين
-const price = await nia\`سعر البيتكوين\`;
-console.log(price); // "Bitcoin price: $45,230 USD"`
-            },
-            {
-                title: 'مثال مركب: السعر × الطقس',
-                code: `// مثال متقدم: دمج الخدمات
-const analysis = await nia\`
-‎احسب عدد البيتكوين التي يمكن شراؤها بـ 50000 دولار
-‎واخبرني عن طقس الدار البيضاء
-‎وأرسل النتيجة لأحمد
-\`;`
-            },
-            {
-                title: 'حسابات مالية معقدة',
-                code: `// استثمار مع تحليل المشاعر
-const result = await nia\`
-‎استثمر 10000 دولار بمعدل 8% لمدة 5 سنوات
-‎واحلل مشاعر السوق للعملات الرقمية
-‎واقترح استراتيجية استثمار
-\`;`
-            },
-            {
-                title: 'أتمتة البريد الإلكتروني',
-                code: `// إرسال تقارير تلقائية
-await nia\`
-‎اجمع أسعار أفضل 5 عملات رقمية
-‎واحسب أداءها الأسبوعي
-‎وأرسل تقرير مفصل للمدير
-\`;`
-            },
-            {
-                title: 'معالجة البيانات التنبؤية',
-                code: `// تحليل وتنبؤ
-const prediction = await nia\`
-‎احلل اتجاه البيتكوين آخر 30 يوم
-‎واستخدم نموذج ML للتنبؤ بالسعر
-‎وارسل تنبيه إذا كان الاتجاه صاعد
-\`;`
-            }
-        ]
-    },
-    currentExample: 0
-}" x-init="hljs.highlightAll()">
+<body>
 
-    <!-- Progress Bar -->
-    <div id="scroll-progress"></div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>NiaScript</h1>
+    <p class="tagline">البرمجة بالنوايا - اكتب ما تريد، لا كيف تريد</p>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-effect border-b border-white/20" x-show="true">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <h1 class="text-2xl font-bold text-gradient" id="nav-title">NiaScript</h1>
-                    <span class="text-sm text-gray-600" id="nav-subtitle">لغة البرمجة بالنوايا</span>
-                </div>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-6 space-x-reverse">
-                    <a href="#features" class="hover:text-purple-600 transition-colors" id="nav-features">الميزات</a>
-                    <a href="#examples" class="hover:text-purple-600 transition-colors" id="nav-examples">أمثلة</a>
-                    <a href="#syntax" class="hover:text-purple-600 transition-colors" id="nav-syntax">الصيغة</a>
-                    <a href="#roadmap" class="hover:text-purple-600 transition-colors" id="nav-roadmap">الخارطة</a>
-                    <a href="#installation" class="hover:text-purple-600 transition-colors" id="nav-installation">التثبيت</a>
-                </div>
-                
-                <!-- Mobile menu button -->
-                <button @click="showMobileMenu = !showMobileMenu" class="md:hidden">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Mobile Navigation -->
-            <div x-show="showMobileMenu" class="md:hidden mt-4 pb-4 border-t border-white/20 pt-4">
-                <div class="flex flex-col space-y-3">
-                    <a href="#features" class="hover:text-purple-600 transition-colors">الميزات</a>
-                    <a href="#examples" class="hover:text-purple-600 transition-colors">أمثلة</a>
-                    <a href="#syntax" class="hover:text-purple-600 transition-colors">الصيغة</a>
-                    <a href="#roadmap" class="hover:text-purple-600 transition-colors">الخارطة</a>
-                    <a href="#installation" class="hover:text-purple-600 transition-colors">التثبيت</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="hero-code">
+      <pre><code><span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-    <!-- Hero Section -->
-    <section id="hero" class="min-h-screen gradient-bg flex items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-black/20"></div>
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <div class="max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6" id="hero-title">
-                    NiaScript
-                </h1>
-                <p class="text-xl md:text-2xl text-white/90 mb-8" id="hero-subtitle">
-‎                    لغة البرمجة الثورية التي تفهم نواياك
-                </p>
-                <p class="text-lg text-white/80 mb-12 max-w-2xl mx-auto" id="hero-description">
-‎                    اكتب كودك بلغة طبيعية واتركه يتفهم قصدك، يحلل البيانات، يتخذ القرارات، ويتفاعل مع الخدمات المختلفة بذكاء اصطناعي متقدم
-                </p>
-                
-                <!-- Live Demo -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-8 max-w-2xl mx-auto">
-                    <h3 class="text-white font-semibold mb-4" id="demo-title">🚀 جرب الآن:</h3>
-                    <div class="code-block bg-gray-900 rounded-lg p-4 text-green-400 font-mono text-sm">
-                        <div class="flex items-center mb-2">
-                            <span class="text-gray-500">$</span>
-                            <span class="ml-2" id="demo-command">nia "احسب استثمار 5000 دولار بمعدل 7% لمدة 10 سنوات"</span>
-                        </div>
-                        <div class="text-blue-300" id="demo-output">
-                            ✅ Investment of $5,000 at 7% annually for 10 years = $9,835.76<br>
-                            💰 Total profit: $4,835.76<br>
-                            📈 ROI: 96.7%
-                        </div>
-                    </div>
-                    <!-- Demo Buttons -->
-                    <div class="flex gap-2 mt-4 justify-center flex-wrap">
-                        <button onclick="runDemo('crypto')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors">
-‎                            💰 عملات رقمية
-                        </button>
-                        <button onclick="runDemo('investment')" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors">
-‎                            📈 استثمار
-                        </button>
-                        <button onclick="runDemo('composite')" class="bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700 transition-colors">
-‎                            🔗 مركب
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- CTA Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#installation" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors" id="cta-start">
-‎                        ابدأ الآن
-                    </a>
-                    <a href="#examples" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors" id="cta-examples">
-‎                        شاهد الأمثلة
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </div>
-    </section>
+<span class="comment">// بهذه البساطة!</span>
+<span class="keyword">const</span> <span class="variable">price</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`سعر البيتكوين`</span>;
+<span class="keyword">const</span> <span class="variable">news</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`5 أخبار تقنية`</span>;
+<span class="keyword">const</span> <span class="variable">analysis</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`حلل ${price} مع ${news}`</span>;
 
-    <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="features-title">
-‎                    ميزات NiaScript
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="features-subtitle">
-‎                    تجربة برمجة جديدة تماماً تعتمد على فهم النوايا والذكاء الاصطناعي
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">🧠</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature1-title">فهم ذكي للنوايا</h3>
-                    <p class="text-gray-600" id="feature1-desc">
-‎                        يفهم ما تقصده بالضبط مهما كانت طريقة التعبير، باللغة العربية أو الإنجليزية
-                    </p>
-                </div>
-                
-                <!-- Feature 2 -->
-                <div class="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">🔌</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature2-title">نظام إضافات ذكي</h3>
-                    <p class="text-gray-600" id="feature2-desc">
-‎                        يتوسع تلقائياً ليدعم خدمات جديدة، مع إمكانية الرجوع للذكاء العام عند الحاجة
-                    </p>
-                </div>
-                
-                <!-- Feature 3 -->
-                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">⚡</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature3-title">أداء محسن</h3>
-                    <p class="text-gray-600" id="feature3-desc">
-‎                        يستخدم خدمات متخصصة للمهام الشائعة، ويلجأ للذكاء الاصطناعي للحالات المعقدة فقط
-                    </p>
-                </div>
-                
-                <!-- Feature 4 -->
-                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">💰</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature4-title">مراقبة التكلفة</h3>
-                    <p class="text-gray-600" id="feature4-desc">
-‎                        يتتبع استهلاك الذكاء الاصطناعي ويحسن الاستخدام تلقائياً لتوفير التكاليف
-                    </p>
-                </div>
-                
-                <!-- Feature 5 -->
-                <div class="bg-gradient-to-br from-red-50 to-purple-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">🎯</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature5-title">دقة عالية</h3>
-                    <p class="text-gray-600" id="feature5-desc">
-‎                        يحلل السياق ويتعلم من التفاعلات السابقة لتقديم نتائج أكثر دقة مع الوقت
-                    </p>
-                </div>
-                
-                <!-- Feature 6 -->
-                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-                    <div class="text-3xl mb-4">🔗</div>
-                    <h3 class="text-xl font-semibold mb-3" id="feature6-title">تكامل شامل</h3>
-                    <p class="text-gray-600" id="feature6-desc">
-‎                        يربط بين خدمات مختلفة في عملية واحدة: مالية، طقس، بريد، ترجمة وأكثر
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Examples Section -->
-    <section id="examples" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="examples-title">
-‎                    أمثلة متقدمة
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="examples-subtitle">
-‎                    اكتشف قوة NiaScript من خلال هذه الأمثلة المتقدمة والمركبة
-                </p>
-            </div>
-            
-            <!-- Example Tabs -->
-            <div class="max-w-4xl mx-auto">
-                <div class="flex flex-wrap justify-center mb-8 gap-2">
-                    <template x-for="(example, index) in examples.list" :key="index">
-                        <button 
-                            @click="currentExample = index"
-                            :class="currentExample === index ? 'bg-purple-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
-                            class="px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-                            x-text="example.title">
-                        </button>
-                    </template>
-                </div>
-                
-                <!-- Example Content -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="bg-gray-800 px-6 py-4">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <div class="flex space-x-1 space-x-reverse">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <span class="text-gray-300 text-sm" x-text="examples.list[currentExample].title"></span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <pre class="code-block"><code class="javascript" x-text="examples.list[currentExample].code"></code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Advanced Examples Section -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12" id="advanced-examples-title">
-‎                أمثلة متقدمة ومركبة
-            </h2>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <!-- Complex Example 1 -->
-                <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6">
-                    <h3 class="text-xl font-semibold mb-4" id="complex-example1-title">
-‎                        🔄 تحليل مالي مع تنبيهات ذكية
-                    </h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// مثال مركب: تحليل + تنبيه + إرسال
-const result = await nia`
-‎احسب النسبة المئوية لتغير البيتكوين آخر 7 أيام
-‎إذا كان الارتفاع أكثر من 10% أرسل تنبيه لأحمد
-‎وإذا كان الانخفاض أكثر من 15% أرسل تقرير للمدير
-‎مع إضافة تحليل المشاعر للسوق من تويتر
-`;</code></pre>
-
-                    <!-- What Happens for Complex Example -->
-                    <div class="mt-4 border border-gray-200 rounded-lg">
-                        <button 
-                            @click="openAccordion = openAccordion === 'complex1' ? null : 'complex1'"
-                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
-                            <span class="font-medium text-blue-600">🔍 التنفيذ خطوة بخطوة</span>
-                            <svg :class="openAccordion === 'complex1' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div x-show="openAccordion === 'complex1'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
-                            <ol class="list-decimal list-inside space-y-1">
-                                <li><strong>API Call:</strong> جلب بيانات BTC آخر 7 أيام من Binance</li>
-                                <li><strong>Calculation:</strong> حساب نسبة التغيير ((السعر الحالي - السعر قبل 7 أيام) / السعر قبل 7 أيام * 100)</li>
-                                <li><strong>Condition Check:</strong> تقييم الشروط (> 10% أو < -15%)</li>
-                                <li><strong>Twitter API:</strong> جلب tweets حديثة عن Bitcoin</li>
-                                <li><strong>Sentiment Analysis:</strong> استخدام OpenAI لتحليل مشاعر التغريدات</li>
-                                <li><strong>Email Plugin:</strong> إرسال التنبيه أو التقرير للشخص المناسب</li>
-                                <li><strong>Cost Tracking:</strong> تسجيل تكلفة العملية ($0.003-0.008 تقديرياً)</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Complex Example 2 -->
-                <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6">
-                    <h3 class="text-xl font-semibold mb-4" id="complex-example2-title">
-‎                        🌍 العمليات المركبة والمتغيرات
-                    </h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// استخدام نتائج العمليات في حسابات أخرى
-const a = await nia`اجلب سعر عملتي في محفظة بايننس`;
-const b = await nia`حالة طقس الدار البيضاء اليوم`;
-
-const c = await nia`
-‎احسب هذا الرقم: ${a.BTC} مرفوع للقوة ${b.temperature}
-‎واضف رقم عشوائي بين 5000 و 690000
-‎مع ميل للأرقام الأعلى بنسبة 50%
-‎ثم اطرح ${a.BTC} من النتيجة
-`;</code></pre>
-
-                    <div class="mt-4 border border-gray-200 rounded-lg">
-                        <button 
-                            @click="openAccordion = openAccordion === 'complex2' ? null : 'complex2'"
-                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
-                            <span class="font-medium text-green-600">🧮 كيف تعمل العمليات المركبة؟</span>
-                            <svg :class="openAccordion === 'complex2' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div x-show="openAccordion === 'complex2'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
-                            <div class="space-y-2">
-                                <div><strong>🔗 تسلسل العمليات:</strong> كل متغير يعتمد على نتيجة العملية السابقة</div>
-                                <div><strong>📊 معالجة البيانات:</strong> تحويل النتائج لصيغ قابلة للحساب</div>
-                                <div><strong>🎲 العشوائية المرجحة:</strong> استخدام خوارزميات لتوليد أرقام عشوائية بتوزيع معين</div>
-                                <div><strong>🧮 العمليات الرياضية:</strong> تنفيذ حسابات معقدة مثل الأس والجذور</div>
-                                <div><strong>💾 إدارة الذاكرة:</strong> حفظ النتائج الوسطية للاستخدام اللاحق</div>
-                                <div class="mt-2 p-2 bg-blue-50 rounded">
-                                    <strong>💡 مثال فعلي:</strong> يمكن تشغيل هذا المثال لرؤية كيفية عمل التسلسل<br>
-                                    <button onclick="runComplexExample()" class="mt-1 bg-blue-500 text-white px-2 py-1 rounded text-xs">
-                                        🚀 جرب الآن
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Complex Example 3 -->
-                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
-                    <h3 class="text-xl font-semibold mb-4" id="complex-example3-title">
-‎                        🤖 خوارزميات تعلم آلي
-                    </h3>
-                    
-
-
-
-
-
-
-
-<pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// خوارزمية التنبؤ بأسعار العملات
-await nia`
-خوارزمية التنبؤ:
-
-1. اجمع أسعار آخر 365 يوم لـ BTC, ETH, ADA
-2. طبق تطبيع البيانات وأنشئ Features جديدة
-3. اختبر نماذج LSTM و Random Forest و XGBoost
-4. اختر النموذج الأفضل حسب RMSE
-5. تنبأ بأسعار الـ 7 أيام القادمة
-6. اقترح استراتيجية تداول مبنية على التنبؤات
-`;</code></pre>
-
-                    <div class="mt-4 border border-gray-200 rounded-lg">
-                        <button 
-                            @click="openAccordion = openAccordion === 'complex3' ? null : 'complex3'"
-                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
-                            <span class="font-medium text-purple-600">🧠 خوارزميات التعلم الآلي</span>
-                            <svg :class="openAccordion === 'complex3' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div x-show="openAccordion === 'complex3'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
-                            <div class="space-y-2">
-                                <div><strong>📊 Data Pipeline:</strong> معالجة البيانات الضخمة عبر pandas-like operations</div>
-                                <div><strong>🧮 Model Training:</strong> استدعاء TensorFlow أو PyTorch عبر APIs</div>
-                                <div><strong>🎯 Hyperparameter Tuning:</strong> تحسين المعاملات تلقائياً</div>
-                                <div><strong>📈 Model Evaluation:</strong> تقييم الأداء بمقاييس متعددة</div>
-                                <div><strong>🔮 Prediction:</strong> التنبؤ مع confidence intervals</div>
-                                <div class="mt-2 p-2 bg-purple-50 rounded">
-                                    <strong>🤖 خوارزمية تجريبية:</strong> محاكاة للتعلم الآلي<br>
-                                    <button onclick="runMLExample()" class="mt-1 bg-purple-500 text-white px-2 py-1 rounded text-xs">
-                                        🧠 تشغيل النموذج
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Complex Example 4 -->
-                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6">
-                    <h3 class="text-xl font-semibold mb-4" id="complex-example4-title">
-                        📊 أتمتة شاملة للأعمال
-                    </h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4 text-sm overflow-x-auto"><code class="javascript">// أتمتة عمليات الأعمال
-await nia`
-كل يوم اثنين في الساعة 9 صباحاً:
-اجمع تقرير مبيعات الأسبوع السابق
-واحسب نسبة النمو مقارنة بنفس الفترة من العام السابق
-واستخرج أفضل 3 منتجات أداءً وأسوأ 3 منتجات
-واقترح خطة تسويق للمنتجات الضعيفة
-وأرسل التقرير لفريق الإدارة مع جدولة اجتماع
-`;</code></pre>
-
-                    <div class="mt-4 border border-gray-200 rounded-lg">
-                        <button 
-                            @click="openAccordion = openAccordion === 'complex4' ? null : 'complex4'"
-                            class="w-full px-3 py-2 text-left flex justify-between items-center hover:bg-gray-50 text-sm">
-                            <span class="font-medium text-orange-600">🏢 نظام إدارة الأعمال</span>
-                            <svg :class="openAccordion === 'complex4' ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div x-show="openAccordion === 'complex4'" x-transition class="px-3 py-2 bg-gray-50 text-xs">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <div>
-                                    <strong>📅 الجدولة:</strong>
-                                    <ul class="list-disc list-inside mt-1 text-xs">
-                                        <li>Cron job كل اثنين 9 ص</li>
-                                        <li>تكرار أسبوعي تلقائي</li>
-                                        <li>معالجة الإجازات</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <strong>📊 التحليل:</strong>
-                                    <ul class="list-disc list-inside mt-1 text-xs">
-                                        <li>ربط قاعدة البيانات</li>
-                                        <li>حسابات إحصائية</li>
-                                        <li>مقارنات سنوية</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <strong>🤖 الذكاء:</strong>
-                                    <ul class="list-disc list-inside mt-1 text-xs">
-                                        <li>اقتراح استراتيجيات</li>
-                                        <li>إنتاج تقارير احترافية</li>
-                                        <li>جدولة اجتماعات</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Syntax Section -->
-    <section id="syntax" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="syntax-title">
-                    صيغة NiaScript
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="syntax-subtitle">
-                    بساطة اللغة الطبيعية مع قوة البرمجة المتقدمة
-                </p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto space-y-8">
-                <!-- Basic Syntax -->
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-4" id="syntax-basic-title">الصيغة الأساسية</h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// Template Literal Syntax - الصيغة الأساسية
-import { nia } from 'niascript';
-
-// استعلام بسيط
-const result = await nia`سعر البيتكوين`;
-
-// استعلام مع متغيرات
-const amount = 1000;
-const years = 5;
-const calculation = await nia`استثمر ${amount} دولار لمدة ${years} سنوات`;
-
-// استعلام معقد
-const analysis = await nia`
-احلل أداء الأسهم التقنية
-واقترح أفضل 3 شركات للاستثمار
-مع تحليل المخاطر لكل منها
-`;</code></pre>
-                </div>
-                
-                <!-- Conditional Logic -->
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-4" id="syntax-conditional-title">المنطق الشرطي</h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// NiaScript يفهم الشروط بشكل طبيعي
-await nia`
-احسب سعر البيتكوين
-إذا كان السعر أكثر من 50000 دولار:
-  أرسل تنبيه "السعر مرتفع" لأحمد
-وإلا:
-  أرسل رسالة "فرصة شراء" لسارة
-`;
-
-// أو بصيغة مختصرة
-await nia`
-راقب سعر الذهب
-وأرسل تنبيه إذا ارتفع أكثر من 5% اليوم
-`;
-
-// شروط متعددة
-await nia`
-إذا كان الطقس مشمس في الدار البيضاء:
-  اقترح نشاطات خارجية
-وإذا كان ممطر:
-  اقترح نشاطات داخلية
-وإلا:
-  اقترح خطة مرنة
-`;</code></pre>
-                </div>
-                
-                <!-- Loops and Automation -->
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-2xl font-semibold mb-4" id="syntax-loops-title">التكرار والأتمتة</h3>
-                    <pre class="code-block bg-gray-900 rounded-lg p-4"><code class="javascript">// تكرار تلقائي
-await nia`
-كل يوم في الساعة 8 صباحاً:
-  احسب أداء محفظتي
-  وأرسل تقرير يومي لي
-`;
-
-// تكرار مع شروط
-await nia`
-راقب سعر البيتكوين كل ساعة
-وإذا انخفض أكثر من 10%:
-  أرسل تنبيه فوري
-  واقترح استراتيجية شراء
-`;
-
-// معالجة قوائم
-await nia`
-لكل عملة في محفظتي:
-  احسب الأداء الأسبوعي
-  واحسب نسبة المخاطر
-  واقترح نسبة التخصيص المثلى
-`;</code></pre>
-
-                    <div class="mt-6 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
-                        <button 
-                            @click="openAccordion = openAccordion === 'automation' ? null : 'automation'"
-                            class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50">
-                            <span class="font-medium text-purple-600">⚙️ كيف تعمل الأتمتة التكيفية؟</span>
-                            <svg :class="openAccordion === 'automation' ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div x-show="openAccordion === 'automation'" x-transition class="px-4 py-3 bg-gray-50 text-sm">
-                            <div class="space-y-4">
-                                <div class="bg-blue-100 p-3 rounded">
-                                    <strong>🔄 Interval Manager:</strong> ينشئ cron job كل دقيقة، يدير الـ intervals بذكاء، يوقف التنفيذ عند الأخطاء
-                                </div>
-                                <div class="bg-green-100 p-3 rounded">
-                                    <strong>🧠 Decision Engine:</strong> يقيم الشروط احتمالياً، يحسب المخاطر ديناميكياً، يتعلم من القرارات السابقة
-                                </div>
-                                <div class="bg-orange-100 p-3 rounded">
-                                    <strong>📊 Risk Calculator:</strong> يحسب نسبة المخاطر الحالية، يقارن مع حدود المستخدم، يعدل حجم المراكز تلقائياً
-                                </div>
-                                <div class="bg-purple-100 p-3 rounded">
-                                    <strong>📱 Alert System:</strong> يرسل تنبيهات فورية للبريد، يسجل في قاعدة البيانات، يصعد للمستويات الأعلى عند الطوارئ
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Probabilistic Programming Preview -->
-    <section class="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="probabilistic-title">
-                    معاينة: البرمجة الاحتمالية
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="probabilistic-subtitle">
-                    مستقبل البرمجة بدون if/else - عتبات ومسارات ذكية
-                </p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-8">
-                <h3 class="text-2xl font-semibold mb-6" id="probabilistic-example-title">مثال: نظام التداول الاحتمالي</h3>
-                <pre class="code-block bg-gray-900 rounded-lg p-6"><code class="javascript">// بدلاً من if/else التقليدي
-if (bitcoinPrice > 50000) {
-  buy();
-} else {
-  sell();
-}
-
-// NiaScript 3.0 - البرمجة الاحتمالية
-await nia`
-راقب سعر البيتكوين مع العتبات التالية:
-
-[عتبة الشراء القوي] 85% ثقة عند السعر > 55000
-[عتبة الشراء المتوسط] 60% ثقة عند السعر > 48000  
-[عتبة الحياد] 40% ثقة عند السعر 45000-48000
-[عتبة البيع المتوسط] 65% ثقة عند السعر < 42000
-[عتبة البيع القوي] 90% ثقة عند السعر < 38000
-
-مع مراعاة العوامل الاحتمالية:
-- مؤشر الخوف والطمع (وزن: 30%)
-- أحجام التداول (وزن: 25%) 
-- الأخبار العالمية (وزن: 20%)
-- التحليل الفني (وزن: 25%)
-
-واتخذ قرار مرجح بناءً على:
-∑(العتبة × الثقة × الوزن) للعوامل المختلفة
-`;</code></pre>
-
-                <!-- Probabilistic What Happens -->
-                <div class="mt-6 border border-gray-200 rounded-lg" x-data="{ openAccordion: null }">
-                    <button 
-                        @click="openAccordion = openAccordion === 'probabilistic' ? null : 'probabilistic'"
-                        class="w-full px-4 py-3 text-left flex justify-between items-center hover:bg-gray-50">
-                        <span class="font-medium text-purple-600">🎲 كيف تعمل البرمجة الاحتمالية؟</span>
-                        <svg :class="openAccordion === 'probabilistic' ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="openAccordion === 'probabilistic'" x-transition class="px-4 py-3 bg-gray-50 text-sm">
-                        <div class="space-y-4">
-                            <div class="bg-purple-100 p-3 rounded">
-                                <strong>🧮 حساب الاحتماليات:</strong>
-                                <div class="text-xs mt-1">
-                                    Decision Score = (0.85 × 0.30 × fear_index) + (0.60 × 0.25 × volume_factor) + (0.20 × 0.20 × news_sentiment) + (0.25 × 0.25 × technical_analysis)
-                                </div>
-                            </div>
-                            <div class="bg-blue-100 p-3 rounded">
-                                <strong>🎯 تقييم العتبات:</strong> بدلاً من true/false، كل شرط له درجة ثقة من 0-1، ويتم ترجيح جميع العوامل لاتخاذ القرار الأمثل
-                            </div>
-                            <div class="bg-green-100 p-3 rounded">
-                                <strong>🔄 التعلم التكيفي:</strong> النظام يتعلم من نتائج القرارات السابقة ويعدل الأوزان والعتبات تلقائياً لتحسين الأداء
-                            </div>
-                            <div class="bg-orange-100 p-3 rounded">
-                                <strong>📊 مسارات متعددة:</strong> يمكن تنفيذ عدة إجراءات بنسب مختلفة (مثلاً: 60% شراء + 40% انتظار) بناءً على الثقة
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Roadmap Section -->
-    <section id="roadmap" class="py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="roadmap-title">
-                    خارطة الطريق المستقبلية
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="roadmap-subtitle">
-                    نحو مستقبل البرمجة الاحتمالية والذكية
-                </p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <!-- Current Version -->
-                <div class="relative">
-                    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-purple-200 h-full"></div>
-                    
-                    <!-- Version 2.0 - Current -->
-                    <div class="relative flex items-center mb-12">
-                        <div class="flex-1 text-right pr-8">
-                            <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">الإصدار الحالي</div>
-                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v2-title">NiaScript 2.0</h3>
-                            <ul class="text-gray-600 space-y-1" id="roadmap-v2-features">
-                                <li>• فهم النوايا بالذكاء الاصطناعي</li>
-                                <li>• نظام إضافات قابل للتوسيع</li>
-                                <li>• تتبع التكلفة والأداء</li>
-                                <li>• دعم العربية والإنجليزية</li>
-                                <li>• العمليات المركبة والمتغيرات</li>
-                            </ul>
-                        </div>
-                        <div class="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10"></div>
-                        <div class="flex-1 pl-8"></div>
-                    </div>
-                    
-                    <!-- Version 3.0 - Probabilistic -->
-                    <div class="relative flex items-center mb-12">
-                        <div class="flex-1 pr-8"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg z-10"></div>
-                        <div class="flex-1 text-left pl-8">
-                            <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">قريباً</div>
-                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v3-title">NiaScript 3.0 - البرمجة الاحتمالية</h3>
-                            <ul class="text-gray-600 space-y-1" id="roadmap-v3-features">
-                                <li>• منطق احتمالي بدلاً من if/else التقليدي</li>
-                                <li>• مسارات متعددة مع درجات ثقة</li>
-                                <li>• اتخاذ قرارات مبنية على الاحتماليات</li>
-                                <li>• تعلم من النتائج وتحسين التوقعات</li>
-                                <li>• نظام عتبات ذكية متكيفة</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <!-- Version 4.0 - Autonomous -->
-                    <div class="relative flex items-center mb-12">
-                        <div class="flex-1 text-right pr-8">
-                            <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">مستقبلي</div>
-                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v4-title">NiaScript 4.0 - البرمجة المستقلة</h3>
-                            <ul class="text-gray-600 space-y-1" id="roadmap-v4-features">
-                                <li>• كتابة وتعديل الكود تلقائياً</li>
-                                <li>• أنظمة ذاتية التطوير والتحسين</li>
-                                <li>• ذكاء اصطناعي عام مدمج</li>
-                                <li>• تنفيذ مهام معقدة بدون تدخل</li>
-                                <li>• تكامل مع أنظمة المؤسسات</li>
-                            </ul>
-                        </div>
-                        <div class="w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-lg z-10"></div>
-                        <div class="flex-1 pl-8"></div>
-                    </div>
-                    
-                    <!-- Version 5.0 - Quantum -->
-                    <div class="relative flex items-center">
-                        <div class="flex-1 pr-8"></div>
-                        <div class="w-4 h-4 bg-gray-400 rounded-full border-4 border-white shadow-lg z-10"></div>
-                        <div class="flex-1 text-left pl-8">
-                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold inline-block mb-2">رؤية طويلة المدى</div>
-                            <h3 class="text-xl font-semibold mb-2" id="roadmap-v5-title">NiaScript 5.0 - الحوسبة الكمية</h3>
-                            <ul class="text-gray-600 space-y-1" id="roadmap-v5-features">
-                                <li>• معالجة متوازية لا محدودة</li>
-                                <li>• حسابات كمية معقدة</li>
-                                <li>• محاكاة سيناريوهات لا نهائية</li>
-                                <li>• ذكاء خارق للعادة</li>
-                                <li>• تشكيل المستقبل بالنوايا</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CPF Project Section -->
-    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="cpf-title">
-                    مشروع CPF - الإصدار الأول
-                </h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto" id="cpf-subtitle">
-                    إطار حاسوبي ثوري يدمج 17 مفهوماً معرفياً في نظام احتمالي فيكتوري حي لمحاكاة الإدراك المستمر
-                </p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-4" id="cpf-concept-title">المفهوم الأساسي</h3>
-                        <p class="text-gray-600 mb-6" id="cpf-description">
-                            CPF (Continuous Perception Framework) هو النموذج الأولي الذي مهد الطريق لـ NiaScript. يعتمد على مفاهيم الإدراك المستمر والمعالجة الاحتمالية للبيانات، مما يخلق نظاماً ذكياً قادراً على التكيف والتعلم من البيئة المحيطة.
-                        </p>
-                        
-                        <div class="space-y-3">
-                            <div class="flex items-center space-x-3 space-x-reverse">
-                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <span class="text-blue-600 font-semibold text-sm">17</span>
-                                </div>
-                                <span class="text-gray-700" id="cpf-concepts">مفهوم معرفي متكامل</span>
-                            </div>
-                            <div class="flex items-center space-x-3 space-x-reverse">
-                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                    <span class="text-green-600 font-semibold text-sm">∞</span>
-                                </div>
-                                <span class="text-gray-700" id="cpf-continuous">إدراك مستمر وتكيفي</span>
-                            </div>
-                            <div class="flex items-center space-x-3 space-x-reverse">
-                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                                    <span class="text-purple-600 font-semibold text-sm">Ψ</span>
-                                </div>
-                                <span class="text-gray-700" id="cpf-probabilistic">نظام احتمالي فيكتوري</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-8 rounded-xl mb-6">
-                            <h4 class="text-3xl font-bold mb-2">CPF</h4>
-                            <p class="text-blue-100" id="cpf-framework">Continuous Perception Framework</p>
-                            <div class="text-4xl mt-4">🧠</div>
-                        </div>
-                        
-                        <a href="https://zizwar.github.io/cpf" target="_blank" 
-                           class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                            <span id="cpf-explore">استكشف CPF</span>
-                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h4 class="text-lg font-semibold mb-4" id="cpf-evolution-title">التطور من CPF إلى NiaScript</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="text-center">
-                            <div class="bg-blue-100 p-4 rounded-lg mb-3">
-                                <div class="text-2xl mb-2">🔬</div>
-                                <h5 class="font-semibold" id="cpf-research">البحث النظري</h5>
-                            </div>
-                            <p class="text-sm text-gray-600" id="cpf-research-desc">دراسة المفاهيم المعرفية والنظم الاحتمالية</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="bg-green-100 p-4 rounded-lg mb-3">
-                                <div class="text-2xl mb-2">⚙️</div>
-                                <h5 class="font-semibold" id="cpf-implementation">التطبيق العملي</h5>
-                            </div>
-                            <p class="text-sm text-gray-600" id="cpf-implementation-desc">تحويل النظريات إلى نظام قابل للتنفيذ</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="bg-purple-100 p-4 rounded-lg mb-3">
-                                <div class="text-2xl mb-2">🚀</div>
-                                <h5 class="font-semibold" id="cpf-evolution">التطوير لـ NiaScript</h5>
-                            </div>
-                            <p class="text-sm text-gray-600" id="cpf-evolution-desc">لغة برمجة عملية للمطورين</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Installation Section -->
-    <section id="installation" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4" id="installation-title">
-                    التثبيت والبدء
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="installation-subtitle">
-                    ابدأ رحلتك مع NiaScript في دقائق معدودة
-                </p>
-            </div>
-            
-            <div class="max-w-4xl mx-auto">
-                <!-- Installation Steps -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-purple-600">1</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" id="step1-title">تثبيت NiaScript</h3>
-                        <p class="text-gray-600" id="step1-desc">ثبت المكتبة عبر npm بأمر واحد بسيط</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-purple-600">2</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" id="step2-title">إعداد المفاتيح</h3>
-                        <p class="text-gray-600" id="step2-desc">أضف مفتاح OpenAI وابدأ الاستخدام</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-purple-600">3</span>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" id="step3-title">ابدأ البرمجة</h3>
-                        <p class="text-gray-600" id="step3-desc">اكتب أول استعلام وشاهد السحر يحدث</p>
-                    </div>
-                </div>
-                
-                <!-- Installation Code -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="bg-gray-800 px-6 py-4">
-                        <h3 class="text-white font-semibold" id="installation-code-title">كود التثبيت والإعداد</h3>
-                    </div>
-                    <div class="p-6">
-                        <pre class="code-block"><code class="bash"># 1. تثبيت NiaScript
-npm install -g niascript
-
-# أو للمشروع المحلي
-npm install niascript
-
-# 2. إنشاء ملف البيئة
-echo "OPENAI_API_KEY=your_openai_key_here" > .env
-
-# 3. اختبار التثبيت
-nia ask "مرحباً، هل تعمل بشكل صحيح؟"</code></pre>
-                    </div>
-                </div>
-                
-                <!-- Quick Start Code -->
-                <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="bg-gray-800 px-6 py-4">
-                        <h3 class="text-white font-semibold" id="quickstart-title">البداية السريعة</h3>
-                    </div>
-                    <div class="p-6">
-                        <pre class="code-block"><code class="javascript">// index.js - أول برنامج NiaScript
-import { nia } from 'niascript';
-
-async function main() {
-  // استعلام بسيط
-  const greeting = await nia`مرحباً بي في عالم NiaScript`;
-  console.log(greeting);
-  
-  // استعلام مالي
-  const price = await nia`سعر البيتكوين الآن`;
-  console.log(price);
-  
-  // حساب استثماري
-  const investment = await nia`استثمر 1000 دولار بمعدل 7% لمدة 5 سنوات`;
-  console.log(investment);
-  
-  // عملية مركبة
-  const portfolioValue = await nia`احسب قيمة محفظتي`;
-  const marketAnalysis = await nia`حلل اتجاه السوق`;
-  
-  const decision = await nia`
-    بناءً على:
-    - قيمة المحفظة: ${portfolioValue}
-    - تحليل السوق: ${marketAnalysis}
-    
-    اقترح قرار استثماري ذكي
-  `;
-  
-  console.log('القرار الاستثماري:', decision);
-}
-
-main().catch(console.error);</code></pre>
-                    </div>
-                </div>
-                
-                <!-- CLI Usage -->
-                <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="bg-gray-800 px-6 py-4">
-                        <h3 class="text-white font-semibold" id="cli-usage-title">استخدام سطر الأوامر</h3>
-                    </div>
-                    <div class="p-6">
-                        <pre class="code-block"><code class="bash"># استعلامات مباشرة
-nia ask "ما هو الذكاء الاصطناعي؟"
-nia process "سعر الإيثيريوم"
-
-# عمليات البريد الإلكتروني
-nia email inbox
-nia email send --to ahmed --subject "اجتماع غداً"
-
-# الوضع التفاعلي
-nia interactive
-
-# إحصائيات الاستخدام
-nia stats --detailed
-
-# اختبار النظام
-nia test quick</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-gradient" id="footer-title">NiaScript</h3>
-                    <p class="text-gray-300 mb-4" id="footer-description">
-                        لغة البرمجة بالنوايا - مستقبل التطوير بالذكاء الاصطناعي
-                    </p>
-                    <p class="text-gray-400 text-sm" id="footer-author">
-                        تطوير: إبراهيم بيدي
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4" id="footer-links-title">روابط مفيدة</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#installation" class="hover:text-white transition-colors">التثبيت</a></li>
-                        <li><a href="#examples" class="hover:text-white transition-colors">الأمثلة</a></li>
-                        <li><a href="#syntax" class="hover:text-white transition-colors">الصيغة</a></li>
-                        <li><a href="#roadmap" class="hover:text-white transition-colors">الخارطة</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4" id="footer-resources-title">المصادر</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="https://github.com/zizwar/niascript" target="_blank" class="hover:text-white transition-colors flex items-center">
-                            GitHub
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a></li>
-                        <li><a href="https://zizwar.github.io/cpf" target="_blank" class="hover:text-white transition-colors flex items-center">
-                            مشروع CPF
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">npm Package</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">الوثائق</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4" id="footer-contact-title">اتصل بنا</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li>📧 contact@niascript.com</li>
-                        <li>🐦 @niascript</li>
-                        <li>💬 Discord Community</li>
-                        <li>📱 Telegram Group</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p id="footer-copyright">
-                    © 2024 NiaScript. جميع الحقوق محفوظة.
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scroll to top button -->
-    <button 
-        @click="window.scrollTo({top: 0, behavior: 'smooth'})"
-        x-show="window.pageYOffset > 300"
-        class="fixed bottom-8 right-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-        </svg>
-    </button>
-
-    <!-- Floating Action Button -->
-    <div id="fab" class="fixed bottom-20 left-8 bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-colors cursor-pointer z-50 hidden md:block"
-         onclick="runDemo('investment')" title="تجربة سريعة">
-        🚀
+console.<span class="function">log</span>(<span class="variable">analysis</span>.<span class="variable">value</span>);</code></pre>
     </div>
 
-    <script>
-        // Initialize syntax highlighting
-        hljs.highlightAll();
-        
-        // Re-highlight code when accordion opens
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('[x-data] button')) {
-                setTimeout(() => {
-                    // Remove previous highlighting to avoid duplicates
-                    document.querySelectorAll('code[data-highlighted="yes"]').forEach(el => {
-                        el.removeAttribute('data-highlighted');
-                        el.className = el.className.replace(/hljs[\w\-\s]*/g, '').trim();
-                    });
-                    // Re-highlight all code blocks
-                    hljs.highlightAll();
-                }, 100);
-            }
-        });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Auto-cycle through examples every 8 seconds
-        setInterval(() => {
-            const exampleContainer = document.querySelector('[x-data]');
-            if (exampleContainer && exampleContainer.__x) {
-                const data = exampleContainer.__x.$data;
-                if (data.examples && data.examples.list) {
-                    data.currentExample = (data.currentExample + 1) % data.examples.list.length;
-                }
-            }
-        }, 8000);
+    <div class="cta-buttons">
+      <a href="https://github.com/Zizwar/niascript" class="btn btn-primary">GitHub</a>
+      <a href="#examples" class="btn btn-secondary">الأمثلة</a>
+    </div>
+  </section>
 
-        // Demo functionality
-        async function runDemo(demoType) {
-            const output = document.getElementById('demo-output');
-            
-            // Show loading state
-            output.innerHTML = '<span class="text-yellow-400">🔄 جاري جلب البيانات الحقيقية...</span>';
-            
-            if (demoType === 'crypto') {
-                try {
-                    // Fetch real Bitcoin price from Binance API
-                    const response = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
-                    const data = await response.json();
-                    
-                    if (data.price && !isNaN(parseFloat(data.price))) {
-                        const price = parseFloat(data.price).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                        });
-                        const change = parseFloat(data.priceChangePercent).toFixed(2);
-                        const volume = parseFloat(data.volume).toLocaleString();
-                        
-                        const command = 'nia "سعر البيتكوين الآن"';
-                        const realOutput = `✅ Bitcoin price: ${price}\n💹 24h change: ${change}%\n📊 24h volume: ${volume} BTC\n⚡ Live data from Binance API`;
-                        
-                        document.getElementById('demo-command').textContent = command;
-                        output.innerHTML = realOutput;
-                        return;
-                    } else {
-                        throw new Error('Invalid price data received');
-                    }
-                } catch (error) {
-                    console.error('Error fetching Bitcoin price:', error);
-                    // Use fallback price as specified
-                    const fallbackPrice = '$103,321.00';
-                    const command = 'nia "سعر البيتكوين الآن"';
-                    const fallbackOutput = `✅ Bitcoin price: ${fallbackPrice}\n💹 24h change: +2.1%\n📊 Market cap: $2.04T\n⚠️ Fallback data - API unavailable`;
-                    
-                    document.getElementById('demo-command').textContent = command;
-                    output.innerHTML = fallbackOutput;
-                    return;
-                }
-            }
-            
-            const scenarios = {
-                'crypto': {
-                    command: 'nia "سعر البيتكوين الآن"',
-                    output: '✅ Bitcoin price: $103,321.00 USD\n💹 24h change: +2.1%\n📊 Market cap: $2.04T\n⚠️ Fallback data - API unavailable'
-                },
-                'investment': {
-                    command: 'nia "استثمر 10000 دولار بمعدل 7% لمدة 8 سنوات"',
-                    output: '✅ Investment of $10,000 at 7% annually for 8 years = $17,182.25\n💰 Total profit: $7,182.25\n📈 ROI: 71.8%'
-                },
-                'composite': {
-                    command: 'nia "احسب قيمة محفظتي وأرسل تقرير للمدير"',
-                    output: '✅ Portfolio value: $45,620.30 (+12.4% this month)\n📧 Report sent to manager@company.com\n📊 Performance summary included'
-                }
-            };
-            
-            const demo = scenarios[demoType] || scenarios['crypto'];
-            document.getElementById('demo-command').textContent = demo.command;
-            
-            setTimeout(() => {
-                output.innerHTML = demo.output;
-            }, 1200);
-        }
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2>المميزات</h2>
 
-        // Complex example demo
-        async function runComplexExample() {
-            const outputDiv = document.createElement('div');
-            outputDiv.className = 'mt-4 p-4 bg-gray-900 text-green-400 rounded-lg font-mono text-sm';
-            outputDiv.innerHTML = '<div class="text-yellow-400">🔄 تنفيذ العملية المركبة...</div>';
-            
-            // Find the button and add output after it
-            const button = event.target;
-            const container = button.closest('.bg-blue-50');
-            container.appendChild(outputDiv);
-            
-            try {
-                // Simulate complex operation with real data
-                await new Promise(resolve => setTimeout(resolve, 800));
-                outputDiv.innerHTML = '<div class="text-blue-300">المتغير a: جاري جلب أسعار المحفظة من Binance...</div>';
-                
-                // Fetch real crypto data
-                const btcResponse = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
-                const btcData = await btcResponse.json();
-                const btcPrice = btcData.price && !isNaN(parseFloat(btcData.price)) ? parseFloat(btcData.price) : 103321;
-                
-                await new Promise(resolve => setTimeout(resolve, 500));
-                outputDiv.innerHTML += '<div class="text-green-300">✅ BTC: $' + btcPrice.toFixed(2) + '</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 300));
-                outputDiv.innerHTML += '<div class="text-blue-300">المتغير b: جاري جلب حالة الطقس...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 500));
-                const mockTemp = 22 + Math.random() * 10; // Temperature 22-32°C
-                outputDiv.innerHTML += '<div class="text-green-300">✅ درجة الحرارة: ' + mockTemp.toFixed(1) + '°C</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 300));
-                outputDiv.innerHTML += '<div class="text-blue-300">المتغير c: تنفيذ العملية المركبة...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 800));
-                
-                // Complex calculation
-                const powerResult = Math.pow(btcPrice, mockTemp/10);
-                const randomNum = Math.random() * 685000 + 5000; // Weighted towards higher numbers
-                const finalResult = powerResult + randomNum - btcPrice;
-                
-                outputDiv.innerHTML += '<div class="text-green-300">✅ النتيجة النهائية: $' + finalResult.toFixed(2) + '</div>';
-                outputDiv.innerHTML += '<div class="text-gray-400 mt-2">📊 تم استخدام بيانات حقيقية من Binance API</div>';
-                
-            } catch (error) {
-                outputDiv.innerHTML = '<div class="text-red-400">❌ خطأ في جلب البيانات: ' + error.message + '</div>';
-            }
-        }
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Tagged Template Literals</h3>
+          <p>اكتب النوايا كجزء طبيعي من JavaScript باستخدام backticks. لا حاجة لدوال معقدة.</p>
+        </div>
 
-        // ML Example demo
-        async function runMLExample() {
-            const outputDiv = document.createElement('div');
-            outputDiv.className = 'mt-4 p-4 bg-gray-900 text-green-400 rounded-lg font-mono text-sm';
-            outputDiv.innerHTML = '<div class="text-yellow-400">🧠 تهيئة نموذج التعلم الآلي...</div>';
-            
-            const button = event.target;
-            const container = button.closest('.bg-purple-50');
-            container.appendChild(outputDiv);
-            
-            try {
-                // Simulate ML pipeline
-                await new Promise(resolve => setTimeout(resolve, 600));
-                outputDiv.innerHTML = '<div class="text-blue-300">📊 جمع بيانات آخر 365 يوم...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 800));
-                outputDiv.innerHTML += '<div class="text-green-300">✅ تم جمع 365 نقطة بيانات</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 500));
-                outputDiv.innerHTML += '<div class="text-blue-300">🔄 تطبيق تطبيع البيانات...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 700));
-                outputDiv.innerHTML += '<div class="text-green-300">✅ تم إنشاء 12 ميزة جديدة</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 400));
-                outputDiv.innerHTML += '<div class="text-blue-300">⚡ تدريب النماذج...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 1200));
-                outputDiv.innerHTML += '<div class="text-yellow-300">🎯 LSTM RMSE: 0.034</div>';
-                outputDiv.innerHTML += '<div class="text-yellow-300">🌳 Random Forest RMSE: 0.041</div>';
-                outputDiv.innerHTML += '<div class="text-yellow-300">🚀 XGBoost RMSE: 0.029</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 600));
-                outputDiv.innerHTML += '<div class="text-green-300">🏆 أفضل نموذج: XGBoost</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 800));
-                outputDiv.innerHTML += '<div class="text-blue-300">🔮 تنبؤ الأسعار...</div>';
-                
-                await new Promise(resolve => setTimeout(resolve, 700));
-                
-                // Generate predictions
-                const currentPrice = 103321 + Math.random() * 5000;
-                const predictions = [];
-                for (let i = 1; i <= 7; i++) {
-                    const change = (Math.random() - 0.5) * 0.1; // ±5% change
-                    predictions.push(currentPrice * (1 + change));
-                }
-                
-                outputDiv.innerHTML += '<div class="text-green-300">✅ تنبؤات الأسعار (7 أيام):</div>';
-                predictions.forEach((price, index) => {
-                    outputDiv.innerHTML += `<div class="text-gray-300">يوم ${index + 1}: $${price.toFixed(2)}</div>`;
-                });
-                
-                await new Promise(resolve => setTimeout(resolve, 500));
-                outputDiv.innerHTML += '<div class="text-purple-300">📈 الاستراتيجية المقترحة: شراء تدريجي</div>';
-                outputDiv.innerHTML += '<div class="text-gray-400 mt-2">⚠️ هذا مثال تجريبي - لا يعتمد على بيانات حقيقية</div>';
-                
-            } catch (error) {
-                outputDiv.innerHTML = '<div class="text-red-400">❌ خطأ في النموذج: ' + error.message + '</div>';
-            }
-        }
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>معالجة محلية</h3>
+          <p>الحسابات والتاريخ والتحويلات تعمل محلياً بدون API. سريعة ومجانية.</p>
+        </div>
 
-        // Add copy code functionality
-        function addCopyButtons() {
-            document.querySelectorAll('pre code').forEach((block) => {
-                const button = document.createElement('button');
-                button.className = 'absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-xs hover:bg-gray-600 transition-colors';
-                button.textContent = 'نسخ';
-                button.onclick = () => {
-                    navigator.clipboard.writeText(block.textContent);
-                    button.textContent = '✅ تم النسخ';
-                    setTimeout(() => button.textContent = 'نسخ', 2000);
-                };
-                
-                block.parentElement.style.position = 'relative';
-                block.parentElement.appendChild(button);
-            });
-        }
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>ذكاء اصطناعي</h3>
+          <p>أي شيء أعقد يُرسل تلقائياً إلى OpenRouter. أكثر من 100 نموذج متاح.</p>
+        </div>
 
-        // Add scroll progress indicator
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            
-            const progressBar = document.getElementById('scroll-progress');
-            if (progressBar) {
-                progressBar.style.width = scrolled + '%';
-            }
-        });
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>توليد الكود</h3>
+          <p>ولّد سكريبتات Node.js كاملة من النوايا. يُحفظ ويُشغل تلقائياً.</p>
+        </div>
 
-        // Show/hide FAB based on scroll position
-        window.addEventListener('scroll', () => {
-            const fab = document.getElementById('fab');
-            if (window.scrollY > 500) {
-                fab.style.display = 'block';
-            } else {
-                fab.style.display = 'none';
-            }
-        });
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>نظام وكلاء</h3>
+          <p>وكلاء متخصصون للتخطيط والبناء والتدقيق والاختبار. يعملون كفريق.</p>
+        </div>
 
-        // Add intersection observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        <div class="feature-card">
+          <div class="feature-icon">💾</div>
+          <h3>كاش ذكي</h3>
+          <p>النتائج المتكررة تُخزن مؤقتاً. أداء عالٍ بتكلفة منخفضة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in');
-                }
-            });
-        }, observerOptions);
+  <!-- Examples -->
+  <section class="examples" id="examples">
+    <div class="container">
+      <h2>أمثلة</h2>
 
-        // Observe all sections for animation
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
+      <div class="example-tabs">
+        <button class="tab-btn active" onclick="showExample('basic')">الأساسيات</button>
+        <button class="tab-btn" onclick="showExample('variables')">المتغيرات</button>
+        <button class="tab-btn" onclick="showExample('format')">التنسيق</button>
+        <button class="tab-btn" onclick="showExample('generate')">التوليد</button>
+      </div>
 
-        // Add mobile menu close on link click
-        document.querySelectorAll('[x-data] a[href^="#"]').forEach(link => {
-            link.addEventListener('click', () => {
-                const component = link.closest('[x-data]');
-                if (component && component.__x) {
-                    component.__x.$data.showMobileMenu = false;
-                }
-            });
-        });
+      <div class="example-content">
+        <pre id="example-code"><code><span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 NiaScript Documentation loaded successfully');
-            console.log('💡 Try the interactive demos in the hero section');
-            console.log('🔍 Use the floating action button for quick demos');
-            
-            // Initialize copy buttons after a delay
-            setTimeout(addCopyButtons, 1000);
-        });
+<span class="comment">// حسابات (محلية - بدون API)</span>
+<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`احسب 25 * 4`</span>;
+console.<span class="function">log</span>(<span class="variable">calc</span>.<span class="variable">value</span>); <span class="comment">// 100</span>
 
-        // Add keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Ctrl+D for demo
-            if (e.ctrlKey && e.key === 'd') {
-                e.preventDefault();
-                runDemo('crypto');
-            }
-        });
-    </script>
+<span class="comment">// التاريخ والوقت (محلي)</span>
+<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`ما هو التاريخ اليوم`</span>;
+
+<span class="comment">// أي شيء آخر (AI)</span>
+<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`ما هي عاصمة فرنسا`</span>;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section class="install">
+    <div class="container">
+      <h2>ابدأ الآن</h2>
+      <div class="install-code">
+        <span>$</span> npm install niascript
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>
+        مشروع مفتوح المصدر |
+        <a href="https://github.com/Zizwar/niascript">GitHub</a> |
+        <a href="https://github.com/Zizwar/niascript/blob/master/LICENSE">MIT License</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const examples = {
+      basic: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
+
+<span class="comment">// حسابات (محلية - بدون API)</span>
+<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`احسب 25 * 4\`</span>;
+console.<span class="function">log</span>(<span class="variable">calc</span>.<span class="variable">value</span>); <span class="comment">// 100</span>
+
+<span class="comment">// التاريخ والوقت (محلي)</span>
+<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ما هو التاريخ اليوم\`</span>;
+
+<span class="comment">// أي شيء آخر (AI)</span>
+<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ما هي عاصمة فرنسا\`</span>;`,
+
+      variables: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
+
+<span class="keyword">const</span> <span class="variable">name</span> = <span class="string">'أحمد'</span>;
+<span class="keyword">const</span> <span class="variable">age</span> = <span class="number">25</span>;
+
+<span class="comment">// المتغيرات تُدمج تلقائياً</span>
+<span class="keyword">const</span> <span class="variable">story</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`اكتب قصة عن \${name} عمره \${age}\`</span>;
+
+<span class="comment">// تركيب نتائج سابقة</span>
+<span class="keyword">const</span> <span class="variable">btc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`سعر البيتكوين\`</span>;
+<span class="keyword">const</span> <span class="variable">eth</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`سعر الإيثيريوم\`</span>;
+<span class="keyword">const</span> <span class="variable">compare</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`قارن بين \${btc} و \${eth}\`</span>;`,
+
+      format: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
+
+<span class="comment">// JSON مع schema</span>
+<span class="keyword">const</span> <span class="variable">colors</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`5 ألوان للتصميم\`</span>.<span class="function">format</span>(<span class="string">'json'</span>, {
+  <span class="variable">colors</span>: <span class="string">'array'</span>
+});
+<span class="comment">// { colors: ['أزرق', 'أخضر', ...] }</span>
+
+<span class="comment">// اختصارات</span>
+<span class="keyword">const</span> <span class="variable">data</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`بيانات المستخدمين\`</span>.<span class="function">json</span>();
+<span class="keyword">const</span> <span class="variable">text</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ملخص المقال\`</span>.<span class="function">text</span>();`,
+
+      generate: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
+
+<span class="comment">// توليد سكريبت كامل</span>
+<span class="keyword">const</span> <span class="variable">script</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">generate</span>(<span class="string">'سكريبت يجلب أخبار من Hacker News'</span>);
+
+console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">value</span>);        <span class="comment">// الكود المولد</span>
+console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>); <span class="comment">// nia-output/scripts/nia-123.js</span>
+
+<span class="comment">// تشغيل السكريبت</span>
+<span class="keyword">const</span> <span class="variable">output</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">execute</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>);`
+    };
+
+    function showExample(name) {
+      document.getElementById('example-code').innerHTML = `<code>${examples[name]}</code>`;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+
 </body>
+</html>

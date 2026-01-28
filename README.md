@@ -1,545 +1,299 @@
+# NiaScript
 
+**البرمجة بالنوايا - اكتب ما تريد، لا كيف تريد**
 
-# 🎯 NiaScript CLI
+NiaScript هي مكتبة JavaScript ثورية تمكّنك من البرمجة باستخدام اللغة الطبيعية. بدلاً من كتابة كود معقد، اكتب نيتك وسيتولى NiaScript الباقي.
 
-## Installation
+```javascript
+import { nia } from 'niascript';
 
-```bash
-npm install -g niascript
+// بهذه البساطة!
+const price = await nia`سعر البيتكوين`;
+const news = await nia`5 أخبار تقنية من Hacker News`;
+const analysis = await nia`حلل ${price} مع ${news}`;
 ```
 
-## Usage
+## المميزات
 
-### Quick Start
-```bash
-# Ask any question directly
-nia ask "What is artificial intelligence?"
+- **Tagged Template Literals** - اكتب النوايا كجزء طبيعي من JavaScript
+- **معالجة محلية** - الحسابات والتاريخ والتحويلات بدون API
+- **ذكاء اصطناعي** - OpenRouter لأي شيء أعقد
+- **توليد الكود** - ولّد سكريبتات كاملة من النوايا
+- **نظام وكلاء** - وكلاء متخصصون للتخطيط والبناء والتدقيق
+- **كاش ذكي** - أداء عالٍ بتكلفة منخفضة
 
-# Process financial queries
-nia process "Bitcoin price"
-
-# Interactive mode
-nia interactive
-```
-
-### Advanced Usage
-```bash
-# Run tests
-nia test quick
-nia test performance
-nia test full
-
-# View statistics
-nia stats
-nia stats --detailed
-
-# Configuration
-nia config --show
-nia config --log-level debug
-nia config --enable-ai
-```
-
-### Interactive Mode
-```bash
-nia interactive
-
-nia> Bitcoin price
-✅ Bitcoin price: $105,230 USD
-   ⏱️  1,245ms
-
-nia> What is blockchain?
-✅ Blockchain is a distributed ledger technology...
-   ⏱️  2,150ms
-
-nia> stats
-📊 Session Statistics:
-   Requests: 2
-   Total Cost: $0.003456
-   Avg Time: 1,697ms
-
-nia> exit
-👋 Goodbye!
-```
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| \`ask <question>\` | Direct AI question |
-| \`process <input>\` | Intent-based processing |
-| \`interactive\` | Interactive mode |
-| \`test [type]\` | Run system tests |
-| \`stats\` | Show usage statistics |
-| `config` | Manage configuration |
-| `help-examples` | Show usage examples |
-
-## Examples
-
-### Financial Queries
-```bash
-nia process "Bitcoin price"
-nia process "سعر الذهب اليوم"
-nia process "$10000 at 7% for 15 years"
-nia process "Compare ETH and ADA performance"
-```
-
-### General Questions
-```bash
-nia ask "How does machine learning work?"
-nia ask "What are the best programming practices?"
-nia ask "كيف أتعلم البرمجة بسرعة؟"
-nia ask "Explain quantum computing simply"
-```
-
-### System Management
-```bash
-nia test quick           # Quick functionality test
-nia stats --detailed     # Detailed usage analytics
-nia config --show        # Current configuration
-nia interactive --mode ask  # Ask-only interactive mode
-```
-
-## Configuration
-
-Set environment variables in `.env\:
-
-```bash
-OPENAI_API_KEY=your_openai_key_here
-NIA_LOG_LEVEL=info
-NIA_ENABLE_GENERAL_AI=true
-NIA_MAX_DAILY_COST=5.00
-```
-
-## Tips
-
-💡 Use `nia ask` for direct AI questions  
-💡 Use `nia process` for intent-based processing  
-💡 Use `nia interactive` for conversational mode  
-💡 Run `nia stats` regularly to monitor costs  
-💡 Use `--verbose` flag for detailed logging  
-
-## Cost Monitoring
-
-NiaScript automatically tracks OpenAI usage:
-
-
-```bash
-nia stats
-📊 Total Cost: $0.0234
-📈 Total Requests: 15
-⏱️  Average Response: 1,250ms
-
-💰 Cost Breakdown:
-   Last Hour: $0.0123
-   Per Request: $0.0016
-```
-
-
-# 🤖 NiaScript
-
-**Intent-based programming language for the AI era**
-
-NiaScript is a powerful JavaScript library that enables developers to build intelligent applications using natural language processing and AI. It allows users to interact with applications using natural language and transforms intents into executable actions.
-
-## ✨ Key Features
-
-- **Intelligent Intent Processing**: Analyze and understand natural language queries
-- **Recipe Engine**: Transform intents into executable steps
-- **Provider Management**: Smart system for selecting optimal data sources
-- **Secure Execution**: Comprehensive protection against dangerous operations
-- **Memory System**: Learn from previous interactions
-- **Advanced Error Handling**: Smart recovery from failures
-
-## 📦 Installation
+## التثبيت
 
 ```bash
 npm install niascript
 ```
 
-## 🚀 Quick Start
+## البدء السريع
 
-### Basic Usage
+### 1. النوايا البسيطة
 
 ```javascript
 import { nia } from 'niascript';
 
-// Simple cryptocurrency price query
-const btcPrice = await nia`Bitcoin price`;
-console.log(btcPrice); // "BTC price: $45,000 USD"
+// حسابات (محلية - بدون API)
+const calc = await nia`احسب 25 * 4`;
+console.log(calc.value); // 100
 
-// Investment calculation
-const investment = await nia`If I invest $1000 at 8% annual return, what will I have after 5 years?`;
-console.log(investment); // "Investment of $1000 at 8% annually for 5 years = $1469.33"
+// التاريخ والوقت (محلي)
+const date = await nia`ما هو التاريخ اليوم`;
+console.log(date.value); // الأربعاء، 28 يناير 2026
+
+// تحويلات (محلي)
+const convert = await nia`حول 100 كيلومتر إلى ميل`;
+console.log(convert.value); // 100 كيلومتر = 62.14 ميل
+
+// أي شيء آخر (AI)
+const answer = await nia`ما هي عاصمة فرنسا`;
+console.log(answer.value); // باريس
 ```
 
-### Advanced Usage
+### 2. الإعدادات
 
 ```javascript
-import { NiaScript } from 'niascript';
+import { nia, Nia } from 'niascript';
 
-const nia = new NiaScript();
+// الطريقة 1: إعداد عام
+nia.setApiKey('sk-or-...');
+nia.setModel('openai/gpt-4');
 
-// Process complex query
-const query = "Compare Bitcoin and Ethereum performance over the last 30 days";
-const result = await nia.processIntent(query);
-console.log(result);
-```
-
-## 📖 Usage Guide
-
-### 1. Template Literal Interface
-
-The easiest and most natural way to use NiaScript:
-
-```javascript
-// Cryptocurrency prices
-const ethPrice = await nia`Ethereum price`;
-
-// Stock queries
-const stockPrice = await nia`AAPL stock price`;
-
-// Investment calculations
-const compoundInterest = await nia`What is $5000 invested at 6% for 10 years?`;
-```
-
-### 2. Direct Methods
-
-```javascript
-// Ask a direct question
-const answer = await nia.ask("What's the current Bitcoin price?");
-
-// Request clarification
-const choice = await nia.clarify("Apple could refer to:", ["stock", "fruit", "company"]);
-
-// Save information to memory
-await nia.remember("User prefers cryptocurrency over stocks");
-
-// Forget information
-await nia.forget("old investment preferences");
-```
-
-### 3. Register Custom Providers
-
-```javascript
-// Register a new provider
-nia.registerProvider('financial', 'alpha_vantage', {
-  name: 'Alpha Vantage API',
-  baseURL: 'https://www.alphavantage.co/query',
-  apiKey: process.env.ALPHA_VANTAGE_KEY,
-  rateLimits: { requests: 5, window: 60000 },
-  cost: 0,
-  reliability: 0.95
+// الطريقة 2: Instance خاص
+const n = new Nia({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  model: 'anthropic/claude-3-opus',
+  outputDir: 'my-output'
 });
 
-// Custom error handling
-nia.onError(async (error, context) => {
-  if (error.type === 'API_FAILURE') {
-    console.log('Using fallback provider...');
-    return await context.tryFallback();
-  }
-  throw error;
+const result = await n.run('سعر البيتكوين');
+```
+
+### 3. تركيب المتغيرات
+
+```javascript
+const name = 'أحمد';
+const age = 25;
+
+// المتغيرات تُدمج تلقائياً
+const story = await nia`اكتب قصة قصيرة عن ${name} عمره ${age} سنة`;
+
+// تركيب نتائج سابقة
+const btc = await nia`سعر البيتكوين`;
+const eth = await nia`سعر الإيثيريوم`;
+const compare = await nia`قارن بين ${btc} و ${eth}`;
+```
+
+### 4. التنسيقات
+
+```javascript
+// JSON مع schema
+const colors = await nia`5 ألوان للتصميم`.format('json', {
+  colors: 'array'
 });
+// { colors: ['أزرق', 'أخضر', ...] }
+
+// اختصارات
+const data = await nia`بيانات المستخدمين`.json();
+const text = await nia`ملخص المقال`.text();
+const table = await nia`قائمة الأسعار`.table(); // يطبع جدول
 ```
 
-## 📚 API Reference
-
-### Main Class: NiaScript
-
-#### Core Logic
-
-- `processIntent(query, values)`: Process natural language query
-- `ask(query, options)`: Ask a direct question
-- `clarify(question, choices)`: Request clarification from user
-
-#### Memory Management
-
-- `remember(fact)`: Save information to memory
-- `forget(pattern)`: Remove information from memory
-
-#### Provider Management
-
-- `registerProvider(category, name, config)`: Register new provider
-- `onError(handler)`: Register custom error handler
-
-### System Components
-
-#### IntentParser
-
-Intent parser that converts natural text into understandable intents:
+### 5. توليد السكريبتات
 
 ```javascript
-import { IntentParser } from 'niascript/core/intent-parser.js';
+// توليد سكريبت كامل
+const script = await nia.generate('سكريبت يجلب أخبار من Hacker News');
 
-const parser = new IntentParser();
-const intent = await parser.parseIntent("Bitcoin price");
-console.log(intent);
-/*
-{
-  type: 'financial',
-  entities: { asset: 'bitcoin', operation: 'get_price' },
-  confidence: 0.8,
-  needsClarification: false
-}
-*/
+console.log(script.value);        // الكود المولد
+console.log(script.meta.filepath); // nia-output/scripts/nia-123.js
+
+// تشغيل السكريبت
+const output = await nia.execute(script.meta.filepath);
 ```
 
-#### RecipeEngine
-
-Recipe engine that transforms intents into executable steps:
+### 6. الإحصائيات
 
 ```javascript
-import { RecipeEngine } from 'niascript/core/recipe-engine.js';
-
-const engine = new RecipeEngine();
-const recipe = await engine.generateRecipe(intent);
-console.log(recipe);
-/*
-{
-  confidence: 0.95,
-  steps: [
-    {
-      action: "api_call",
-      provider: "binance",
-      endpoint: "ticker/price",
-      params: { symbol: "BTCUSDT" }
-    }
-  ]
-}
-*/
+const stats = nia.stats();
+console.log(stats);
+// {
+//   totalCalls: 10,
+//   localCalls: 6,      // بدون API
+//   aiCalls: 4,         // مع API
+//   cachedCalls: 2,     // من الكاش
+//   totalCost: 0.0234,  // بالدولار
+//   outputDir: 'nia-output'
+// }
 ```
 
-#### ProviderManager
+## الاستخدام المتقدم
 
-Provider manager for getting data from various sources:
+### نظام الوكلاء
 
 ```javascript
-import { ProviderManager } from 'niascript/providers/provider-manager.js';
+import { createAgentTeam } from 'niascript';
 
-const manager = new ProviderManager();
+const team = createAgentTeam();
 
-// Register provider
-manager.registerProvider('binance', {
-  name: 'Binance API',
-  baseURL: 'https://api.binance.com/api/v3',
-  rateLimits: { requests: 1200, window: 60000 },
-  reliability: 0.99
-});
+// التخطيط
+const plan = await team.planner.think('خطط لتطبيق إدارة مهام');
 
-// Select best provider
-const bestProvider = await manager.selectBestProvider('crypto');
+// البناء
+const code = await team.builder.think('اكتب API لإدارة المهام');
+
+// التدقيق
+const review = await team.validator.validate(code, 'Node.js API');
+
+// الاختبار
+const tests = await team.tester.generateTests(code);
 ```
 
-## 🔧 Advanced Examples
-
-### 1. Building an Intelligent Trading App
+### توليد الكود
 
 ```javascript
-import { nia, NiaScript } from 'niascript';
+import { NiaCodeGen } from 'niascript';
 
-class TradingBot {
-  constructor() {
-    this.nia = new NiaScript();
-    this.setupTradingProviders();
-  }
-  
-  setupTradingProviders() {
-    // Register trading providers
-    this.nia.registerProvider('trading', 'binance_trading', {
-      name: 'Binance Trading API',
-      baseURL: 'https://api.binance.com/api/v3',
-      authentication: 'apikey',
-      permissions: ['spot_trading']
-    });
-  }
-  
-  async analyzeMarket(query) {
-    // Analyze market using natural language
-    return await this.nia.processIntent(query);
-  }
-  
-  async executeTrade(command) {
-    // Execute trading commands
-    return await this.nia.ask(command);
-  }
-}
+const codegen = new NiaCodeGen();
 
-// Usage
-const bot = new TradingBot();
-const analysis = await bot.analyzeMarket("What's the trend for Bitcoin in the last week?");
-console.log(analysis);
+// توليد دالة
+const fn = await codegen.generateFunction('دالة تحسب الضريبة 15%');
+
+// توليد كلاس
+const cls = await codegen.generateClass('كلاس لإدارة سلة التسوق');
+
+// توليد API
+const api = await codegen.generateAPI('API لإدارة المستخدمين مع CRUD');
 ```
 
-### 2. Financial Advisory System
+## الهيكل
 
-```javascript
-class FinancialAdvisor {
-  constructor() {
-    this.client = new NiaScript();
-    this.setupFinancialProviders();
-  }
-  
-  async getPortfolioAdvice(userQuery) {
-    // Process portfolio queries
-    const advice = await this.client.ask(userQuery);
-    
-    // Save preferences
-    await this.client.remember(`User interested in: ${userQuery}`);
-    
-    return advice;
-  }
-  
-  async compareInvestments(assets) {
-    const comparison = await this.client.ask(
-      `Compare performance of ${assets.join(', ')} over the last year`
-    );
-    return comparison;
-  }
-}
-
-// Usage
-const advisor = new FinancialAdvisor();
-const advice = await advisor.getPortfolioAdvice(
-  "Should I invest in tech stocks or cryptocurrency?"
-);
+```
+niascript/
+├── src/
+│   ├── core/
+│   │   ├── nia.js           # النواة الموحدة
+│   │   ├── nia-agents.js    # نظام الوكلاء
+│   │   └── nia-codegen.js   # توليد الكود
+│   └── index.js             # المصدرات
+├── nia-output/              # الملفات المولدة
+│   ├── scripts/
+│   ├── logs/
+│   └── cache/
+└── examples/
+    └── demo-new.js          # مثال شامل
 ```
 
-## ⚙️ Configuration
-
-### Environment Variables
+## متغيرات البيئة
 
 ```bash
-# API Keys
-OPENAI_API_KEY=your_openai_key_here
-BINANCE_API_KEY=your_binance_key_here
-ALPHA_VANTAGE_KEY=your_alphavantage_key_here
-
-# System Settings
-NIA_LOG_LEVEL=info
-NIA_MEMORY_SIZE=1000
-NIA_CACHE_TTL=300
+# .env
+OPENROUTER_API_KEY=sk-or-...    # مفتاح OpenRouter (مطلوب للـ AI)
+NIA_MODEL=openai/gpt-4.1-mini   # الموديل الافتراضي
+NIA_OUTPUT_DIR=nia-output       # مجلد الإخراج
+NIA_DEBUG=true                  # وضع التصحيح
 ```
 
-### Configuration File
+## الأمثلة
+
+### مثال 1: متتبع أسعار العملات
 
 ```javascript
-// nia.config.js
-export default {
-  logging: {
-    level: 'info',
-    output: 'console'
-  },
-  memory: {
-    maxSize: 1000,
-    ttl: 86400000 // 24 hours
-  },
-  providers: {
-    defaultTimeout: 5000,
-    retryAttempts: 3
-  }
-};
+import { nia } from 'niascript';
+
+async function trackCrypto() {
+  const btc = await nia`سعر البيتكوين`;
+  const eth = await nia`سعر الإيثيريوم`;
+
+  console.log('BTC:', btc.value);
+  console.log('ETH:', eth.value);
+
+  const analysis = await nia`
+    حلل السوق بناءً على:
+    - بيتكوين: ${btc}
+    - إيثيريوم: ${eth}
+    أعطني توصية قصيرة
+  `.json({ recommendation: 'string', risk: 'string' });
+
+  console.log('التوصية:', analysis.recommendation);
+}
 ```
 
-## 🧪 Testing
+### مثال 2: مولد التقارير
 
-### Running Tests
+```javascript
+import { nia } from 'niascript';
+
+async function generateReport(data) {
+  // تحليل البيانات
+  const summary = await nia`لخص هذه البيانات: ${JSON.stringify(data)}`;
+
+  // توليد التقرير
+  const report = await nia.generate(`
+    سكريبت يولد تقرير PDF يحتوي على:
+    ${summary}
+  `);
+
+  // تشغيل المولد
+  await nia.execute(report.meta.filepath);
+}
+```
+
+### مثال 3: الدردشة الذكية
+
+```javascript
+import { nia } from 'niascript';
+
+const context = [];
+
+async function chat(message) {
+  context.push({ role: 'user', content: message });
+
+  const response = await nia`
+    السياق: ${JSON.stringify(context)}
+    الرسالة الجديدة: ${message}
+    أجب بشكل طبيعي ومفيد
+  `;
+
+  context.push({ role: 'assistant', content: response.value });
+  return response.value;
+}
+
+// استخدام
+await chat('مرحبا!');
+await chat('ما هو الذكاء الاصطناعي؟');
+await chat('أعطني مثال عملي');
+```
+
+## CLI
 
 ```bash
-# Run all tests
-npm test
+# تشغيل مباشر
+npx niascript "سعر البيتكوين"
 
-# Run specific test
-npm test -- --testNamePattern="IntentParser"
+# الوضع التفاعلي
+npx niascript interactive
 
-# Run with coverage
-npm test -- --coverage
+# توليد سكريبت
+npx niascript generate "سكريبت لجلب الأخبار"
 ```
 
-### Writing Custom Tests
+## المساهمة
 
-```javascript
-import { nia, NiaScript } from 'niascript';
+المساهمات مرحب بها! يرجى:
 
-describe('Custom NiaScript Tests', () => {
-  let niaInstance;
-  
-  beforeEach(() => {
-    niaInstance = new NiaScript();
-  });
-  
-  test('should parse Bitcoin price query', async () => {
-    const result = await nia`Bitcoin price`;
-    expect(result).toContain('BTC');
-    expect(result).toContain('USD');
-  });
-  
-  test('should handle investment calculations', async () => {
-    const result = await nia`$1000 at 5% for 3 years`;
-    expect(result).toMatch(/\$1,157/);
-  });
-});
-```
+1. عمل Fork للمشروع
+2. إنشاء branch للميزة (`git checkout -b feature/amazing`)
+3. Commit التغييرات (`git commit -m 'Add amazing feature'`)
+4. Push إلى الـ branch (`git push origin feature/amazing`)
+5. فتح Pull Request
 
-## 🛠️ Production Deployment
+## الرخصة
 
-### Building for Production
-
-```bash
-# Build project
-npm run build
-
-# Generate documentation
-npm run docs
-```
-
-### Performance Monitoring
-
-```javascript
-// Setup performance monitoring
-nia.onError((error, context) => {
-  console.error('NiaScript Error:', error);
-  // Send to monitoring service
-  monitoring.reportError(error, context);
-});
-
-// Track usage
-nia.onSuccess((result, query) => {
-  analytics.trackUsage({
-    query,
-    result,
-    timestamp: Date.now()
-  });
-});
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Write tests for new code
-4. Ensure all tests pass (`npm test`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Brahim BIDI**
-
-- GitHub: [@brahimbidi](https://github.com/zizwar)
-- Email: contact@niascript.com
-
-## 🙏 Acknowledgments
-
-- Special thanks to all project contributors
-- JavaScript libraries used: axios, chalk, inquirer, openai
-- Node.js community for support and inspiration
+MIT License - مشروع مفتوح المصدر
 
 ---
 
-**NiaScript - Intent-based programming for the intelligent era** 🚀
+**NiaScript - اكتب ما تريد، لا كيف تريد**
