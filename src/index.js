@@ -1,11 +1,40 @@
-// src/index.js - NiaScript 2.0 Main Export
-// Export all components
+// src/index.js - NiaScript 3.0 Main Export
+// النظام الشامل للبرمجة بالنوايا!
 
-// النواة الجديدة - NiaFlow (النظام الثوري)
+// ========================================
+// النواة الرئيسية - NiaFlow
+// ========================================
 export { NiaFlow, flow, SmartCache, LocalEngine, NiaIntent } from './core/nia-flow.js';
 
-// النواة القديمة - NiaAI (للتوافقية)
+// ========================================
+// نظام الوكلاء المتخصصين - جديد!
+// ========================================
+export {
+  NiaAgentTeam,
+  OrchestratorAgent,
+  PlannerAgent,
+  BuilderAgent,
+  ValidatorAgent,
+  TestAgent,
+  createAgentTeam
+} from './core/nia-agents.js';
+
+// ========================================
+// المحرك المحلي الموسع - جديد!
+// ========================================
+export { LocalEngineExtended } from './core/nia-local-extended.js';
+
+// ========================================
+// نظام توليد الكود - جديد!
+// ========================================
+export { NiaCodeGen, codegen } from './core/nia-codegen.js';
+
+// ========================================
+// النواة القديمة - للتوافقية
+// ========================================
 export { NiaAI, nia } from './core/nia-ai.js';
 
-// Default export - NiaFlow (النظام الجديد)
+// ========================================
+// Default export - NiaFlow
+// ========================================
 export { flow as default } from './core/nia-flow.js';

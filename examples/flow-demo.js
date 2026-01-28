@@ -8,7 +8,7 @@ import chalk from 'chalk';
 // ========================================
 // إعداد المفتاح
 // ========================================
-const API_KEY = process.env.OPENROUTER_API_KEY || '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';
+const API_KEY = process.env.OPENROUTER_API_KEY;
 
 console.log(chalk.cyan.bold(`
 ╔═══════════════════════════════════════════════════════════════╗
