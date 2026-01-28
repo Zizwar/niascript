@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // wino/nia-create.js - مولد المشاريع من النوايا
 // اكتب نيتك، NiaScript يولد السكريبت الكامل!
+// الآن مع RunnerAgent - يشغّل ويختبر ويصلح!
 
 import 'dotenv/config';
-import { createAgentTeam, codegen } from '../src/index.js';
+import { createAgentTeam, NiaFlow } from '../src/index.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -90,34 +92,55 @@ async function generateProject(intent) {
 لا تكتب أي شيء آخر غير الكود.`;
 
   const buildResult = await team.builder.think(buildPrompt, { maxTokens: 4000 });
-  let build = { filename: `crypto-${Date.now()}.js` };
+  let build = { filename: `gen-${Date.now()}.js` };
 
   if (buildResult.success && buildResult.content) {
-    // محاولة 1: استخراج من JSON
+    const content = buildResult.content;
+
+    // محاولة 1: استخراج من JSON (الوكيل يُرجع JSON غالباً)
     try {
-      const jsonMatch = buildResult.content.match(/\{[\s\S]*"code"[\s\S]*\}/);
+      const jsonMatch = content.match(/\{[\s\S]*"code"[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         if (parsed.code) {
-          // الكود قد يكون داخل code blocks
-          const innerCode = parsed.code.match(/```(?:javascript|js)?\n([\s\S]*?)```/);
-          build.code = innerCode ? innerCode[1].trim() : parsed.code.trim();
+          // الكود قد يكون escaped
+          let code = parsed.code;
+          // فك الـ escape
+          code = code.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+          // إزالة code blocks إذا وُجدت
+          const innerMatch = code.match(/```(?:javascript|js)?\n?([\s\S]*?)```/);
+          build.code = innerMatch ? innerMatch[1].trim() : code.trim();
         }
       }
-    } catch {}
+    } catch (e) {
+      // تجاهل خطأ JSON
+    }
 
-    // محاولة 2: استخراج مباشر من code blocks
+    // محاولة 2: استخراج من code blocks
     if (!build.code) {
-      const codeMatch = buildResult.content.match(/```(?:javascript|js)?\n([\s\S]*?)```/);
-      if (codeMatch) {
-        build.code = codeMatch[1].trim();
+      const codeBlockMatch = content.match(/```(?:javascript|js|node)?\s*\n?([\s\S]*?)```/);
+      if (codeBlockMatch) {
+        build.code = codeBlockMatch[1].trim();
       }
     }
 
-    // محاولة 3: استخدم المحتوى كاملاً إذا يبدو ككود
-    if (!build.code && buildResult.content.includes('import ')) {
-      build.code = buildResult.content.trim();
+    // محاولة 3: إذا بدأ بـ import أو #!/usr/bin
+    if (!build.code) {
+      const trimmed = content.trim();
+      if (trimmed.startsWith('import ') || trimmed.startsWith('#!') || trimmed.startsWith("'use strict'")) {
+        build.code = trimmed;
+      }
     }
+
+    // محاولة 4: البحث عن كود يبدأ بـ import
+    if (!build.code) {
+      const importMatch = content.match(/((?:\/\/[^\n]*\n)*import\s+[\s\S]+)/);
+      if (importMatch) {
+        build.code = importMatch[1].trim();
+      }
+    }
+  } else {
+    console.log('   ⚠️ فشل البناء:', buildResult.error || 'لا يوجد محتوى');
   }
 
   console.log('   ✅ البناء:', build.code ? `${build.code.split('\n').length} سطر` : 'فشل');
@@ -174,27 +197,282 @@ async function generateProject(intent) {
 
   const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
-  console.log(`
+  if (build.code) {
+    console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ تم توليد المشروع بنجاح!
+✨ تم توليد الكود! الآن RunnerAgent سيشغله ويختبره...
 
-📁 الملفات:
-   • ${filepath}
-   • ${logpath}
-
-▶️ للتشغيل:
-   node wino/${filename}
-
-⏱️ الوقت: ${duration} ثانية
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 الملف: ${filename}
+⏱️ وقت التوليد: ${duration} ثانية
 `);
+  } else {
+    console.log(`
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  return { filepath, plan, build };
+⚠️ لم يتم توليد الكود. حاول بنية مختلفة.
+`);
+  }
+
+  return { filepath, filename, plan, build, duration };
 }
 
 // ========================================
-// التشغيل
+// 5. RunnerAgent - تشغيل واختبار وإصلاح
 // ========================================
-generateProject(userIntent).catch(console.error);
+async function runAndTest(filepath, team, maxRetries = 2) {
+  console.log('\n▶️  [5/5] RunnerAgent يشغّل ويختبر الكود...');
+
+  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+    console.log(`\n   🔄 المحاولة ${attempt}/${maxRetries + 1}...`);
+
+    const result = await executeScript(filepath);
+
+    if (result.success) {
+      console.log('   ✅ السكريبت يعمل بنجاح!');
+      if (result.output) {
+        console.log('\n   📤 المخرجات:');
+        console.log('   ' + '─'.repeat(50));
+        result.output.split('\n').slice(0, 15).forEach(line =>
+          console.log(`   ${line}`)
+        );
+        if (result.output.split('\n').length > 15) {
+          console.log('   ... (المزيد)');
+        }
+      }
+      return { success: true, output: result.output };
+    }
+
+    // تحليل الخطأ
+    console.log(`   ❌ خطأ: ${result.error.substring(0, 100)}...`);
+
+    if (attempt > maxRetries) {
+      console.log('\n   ⚠️ استنفدت المحاولات. تحليل المشكلة...');
+      const analysis = await analyzeError(result.error, filepath, team);
+      return { success: false, error: result.error, analysis };
+    }
+
+    // محاولة الإصلاح
+    console.log('   🔧 جاري تحليل وإصلاح الخطأ...');
+    const fixed = await tryFix(result.error, filepath, team);
+
+    if (!fixed) {
+      console.log('   ⚠️ لم يتمكن من الإصلاح التلقائي');
+      const analysis = await analyzeError(result.error, filepath, team);
+      return { success: false, error: result.error, analysis };
+    }
+
+    console.log('   ✅ تم تطبيق الإصلاح، إعادة المحاولة...');
+  }
+}
+
+async function executeScript(filepath, timeout = 30000) {
+  return new Promise((resolve) => {
+    const child = spawn('node', [filepath], {
+      timeout,
+      env: { ...process.env }
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    child.stdout.on('data', (data) => { stdout += data.toString(); });
+    child.stderr.on('data', (data) => { stderr += data.toString(); });
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve({ success: true, output: stdout });
+      } else {
+        resolve({ success: false, error: stderr || stdout });
+      }
+    });
+
+    child.on('error', (err) => {
+      resolve({ success: false, error: err.message });
+    });
+
+    // Timeout
+    setTimeout(() => {
+      child.kill();
+      resolve({ success: false, error: 'Timeout: السكريبت استغرق وقتاً طويلاً' });
+    }, timeout);
+  });
+}
+
+async function analyzeError(error, filepath, team) {
+  const code = fs.readFileSync(filepath, 'utf-8');
+
+  const nia = new NiaFlow();
+  const prompt = `حلل هذا الخطأ وأخبرني ما المشكلة وكيف أصلحها:
+
+الخطأ:
+${error.substring(0, 1000)}
+
+الكود (أول 50 سطر):
+${code.split('\n').slice(0, 50).join('\n')}
+
+أجب بـ JSON:
+{
+  "problemType": "نوع المشكلة (api_key|network|syntax|logic|dependency|permission)",
+  "description": "وصف المشكلة",
+  "solution": "الحل المقترح",
+  "userAction": "ما يجب على المستخدم فعله",
+  "canAutoFix": true/false
+}`;
+
+  const result = await nia.ask(prompt, { model: 'openai/gpt-5.1-codex-mini' });
+
+  if (result.success) {
+    try {
+      const match = result.result.match(/\{[\s\S]*\}/);
+      if (match) return JSON.parse(match[0]);
+    } catch {}
+    return { raw: result.result };
+  }
+
+  return { error: 'فشل التحليل' };
+}
+
+async function tryFix(error, filepath, team) {
+  // أنماط الأخطاء الشائعة والإصلاحات
+  const errorPatterns = [
+    {
+      pattern: /Cannot find module ['"](.+)['"]/,
+      fix: async (match) => {
+        const module = match[1];
+        console.log(`   📦 تثبيت المكتبة الناقصة: ${module}`);
+        const { execSync } = await import('child_process');
+        try {
+          execSync(`npm install ${module}`, { stdio: 'pipe' });
+          return true;
+        } catch { return false; }
+      }
+    },
+    {
+      pattern: /ENOTFOUND|ETIMEDOUT|ECONNREFUSED/,
+      fix: async () => {
+        console.log('   🌐 مشكلة في الشبكة أو API غير متاح');
+        return false; // لا يمكن الإصلاح تلقائياً
+      }
+    },
+    {
+      pattern: /401|403|Unauthorized|Forbidden/,
+      fix: async () => {
+        console.log('   🔑 مشكلة في المصادقة - يحتاج API key أو صلاحيات');
+        return false;
+      }
+    },
+    {
+      pattern: /API.?key|api.?key|apiKey/i,
+      fix: async () => {
+        console.log('   🔑 يحتاج مفتاح API');
+        return false;
+      }
+    },
+    {
+      pattern: /SyntaxError/,
+      fix: async () => {
+        console.log('   ⚠️ خطأ في صيغة الكود - يحتاج مراجعة');
+        return false;
+      }
+    }
+  ];
+
+  for (const { pattern, fix } of errorPatterns) {
+    const match = error.match(pattern);
+    if (match) {
+      return await fix(match);
+    }
+  }
+
+  // محاولة إصلاح ذكي باستخدام AI
+  const code = fs.readFileSync(filepath, 'utf-8');
+  const nia = new NiaFlow();
+
+  const fixPrompt = `أصلح هذا الخطأ في الكود:
+
+الخطأ: ${error.substring(0, 500)}
+
+الكود:
+${code}
+
+أعطني الكود المصحح فقط بين \`\`\`javascript و \`\`\``;
+
+  const result = await nia.ask(fixPrompt, { model: 'openai/gpt-5.1-codex-mini' });
+
+  if (result.success) {
+    const codeMatch = result.result.match(/```(?:javascript|js)?\n([\s\S]*?)```/);
+    if (codeMatch) {
+      fs.writeFileSync(filepath, codeMatch[1].trim());
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function printAnalysis(analysis) {
+  if (!analysis) return;
+
+  console.log('\n   📋 تحليل المشكلة:');
+  console.log('   ' + '─'.repeat(50));
+
+  if (analysis.problemType) {
+    const typeEmoji = {
+      api_key: '🔑',
+      network: '🌐',
+      syntax: '⚠️',
+      logic: '🧠',
+      dependency: '📦',
+      permission: '🔒'
+    };
+    console.log(`   ${typeEmoji[analysis.problemType] || '❓'} النوع: ${analysis.problemType}`);
+  }
+
+  if (analysis.description) {
+    console.log(`   📝 الوصف: ${analysis.description}`);
+  }
+
+  if (analysis.solution) {
+    console.log(`   💡 الحل: ${analysis.solution}`);
+  }
+
+  if (analysis.userAction) {
+    console.log(`\n   👤 المطلوب منك:`);
+    console.log(`      ${analysis.userAction}`);
+  }
+}
+
+// ========================================
+// التشغيل الرئيسي المحدث
+// ========================================
+async function main() {
+  const result = await generateProject(userIntent);
+
+  if (result && result.filepath && result.build?.code) {
+    const team = createAgentTeam();
+    const runResult = await runAndTest(result.filepath, team);
+
+    if (!runResult.success && runResult.analysis) {
+      printAnalysis(runResult.analysis);
+    }
+
+    // حفظ اللوغ النهائي
+    const finalLog = {
+      ...result,
+      runResult: {
+        success: runResult.success,
+        output: runResult.output?.substring(0, 500),
+        error: runResult.error?.substring(0, 500),
+        analysis: runResult.analysis
+      },
+      completedAt: new Date().toISOString()
+    };
+
+    const logPath = result.filepath.replace('.js', '.final.log');
+    fs.writeFileSync(logPath, JSON.stringify(finalLog, null, 2));
+    console.log(`\n📄 اللوغ النهائي: ${path.basename(logPath)}`);
+  }
+}
+
+main().catch(console.error);
