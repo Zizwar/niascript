@@ -3,7 +3,11 @@
  "version": "4.0.0",
  "description": "Intent-Based Programming - Write what you want, not how",
  "bin": {
-  "nia": "./bin/nia-cli.js"
+  "niascript": "./bin/nia-cli.js"
+ },
+ "main": "./src/index.js",
+ "exports": {
+  ".": "./src/index.js"
  },
  "type": "module",
  "scripts": {

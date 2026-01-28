@@ -1,0 +1,42 @@
+# Development files
+.claude/
+.env
+.env.*
+!.env.example
+
+# Documentation (keep only README.md)
+CHANGELOG*.md
+FLOW-README.md
+QUICKSTART.md
+README-NEW.md
+SUMMARY.md
+email-readme.md
+CNAME
+
+# Test files
+test/
+
+# Wino experiments
+wino/
+
+# Examples (optional - can include if wanted)
+# examples/
+
+# Build artifacts
+nia-output/
+*.log
+*.tgz
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs source (HTML is built)
+docs/CNAME
+
+# Plugins duplicates
+plugins/
