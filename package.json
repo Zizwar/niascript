@@ -1,7 +1,7 @@
 {
  "name": "niascript",
- "version": "1.3.2",
- "description": "Intent-based programming language for the AI era",
+ "version": "2.0.0",
+ "description": "Intent-based programming with smart flow - AI era",
  "bin": {
   "nia": "./bin/nia-cli.js"
  },
@@ -26,6 +26,7 @@
   "install-global": "npm install -g .",
   "demo:simple": "node examples/simple-demo.js",
   "demo:local": "node examples/demo-local.js",
+  "demo:flow": "node examples/flow-demo.js",
   "demo:ai": "node examples/ai-demo.js",
   "demo:ai:env": "node -r dotenv/config examples/ai-demo.js",
   "test:ai": "node test/nia-ai.test.js"
@@ -49,7 +50,11 @@
   "nlp",
   "intent",
   "programming",
-  "plugins",
+  "flow",
+  "pipeline",
+  "chainable",
+  "local-first",
+  "openrouter",
   "automation",
   "clean-architecture"
  ],
