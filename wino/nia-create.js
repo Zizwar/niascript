@@ -104,10 +104,12 @@ async function generateProject(intent) {
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         if (parsed.code) {
-          // الكود قد يكون escaped
           let code = parsed.code;
-          // فك الـ escape
-          code = code.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+          // فك escape مزدوج - literal \n إلى newlines حقيقية
+          if (code.includes('\\n') && !code.includes('\n')) {
+            code = code.replace(/\\n/g, '\n');
+          }
+          code = code.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
           // إزالة code blocks إذا وُجدت
           const innerMatch = code.match(/```(?:javascript|js)?\n?([\s\S]*?)```/);
           build.code = innerMatch ? innerMatch[1].trim() : code.trim();
@@ -115,6 +117,16 @@ async function generateProject(intent) {
       }
     } catch (e) {
       // تجاهل خطأ JSON
+    }
+
+    // محاولة 1.5: النص كامل هو كود مع \n حرفية
+    if (!build.code && content.includes('\\nimport ')) {
+      build.code = content
+        .replace(/^\\n/, '')
+        .replace(/\\n/g, '\n')
+        .replace(/\\"/g, '"')
+        .replace(/\\\\/g, '\\')
+        .trim();
     }
 
     // محاولة 2: استخراج من code blocks
