@@ -326,8 +326,8 @@ class Nia {
       }
     }
 
-    // 2. محاولة المعالجة المحلية
-    const localResult = this._tryLocal(intent);
+    // 2. محاولة المعالجة المحلية (تجاوز إذا forceAI)
+    const localResult = mergedOptions.forceAI ? null : this._tryLocal(intent);
     if (localResult) {
       this.stats.localCalls++;
       const result = new NiaResult(localResult.result, {
@@ -464,14 +464,35 @@ class Nia {
 
     const response = await this.run(buildPrompt, {
       ...options,
-      maxTokens: 2000
+      maxTokens: 2000,
+      forceAI: true,
+      cacheEnabled: false
     });
 
-    // استخراج الكود
+    // استخراج الكود - محاولات متعددة
     let code = '';
-    const codeMatch = response.value.match(/```(?:javascript|js)?\n?([\s\S]*?)```/);
+    const content = response.value;
+
+    // محاولة 1: بلوك كود markdown
+    const codeMatch = content.match(/```(?:javascript|js)?\n?([\s\S]*?)```/);
     if (codeMatch) {
       code = codeMatch[1].trim();
+    }
+
+    // محاولة 2: كود يبدأ بـ import أو #!/usr/bin
+    if (!code && /^(?:import\s|#!\/usr)/.test(content.trim())) {
+      code = content.trim();
+    }
+
+    // محاولة 3: \n حرفي في الرد
+    if (!code && content.includes('\\nimport ')) {
+      code = content.replace(/\\n/g, '\n').trim();
+    }
+
+    // محاولة 4: بحث عن import في أي مكان بالنص
+    if (!code) {
+      const importMatch = content.match(/(import\s+.+[\s\S]*)/);
+      if (importMatch) code = importMatch[1].trim();
     }
 
     if (!code) {

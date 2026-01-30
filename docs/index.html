@@ -356,6 +356,12 @@ console.<span class="function">log</span>(<span class="variable">analysis</span>
           <h3>كاش ذكي</h3>
           <p>النتائج المتكررة تُخزن مؤقتاً. أداء عالٍ بتكلفة منخفضة.</p>
         </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>لوحة تحكم + API</h3>
+          <p>خادم Express مع لوحة تحكم ويب ونقاط REST API لإنشاء وتشغيل وإدارة السكريبتات.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -370,6 +376,7 @@ console.<span class="function">log</span>(<span class="variable">analysis</span>
         <button class="tab-btn" onclick="showExample('variables')">المتغيرات</button>
         <button class="tab-btn" onclick="showExample('format')">التنسيق</button>
         <button class="tab-btn" onclick="showExample('generate')">التوليد</button>
+        <button class="tab-btn" onclick="showExample('dashboard')">Dashboard</button>
       </div>
 
       <div class="example-content">
@@ -392,8 +399,11 @@ console.<span class="function">log</span>(<span class="variable">calc</span>.<sp
   <section class="install">
     <div class="container">
       <h2>ابدأ الآن</h2>
-      <div class="install-code">
+      <div class="install-code" style="margin-bottom: 20px">
         <span>$</span> npm install niascript
+      </div>
+      <div class="install-code" style="font-size: 1rem; opacity: 0.8">
+        <span>$</span> npm run server &nbsp;&nbsp;<span style="color: var(--text-muted)"># Dashboard on :3003</span>
       </div>
     </div>
   </section>
@@ -457,7 +467,28 @@ console.<span class="function">log</span>(<span class="variable">script</span>.<
 console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>); <span class="comment">// nia-output/scripts/nia-123.js</span>
 
 <span class="comment">// تشغيل السكريبت</span>
-<span class="keyword">const</span> <span class="variable">output</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">execute</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>);`
+<span class="keyword">const</span> <span class="variable">output</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">execute</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>);`,
+
+      dashboard: `<span class="comment">// تشغيل الخادم: npm run server</span>
+<span class="comment">// Dashboard: http://localhost:3003</span>
+
+<span class="comment">// API - تنفيذ نية</span>
+<span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/run'</span>, {
+  <span class="variable">method</span>: <span class="string">'POST'</span>,
+  <span class="variable">headers</span>: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'احسب 100 * 55'</span> })
+});
+
+<span class="comment">// API - إنشاء سكريبت</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/create'</span>, {
+  <span class="variable">method</span>: <span class="string">'POST'</span>,
+  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'جلب أخبار HN'</span> })
+});
+
+<span class="comment">// API - عرض وتشغيل وحذف السكريبتات</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/scripts'</span>);
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/execute/nia-123'</span>, { <span class="variable">method</span>: <span class="string">'POST'</span> });
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/stats'</span>);`
     };
 
     function showExample(name) {

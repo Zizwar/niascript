@@ -25,7 +25,13 @@
   "stats": "node bin/nia-cli.js stats",
   "install-global": "npm install -g .",
   "demo:agents": "node examples/test-all-new.js",
-  "demo:legacy": "node examples/enhanced-demo.js"
+  "demo:legacy": "node examples/enhanced-demo.js",
+  "server": "node src/server.js",
+  "dashboard": "node src/server.js",
+  "pm2:start": "pm2 start src/server.js --name niascript-dashboard",
+  "pm2:stop": "pm2 stop niascript-dashboard",
+  "pm2:restart": "pm2 restart niascript-dashboard",
+  "pm2:logs": "pm2 logs niascript-dashboard"
  },
  "dependencies": {
   "axios": "^1.6.0",
@@ -33,7 +39,9 @@
   "cheerio": "^1.2.0",
   "commander": "^11.0.0",
   "csv-parser": "^3.2.0",
+  "date-fns": "^4.1.0",
   "dotenv": "^17.0.1",
+  "express": "^5.2.1",
   "inquirer": "^9.2.0",
   "openai": "^4.0.0",
   "xml2js": "^0.6.2"

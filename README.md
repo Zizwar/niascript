@@ -177,6 +177,7 @@ niascript/
 │   │   ├── nia.js           # النواة الموحدة
 │   │   ├── nia-agents.js    # نظام الوكلاء
 │   │   └── nia-codegen.js   # توليد الكود
+│   ├── server.js            # خادم Dashboard + API
 │   └── index.js             # المصدرات
 ├── nia-output/              # الملفات المولدة
 │   ├── scripts/
@@ -265,6 +266,46 @@ async function chat(message) {
 await chat('مرحبا!');
 await chat('ما هو الذكاء الاصطناعي؟');
 await chat('أعطني مثال عملي');
+```
+
+### 7. لوحة التحكم (Dashboard)
+
+```bash
+# تشغيل الخادم
+npm run server
+
+# أو عبر PM2
+npm run pm2:start
+```
+
+افتح `http://localhost:3003` للوصول للوحة التحكم:
+
+- **Run Intent** - تنفيذ نوايا مباشرة (محلي + AI)
+- **Generate Script** - إنشاء سكريبتات من النوايا
+- **NIA Editor** - محرر كود NIA مع حفظ وتشغيل
+- **Scripts Browser** - تصفح وتشغيل وحذف السكريبتات
+
+#### نقاط API
+
+```bash
+# تنفيذ نية
+curl -X POST http://localhost:3003/api/run \
+  -H 'Content-Type: application/json' \
+  -d '{"intent": "احسب 100 * 55"}'
+
+# إنشاء سكريبت
+curl -X POST http://localhost:3003/api/create \
+  -H 'Content-Type: application/json' \
+  -d '{"intent": "سكريبت يجلب أخبار Hacker News"}'
+
+# عرض السكريبتات
+curl http://localhost:3003/api/scripts
+
+# تشغيل سكريبت
+curl -X POST http://localhost:3003/api/execute/nia-123456
+
+# الإحصائيات
+curl http://localhost:3003/api/stats
 ```
 
 ## CLI
