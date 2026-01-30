@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NiaScript - Intent-Based Programming</title>
-  <meta name="description" content="NiaScript - Write what you want, not how. A JavaScript library for natural language programming.">
+  <title>NiaScript - البرمجة بالنوايا</title>
+  <meta name="description" content="NiaScript - اكتب ما تريد، لا كيف تريد. مكتبة JavaScript للبرمجة باللغة الطبيعية.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #6366f1;
@@ -27,7 +27,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.8;
@@ -41,33 +41,6 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
-    }
-
-    .lang-switch {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-      display: flex;
-      gap: 8px;
-    }
-
-    .lang-btn {
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      background: var(--bg-light);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-
-    .lang-btn:hover, .lang-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
     }
 
     /* Hero */
@@ -102,6 +75,7 @@
       border-radius: 16px;
       padding: 30px;
       text-align: left;
+      direction: ltr;
       max-width: 700px;
       width: 100%;
       border: 1px solid var(--border);
@@ -245,6 +219,7 @@
       border-radius: 16px;
       padding: 30px;
       border: 1px solid var(--border);
+      direction: ltr;
       text-align: left;
     }
 
@@ -272,6 +247,7 @@
       border-radius: 12px;
       font-size: 1.3rem;
       border: 1px solid var(--border);
+      direction: ltr;
     }
 
     .install-code span {
@@ -312,101 +288,91 @@
       .hero-code pre {
         font-size: 0.85rem;
       }
-
-      .lang-switch {
-        top: 10px;
-        right: 10px;
-      }
-
-      .lang-btn {
-        padding: 6px 12px;
-        font-size: 0.78rem;
-      }
     }
   </style>
 </head>
 <body>
 
   <!-- Language Switch -->
-  <div class="lang-switch">
-    <a href="index.html" class="lang-btn active">EN</a>
-    <a href="index.ar.html" class="lang-btn">AR</a>
+  <div style="position:fixed;top:20px;left:20px;z-index:100;display:flex;gap:8px">
+    <a href="index.html" style="padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:500;text-decoration:none;background:var(--bg-light);color:var(--text-muted);border:1px solid var(--border);transition:all 0.3s">EN</a>
+    <a href="index.ar.html" style="padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:500;text-decoration:none;background:var(--primary);color:white;border:1px solid var(--primary)">AR</a>
   </div>
 
   <!-- Hero Section -->
   <section class="hero">
     <h1>NiaScript</h1>
-    <p class="tagline">Intent-Based Programming - Write what you want, not how</p>
+    <p class="tagline">البرمجة بالنوايا - اكتب ما تريد، لا كيف تريد</p>
 
     <div class="hero-code">
       <pre><code><span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="comment">// It's that simple!</span>
-<span class="keyword">const</span> <span class="variable">price</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`Bitcoin price`</span>;
-<span class="keyword">const</span> <span class="variable">news</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`5 tech news`</span>;
-<span class="keyword">const</span> <span class="variable">analysis</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`analyze ${price} with ${news}`</span>;
+<span class="comment">// بهذه البساطة!</span>
+<span class="keyword">const</span> <span class="variable">price</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`سعر البيتكوين`</span>;
+<span class="keyword">const</span> <span class="variable">news</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`5 أخبار تقنية`</span>;
+<span class="keyword">const</span> <span class="variable">analysis</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`حلل ${price} مع ${news}`</span>;
 
 console.<span class="function">log</span>(<span class="variable">analysis</span>.<span class="variable">value</span>);</code></pre>
     </div>
 
     <div class="cta-buttons">
       <a href="https://github.com/Zizwar/niascript" class="btn btn-primary">GitHub</a>
-      <a href="#examples" class="btn btn-secondary">Examples</a>
+      <a href="#examples" class="btn btn-secondary">الأمثلة</a>
     </div>
   </section>
 
   <!-- Features -->
   <section class="features">
     <div class="container">
-      <h2>Features</h2>
+      <h2>المميزات</h2>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">🎯</div>
           <h3>Tagged Template Literals</h3>
-          <p>Write intents as a natural part of JavaScript using backticks. No complex functions needed.</p>
+          <p>اكتب النوايا كجزء طبيعي من JavaScript باستخدام backticks. لا حاجة لدوال معقدة.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">⚡</div>
-          <h3>Local Processing</h3>
-          <p>Math, dates, and conversions run locally without any API. Fast and free.</p>
+          <h3>معالجة محلية</h3>
+          <p>الحسابات والتاريخ والتحويلات تعمل محلياً بدون API. سريعة ومجانية.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🤖</div>
-          <h3>AI Powered</h3>
-          <p>Anything more complex is automatically sent to OpenRouter. Over 100 models available.</p>
+          <h3>ذكاء اصطناعي</h3>
+          <p>أي شيء أعقد يُرسل تلقائياً إلى OpenRouter. أكثر من 100 نموذج متاح.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🔧</div>
-          <h3>Code Generation</h3>
-          <p>Generate complete Node.js scripts from intents. Auto-saved and executable.</p>
+          <h3>توليد الكود</h3>
+          <p>ولّد سكريبتات Node.js كاملة من النوايا. يُحفظ ويُشغل تلقائياً.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">👥</div>
-          <h3>Agent System</h3>
-          <p>Specialized agents for planning, building, reviewing, and testing. They work as a team.</p>
+          <h3>نظام وكلاء</h3>
+          <p>وكلاء متخصصون للتخطيط والبناء والتدقيق والاختبار. يعملون كفريق.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">💾</div>
-          <h3>Smart Cache</h3>
-          <p>Repeated results are cached. High performance at low cost.</p>
+          <h3>كاش ذكي</h3>
+          <p>النتائج المتكررة تُخزن مؤقتاً. أداء عالٍ بتكلفة منخفضة.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">📊</div>
-          <h3>Dashboard + API</h3>
-          <p>Express server with web dashboard, model selection, and persistent endpoints for every generated script.</p>
+          <h3>لوحة تحكم + API</h3>
+          <p>خادم Express مع لوحة تحكم ويب، اختيار الموديلات، ونقاط اتصال دائمة لكل سكريبت يمكن استدعاؤها لاحقاً.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🔄</div>
-          <h3>Model Selection</h3>
-          <p>Switch AI models from dashboard or API. Supports OpenAI, Grok, Arcee, and any custom OpenRouter model.</p>
+          <h3>اختيار الموديلات</h3>
+          <p>غيّر موديل AI من لوحة التحكم أو عبر API. يدعم OpenAI وGrok وArcee وأي موديل مخصص من OpenRouter.</p>
         </div>
       </div>
     </div>
@@ -415,28 +381,28 @@ console.<span class="function">log</span>(<span class="variable">analysis</span>
   <!-- Examples -->
   <section class="examples" id="examples">
     <div class="container">
-      <h2>Examples</h2>
+      <h2>أمثلة</h2>
 
       <div class="example-tabs">
-        <button class="tab-btn active" onclick="showExample('basic')">Basics</button>
-        <button class="tab-btn" onclick="showExample('variables')">Variables</button>
-        <button class="tab-btn" onclick="showExample('format')">Formatting</button>
-        <button class="tab-btn" onclick="showExample('generate')">Generation</button>
+        <button class="tab-btn active" onclick="showExample('basic')">الأساسيات</button>
+        <button class="tab-btn" onclick="showExample('variables')">المتغيرات</button>
+        <button class="tab-btn" onclick="showExample('format')">التنسيق</button>
+        <button class="tab-btn" onclick="showExample('generate')">التوليد</button>
         <button class="tab-btn" onclick="showExample('dashboard')">Dashboard</button>
       </div>
 
       <div class="example-content">
         <pre id="example-code"><code><span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="comment">// Math (local - no API)</span>
-<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`calculate 25 * 4`</span>;
+<span class="comment">// حسابات (محلية - بدون API)</span>
+<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`احسب 25 * 4`</span>;
 console.<span class="function">log</span>(<span class="variable">calc</span>.<span class="variable">value</span>); <span class="comment">// 100</span>
 
-<span class="comment">// Date & Time (local)</span>
-<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`what is today's date`</span>;
+<span class="comment">// التاريخ والوقت (محلي)</span>
+<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`ما هو التاريخ اليوم`</span>;
 
-<span class="comment">// Anything else (AI)</span>
-<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`what is the capital of France`</span>;</code></pre>
+<span class="comment">// أي شيء آخر (AI)</span>
+<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">`ما هي عاصمة فرنسا`</span>;</code></pre>
       </div>
     </div>
   </section>
@@ -444,7 +410,7 @@ console.<span class="function">log</span>(<span class="variable">calc</span>.<sp
   <!-- Install -->
   <section class="install">
     <div class="container">
-      <h2>Get Started</h2>
+      <h2>ابدأ الآن</h2>
       <div class="install-code" style="margin-bottom: 20px">
         <span>$</span> npm install niascript
       </div>
@@ -458,10 +424,9 @@ console.<span class="function">log</span>(<span class="variable">calc</span>.<sp
   <footer>
     <div class="container">
       <p>
-        Open Source Project |
+        مشروع مفتوح المصدر |
         <a href="https://github.com/Zizwar/niascript">GitHub</a> |
-        <a href="https://github.com/Zizwar/niascript/blob/master/LICENSE">MIT License</a> |
-        <a href="index.ar.html">العربية</a>
+        <a href="https://github.com/Zizwar/niascript/blob/master/LICENSE">MIT License</a>
       </p>
     </div>
   </footer>
@@ -470,57 +435,57 @@ console.<span class="function">log</span>(<span class="variable">calc</span>.<sp
     const examples = {
       basic: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="comment">// Math (local - no API)</span>
-<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`calculate 25 * 4\`</span>;
+<span class="comment">// حسابات (محلية - بدون API)</span>
+<span class="keyword">const</span> <span class="variable">calc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`احسب 25 * 4\`</span>;
 console.<span class="function">log</span>(<span class="variable">calc</span>.<span class="variable">value</span>); <span class="comment">// 100</span>
 
-<span class="comment">// Date & Time (local)</span>
-<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`what is today's date\`</span>;
+<span class="comment">// التاريخ والوقت (محلي)</span>
+<span class="keyword">const</span> <span class="variable">date</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ما هو التاريخ اليوم\`</span>;
 
-<span class="comment">// Anything else (AI)</span>
-<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`what is the capital of France\`</span>;`,
+<span class="comment">// أي شيء آخر (AI)</span>
+<span class="keyword">const</span> <span class="variable">answer</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ما هي عاصمة فرنسا\`</span>;`,
 
       variables: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="keyword">const</span> <span class="variable">name</span> = <span class="string">'Ahmed'</span>;
+<span class="keyword">const</span> <span class="variable">name</span> = <span class="string">'أحمد'</span>;
 <span class="keyword">const</span> <span class="variable">age</span> = <span class="number">25</span>;
 
-<span class="comment">// Variables are merged automatically</span>
-<span class="keyword">const</span> <span class="variable">story</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`write a story about \${name} who is \${age}\`</span>;
+<span class="comment">// المتغيرات تُدمج تلقائياً</span>
+<span class="keyword">const</span> <span class="variable">story</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`اكتب قصة عن \${name} عمره \${age}\`</span>;
 
-<span class="comment">// Compose previous results</span>
-<span class="keyword">const</span> <span class="variable">btc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`Bitcoin price\`</span>;
-<span class="keyword">const</span> <span class="variable">eth</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`Ethereum price\`</span>;
-<span class="keyword">const</span> <span class="variable">compare</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`compare \${btc} and \${eth}\`</span>;`,
+<span class="comment">// تركيب نتائج سابقة</span>
+<span class="keyword">const</span> <span class="variable">btc</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`سعر البيتكوين\`</span>;
+<span class="keyword">const</span> <span class="variable">eth</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`سعر الإيثيريوم\`</span>;
+<span class="keyword">const</span> <span class="variable">compare</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`قارن بين \${btc} و \${eth}\`</span>;`,
 
       format: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="comment">// JSON with schema</span>
-<span class="keyword">const</span> <span class="variable">colors</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`5 design colors\`</span>.<span class="function">format</span>(<span class="string">'json'</span>, {
+<span class="comment">// JSON مع schema</span>
+<span class="keyword">const</span> <span class="variable">colors</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`5 ألوان للتصميم\`</span>.<span class="function">format</span>(<span class="string">'json'</span>, {
   <span class="variable">colors</span>: <span class="string">'array'</span>
 });
-<span class="comment">// { colors: ['blue', 'green', ...] }</span>
+<span class="comment">// { colors: ['أزرق', 'أخضر', ...] }</span>
 
-<span class="comment">// Shortcuts</span>
-<span class="keyword">const</span> <span class="variable">data</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`user data\`</span>.<span class="function">json</span>();
-<span class="keyword">const</span> <span class="variable">text</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`article summary\`</span>.<span class="function">text</span>();`,
+<span class="comment">// اختصارات</span>
+<span class="keyword">const</span> <span class="variable">data</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`بيانات المستخدمين\`</span>.<span class="function">json</span>();
+<span class="keyword">const</span> <span class="variable">text</span> = <span class="keyword">await</span> <span class="function">nia</span><span class="string">\`ملخص المقال\`</span>.<span class="function">text</span>();`,
 
       generate: `<span class="keyword">import</span> { <span class="variable">nia</span> } <span class="keyword">from</span> <span class="string">'niascript'</span>;
 
-<span class="comment">// Generate a complete script</span>
-<span class="keyword">const</span> <span class="variable">script</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">generate</span>(<span class="string">'script that fetches Hacker News stories'</span>);
+<span class="comment">// توليد سكريبت كامل</span>
+<span class="keyword">const</span> <span class="variable">script</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">generate</span>(<span class="string">'سكريبت يجلب أخبار من Hacker News'</span>);
 
-console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">value</span>);        <span class="comment">// generated code</span>
+console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">value</span>);        <span class="comment">// الكود المولد</span>
 console.<span class="function">log</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>); <span class="comment">// nia-output/scripts/nia-123.js</span>
 
-<span class="comment">// Execute the script</span>
+<span class="comment">// تشغيل السكريبت</span>
 <span class="keyword">const</span> <span class="variable">output</span> = <span class="keyword">await</span> <span class="variable">nia</span>.<span class="function">execute</span>(<span class="variable">script</span>.<span class="variable">meta</span>.<span class="variable">filepath</span>);`,
 
-      dashboard: `<span class="comment">// Start server: npm run server</span>
+      dashboard: `<span class="comment">// تشغيل الخادم: npm run server</span>
 <span class="comment">// Dashboard: http://localhost:3003</span>
 
-<span class="comment">// --- Model Selection ---</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/models'</span>);  <span class="comment">// list available models</span>
+<span class="comment">// --- اختيار الموديل ---</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/models'</span>);  <span class="comment">// عرض الموديلات المتاحة</span>
 
 <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/config'</span>, {
   <span class="variable">method</span>: <span class="string">'PUT'</span>,
@@ -528,22 +493,22 @@ console.<span class="function">log</span>(<span class="variable">script</span>.<
   <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">model</span>: <span class="string">'x-ai/grok-4.1-fast'</span> })
 });
 
-<span class="comment">// --- Create Script ---</span>
+<span class="comment">// --- إنشاء سكريبت ---</span>
 <span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/create'</span>, {
   <span class="variable">method</span>: <span class="string">'POST'</span>,
   <span class="variable">headers</span>: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
-  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'fetch HN stories'</span> })
+  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'جلب أخبار HN'</span> })
 });
 <span class="keyword">const</span> { <span class="variable">id</span>, <span class="variable">endpoint</span> } = <span class="keyword">await</span> <span class="variable">res</span>.<span class="function">json</span>();
 
-<span class="comment">// --- Persistent Endpoint ---</span>
-<span class="comment">// Every script gets an endpoint callable later</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">\`/api/execute/\${id}\`</span>);  <span class="comment">// GET works!</span>
+<span class="comment">// --- نقطة اتصال دائمة ---</span>
+<span class="comment">// كل سكريبت يحصل على endpoint يمكن استدعاؤه لاحقاً</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">\`/api/execute/\${id}\`</span>);  <span class="comment">// GET يعمل!</span>
 
-<span class="comment">// --- Other API ---</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/scripts'</span>);     <span class="comment">// all scripts</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/config'</span>);      <span class="comment">// current config</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/stats'</span>);       <span class="comment">// stats</span>`
+<span class="comment">// --- API أخرى ---</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/scripts'</span>);     <span class="comment">// جميع السكريبتات</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/config'</span>);      <span class="comment">// الإعدادات الحالية</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/stats'</span>);       <span class="comment">// الإحصائيات</span>`
     };
 
     function showExample(name) {
