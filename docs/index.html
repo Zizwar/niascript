@@ -360,7 +360,13 @@ console.<span class="function">log</span>(<span class="variable">analysis</span>
         <div class="feature-card">
           <div class="feature-icon">📊</div>
           <h3>لوحة تحكم + API</h3>
-          <p>خادم Express مع لوحة تحكم ويب ونقاط REST API لإنشاء وتشغيل وإدارة السكريبتات.</p>
+          <p>خادم Express مع لوحة تحكم ويب، اختيار الموديلات، ونقاط اتصال دائمة لكل سكريبت يمكن استدعاؤها لاحقاً.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>اختيار الموديلات</h3>
+          <p>غيّر موديل AI من لوحة التحكم أو عبر API. يدعم OpenAI وGrok وArcee وأي موديل مخصص من OpenRouter.</p>
         </div>
       </div>
     </div>
@@ -472,23 +478,31 @@ console.<span class="function">log</span>(<span class="variable">script</span>.<
       dashboard: `<span class="comment">// تشغيل الخادم: npm run server</span>
 <span class="comment">// Dashboard: http://localhost:3003</span>
 
-<span class="comment">// API - تنفيذ نية</span>
-<span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/run'</span>, {
+<span class="comment">// --- اختيار الموديل ---</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/models'</span>);  <span class="comment">// عرض الموديلات المتاحة</span>
+
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/config'</span>, {
+  <span class="variable">method</span>: <span class="string">'PUT'</span>,
+  <span class="variable">headers</span>: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">model</span>: <span class="string">'x-ai/grok-4.1-fast'</span> })
+});
+
+<span class="comment">// --- إنشاء سكريبت ---</span>
+<span class="keyword">const</span> <span class="variable">res</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/create'</span>, {
   <span class="variable">method</span>: <span class="string">'POST'</span>,
   <span class="variable">headers</span>: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
-  <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'احسب 100 * 55'</span> })
-});
-
-<span class="comment">// API - إنشاء سكريبت</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/create'</span>, {
-  <span class="variable">method</span>: <span class="string">'POST'</span>,
   <span class="variable">body</span>: JSON.<span class="function">stringify</span>({ <span class="variable">intent</span>: <span class="string">'جلب أخبار HN'</span> })
 });
+<span class="keyword">const</span> { <span class="variable">id</span>, <span class="variable">endpoint</span> } = <span class="keyword">await</span> <span class="variable">res</span>.<span class="function">json</span>();
 
-<span class="comment">// API - عرض وتشغيل وحذف السكريبتات</span>
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/scripts'</span>);
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/execute/nia-123'</span>, { <span class="variable">method</span>: <span class="string">'POST'</span> });
-<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/stats'</span>);`
+<span class="comment">// --- نقطة اتصال دائمة ---</span>
+<span class="comment">// كل سكريبت يحصل على endpoint يمكن استدعاؤه لاحقاً</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">\`/api/execute/\${id}\`</span>);  <span class="comment">// GET يعمل!</span>
+
+<span class="comment">// --- API أخرى ---</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/scripts'</span>);     <span class="comment">// جميع السكريبتات</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/config'</span>);      <span class="comment">// الإعدادات الحالية</span>
+<span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/stats'</span>);       <span class="comment">// الإحصائيات</span>`
     };
 
     function showExample(name) {

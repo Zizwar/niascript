@@ -614,6 +614,20 @@ button:hover { background: var(--accent); border-color: var(--accent); color: #f
   text-align: center;
   padding: 1.5rem;
 }
+.result-box .CodeMirror {
+  height: auto;
+  max-height: 450px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.result-box:has(.CodeMirror) {
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  border: none;
+  max-height: none;
+}
 
 /* ===== Scripts List ===== */
 .script-list { list-style: none; max-height: 500px; overflow-y: auto; }
@@ -933,6 +947,9 @@ const niaEditor = CodeMirror(document.getElementById('niaEditorWrap'), {
   placeholder: '# Write NIA code here...'
 });
 
+let createCodeMirror = null;
+let modalCodeMirror = null;
+
 // ========================================
 // API Helper
 // ========================================
@@ -951,6 +968,8 @@ function toggleTheme() {
   document.body.dataset.theme = next;
   document.getElementById('themeBtn').innerHTML = next === 'dark' ? '&#9790;' : '&#9728;';
   niaEditor.setOption('theme', cmTheme());
+  if (createCodeMirror) createCodeMirror.setOption('theme', cmTheme());
+  if (modalCodeMirror) modalCodeMirror.setOption('theme', cmTheme());
   api('PUT', '/api/config', { theme: next });
 }
 // Set initial icon
@@ -1048,7 +1067,17 @@ async function createScript() {
   try {
     const data = await api('POST', '/api/create', { intent });
     if (data.success) {
-      result.textContent = data.code;
+      result.innerHTML = '';
+      result.className = 'result-box';
+      createCodeMirror = CodeMirror(result, {
+        value: data.code,
+        mode: 'javascript',
+        theme: cmTheme(),
+        lineNumbers: true,
+        readOnly: true,
+        lineWrapping: true,
+        direction: 'ltr'
+      });
       toast('Script created', 'success');
       loadScripts();
     } else {
@@ -1150,7 +1179,17 @@ async function viewScript(id) {
   try {
     const data = await api('GET', '/api/scripts/' + id);
     if (data.success) {
-      code.textContent = data.code;
+      code.innerHTML = '';
+      modalCodeMirror = CodeMirror(code, {
+        value: data.code,
+        mode: 'javascript',
+        theme: cmTheme(),
+        lineNumbers: true,
+        readOnly: true,
+        lineWrapping: true,
+        direction: 'ltr'
+      });
+      setTimeout(() => modalCodeMirror.refresh(), 50);
       const md = data.meta || {};
       const items = [
         { l: 'Intent', v: md.intent || '-' },

@@ -281,11 +281,62 @@ npm run pm2:start
 افتح `http://localhost:3003` للوصول للوحة التحكم:
 
 - **Run Intent** - تنفيذ نوايا مباشرة (محلي + AI)
-- **Generate Script** - إنشاء سكريبتات من النوايا
-- **NIA Editor** - محرر كود NIA مع حفظ وتشغيل
+- **Generate Script** - إنشاء سكريبتات من النوايا مع عرض الكود بـ syntax highlighting
+- **NIA Editor** - محرر كود NIA متقدم (CodeMirror) مع حفظ وتشغيل
 - **Scripts Browser** - تصفح وتشغيل وحذف السكريبتات
+- **Settings** - اختيار الموديل وتبديل الوضع (نهاري/ليلي)
 
-#### نقاط API
+#### اختيار الموديل
+
+يمكنك تغيير موديل الذكاء الاصطناعي مباشرة من لوحة التحكم عبر لوحة Settings. الموديلات المتاحة:
+
+| الموديل | الوصف |
+|---------|-------|
+| `openai/gpt-4.1-mini` | الافتراضي - سريع واقتصادي |
+| `openai/gpt-4o-mini` | خفيف وسريع |
+| `openai/gpt-5-mini` | متقدم |
+| `openai/gpt-5.1-codex-mini` | متخصص في الكود |
+| `x-ai/grok-4.1-fast` | Grok سريع |
+| `x-ai/grok-3-mini` | Grok خفيف |
+| `x-ai/grok-code-fast-1` | Grok متخصص في الكود |
+| `arcee-ai/coder-large` | متخصص في البرمجة |
+
+يمكنك أيضاً إضافة أي موديل مخصص من OpenRouter عبر حقل "Custom Model" بصيغة `provider/model-name`.
+
+```bash
+# عرض الموديلات المتاحة
+curl http://localhost:3003/api/models
+
+# تغيير الموديل عبر API
+curl -X PUT http://localhost:3003/api/config \
+  -H 'Content-Type: application/json' \
+  -d '{"model": "x-ai/grok-4.1-fast"}'
+
+# عرض الإعدادات الحالية
+curl http://localhost:3003/api/config
+```
+
+#### نقاط الاتصال الدائمة (Persistent Endpoints)
+
+كل سكريبت يتم إنشاؤه يحصل على نقطة اتصال دائمة يمكن استدعاؤها لاحقاً من أي مكان:
+
+```bash
+# 1. إنشاء سكريبت
+curl -X POST http://localhost:3003/api/create \
+  -H 'Content-Type: application/json' \
+  -d '{"intent": "سكريبت يجلب أخبار Hacker News"}'
+# يُرجع: { "id": "nia-1738234567890", "endpoint": "/api/execute/nia-1738234567890", ... }
+
+# 2. تشغيل السكريبت لاحقاً عبر GET (من المتصفح أو curl)
+curl http://localhost:3003/api/execute/nia-1738234567890
+
+# أو عبر POST
+curl -X POST http://localhost:3003/api/execute/nia-1738234567890
+```
+
+يمكنك رؤية رابط نقطة الاتصال لكل سكريبت في لوحة التحكم (تحت كل سكريبت في القائمة وفي نافذة العرض). انقر على الرابط لنسخه.
+
+#### نقاط API الأخرى
 
 ```bash
 # تنفيذ نية
@@ -293,16 +344,11 @@ curl -X POST http://localhost:3003/api/run \
   -H 'Content-Type: application/json' \
   -d '{"intent": "احسب 100 * 55"}'
 
-# إنشاء سكريبت
-curl -X POST http://localhost:3003/api/create \
-  -H 'Content-Type: application/json' \
-  -d '{"intent": "سكريبت يجلب أخبار Hacker News"}'
-
-# عرض السكريبتات
+# عرض جميع السكريبتات
 curl http://localhost:3003/api/scripts
 
-# تشغيل سكريبت
-curl -X POST http://localhost:3003/api/execute/nia-123456
+# عرض سكريبت محدد (مع الكود والبيانات الوصفية)
+curl http://localhost:3003/api/scripts/nia-1738234567890
 
 # الإحصائيات
 curl http://localhost:3003/api/stats
